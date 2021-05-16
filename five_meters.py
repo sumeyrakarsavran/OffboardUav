@@ -17,14 +17,14 @@ velocity_pub = rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Tw
 msg1 = Twist()
 
 # Current Position
-latitude = 47.397742
-longitude = 8.5455936
+latitude = 0
+longitude = 0
 altitude = 0.0
 
 
 # Position before Move function execute
-previous_latitude = 47.397742
-previous_longitude = 8.5455936
+previous_latitude = 0
+previous_longitude = 0
 previous_altitude = 0.0
 
 def globalPositionCallback(globalPositionCallback):
@@ -39,14 +39,16 @@ class fcuModes:
         pass
 
     def setTakeoff(self):
+	global longitude, latitude
         rospy.wait_for_service('mavros/cmd/takeoff')
-  	try:
-    		takeoffService = rospy.ServiceProxy(
-        '/mavros/cmd/takeoff', mavros_msgs.srv.CommandTOL)
-    		takeoffService(altitude=10, latitude=47.397742,
-                   longitude=8.5455936, min_pitch=0, yaw=0)
-  	except rospy.ServiceException, e:
-   	  print "Service takeoff call failed: %s" % e
+        try:
+            takeoffService = rospy.ServiceProxy(
+                '/mavros/cmd/takeoff', mavros_msgs.srv.CommandTOL)
+            takeoffService(altitude=10, latitude=latitude,
+                           longitude=longitude, min_pitch=0, yaw=0)
+        except rospy.ServiceException as e: 
+            print ("Service takeoff call failed: %s" %e)
+
 
     def setArm(self):
         rospy.wait_for_service('mavros/cmd/arming')
@@ -252,7 +254,7 @@ def main():
     print("MAIN: SET OFFBOARD")
     # activate OFFBOARD mode
     modes.setOffboardMode()
-    moveX(5, 2)
+    moveX(5, 1)
     modes.setLandMode()
 if __name__ == '__main__':
 	try:

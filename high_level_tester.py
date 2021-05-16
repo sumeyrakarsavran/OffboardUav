@@ -20,24 +20,32 @@ msg1 = Twist()
 latitude = 0
 longitude = 0
 altitude = 0.0
-
-
+local_x=0
+local_y=0
 
 # Position before Move function execute
-previous_latitude = 0
-previous_longitude = 0
+previous_latitude = 47.397742
+previous_longitude = 8.5455936
 previous_altitude = 0.0
+
 def globalPositionCallback(globalPositionCallback):
     global latitude
     global longitude
     latitude = globalPositionCallback.latitude
     longitude = globalPositionCallback.longitude
+
+def localPositionCallback(localPositionCallback):
+    global altitude, local_x,local_y
+    altitude=localPositionCallback.pose.position.z
+    local_x=localPositionCallback.pose.position.x
+    local_y = localPositionCallback.pose.position.y
+
 # Flight modes class
 # Flight modes are activated using ROS services
 class fcuModes:
     def __init__(self):
         pass
-
+    
     def setTakeoff(self):
 	global longitude, latitude
         rospy.wait_for_service('mavros/cmd/takeoff')
@@ -77,16 +85,11 @@ class fcuModes:
             print ("service set_mode call failed: %s. Stabilized Mode could not be set."%e)
 
     def setOffboardMode(self):
-	cnt = Controller()
-        rate = rospy.Rate(20.0)
-	sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
         rospy.wait_for_service('/mavros/set_mode')
-       
-	try:
+        try:
             flightModeService = rospy.ServiceProxy('/mavros/set_mode', mavros_msgs.srv.SetMode)
             response = flightModeService(custom_mode='OFFBOARD')
             return response.mode_sent
-	    print("setting offboard")
         except rospy.ServiceException, e:
             print "service set_mode call failed: %s. Offboard Mode could not be set."%e
             return False
@@ -98,6 +101,15 @@ class fcuModes:
             flightModeService(custom_mode='ALTCTL')
         except rospy.ServiceException, e:
             print ("service set_mode call failed: %s. Altitude Mode could not be set."%e)
+
+    def setLoiterMode(self):
+        rospy.wait_for_service('/mavros/set_mode')
+        try:
+            flightModeService = rospy.ServiceProxy('/mavros/set_mode', mavros_msgs.srv.SetMode)
+            isModeChanged = flightModeService(custom_mode='AUTO.LOITER')  # return true or false
+        except rospy.ServiceException as e:
+            print(
+                "service set_mode call failed: %s. AUTO.LOITER Mode could not be set. Check that GPS is enabled %s" % e)
 
     def setPositionMode(self):
         rospy.wait_for_service('mavros/set_mode')
@@ -154,8 +166,55 @@ def haversine():
 	r = 6371 # Radius of earth in kilometers
 	print("distance calculated:", c*r*1000)
 	return Decimal(c * r*1000 )
- 
+class Controller:
 
+    # initialization method
+    def __init__(self):
+        global local_x, local_y
+        # Drone state
+        self.state = State()  # using that msg for send few setpoint messages, then activate OFFBOARD mode, to take effect
+        # Instantiate a setpoints message
+        self.sp = PositionTarget()
+        # set the flag to use position setpoints and yaw angle
+        #self.wp.position.z = self.ALT_SP
+        self.local_pos = Point(0,0,0)
+        self.sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
+        self.rate = rospy.Rate(20.0)
+
+    ## Drone State callback
+    def stateCb(self, msg):
+        self.state = msg
+
+    def updateSp(self):
+        self.sp.position.x = local_x
+        self.sp.position.y = local_y
+
+def alcal():
+    print("ALCALIYOR")
+    rate = rospy.Rate(20.0)
+    cnt = Controller()
+    ALT_SP = 3
+    cnt.sp.position.z = ALT_SP
+    while not rospy.is_shutdown():
+        cnt.updateSp()
+        cnt.sp_pub.publish(cnt.sp)
+        rate.sleep()
+        if (cnt.sp.position.z +0.15)> altitude:
+            print("ALCALDIGI DEGER=",altitude)
+            break
+def yuksel():
+    print("YUKSELIYOR")
+    rate = rospy.Rate(20.0)
+    cnt = Controller()
+    ALT_SP = 5
+    cnt.sp.position.z = ALT_SP
+    while not rospy.is_shutdown():
+        cnt.updateSp()
+        cnt.sp_pub.publish(cnt.sp)
+        rate.sleep()
+        if (cnt.sp.position.z -0.1)< altitude:
+            print("YUKSELDIGI DEGER=",altitude)
+            break
 
 
 
@@ -166,10 +225,10 @@ def moveX(distance, speed):
 	global previous_latitude
 	global previous_longitude
 	# end of debug
-        cnt = Controller()
+
 	msg1.linear.x = speed
         rate = rospy.Rate(20.0)
-	modes = fcuModes()
+
 
 	while not rospy.is_shutdown():
 		print("going to position")
@@ -206,7 +265,6 @@ def moveX(distance, speed):
 	# DEBUG
 	print("Speed X: {} ,Speed Y: {} ,Speed Z: {} ".format(msg1.linear.x, msg1.linear.y, msg1.linear.z))
 
-	#rospy.sleep(2.)
 
 	# after reaching desired position, set home_latitude, home_longitude to current position value
 	previous_latitude = latitude
@@ -214,68 +272,8 @@ def moveX(distance, speed):
 
 
 
-def moveY(distance, speed):
-	# for print statements, debugging, delete later
-	global latitude
-	global longitude
-	global previous_latitude
-	global previous_longitude
-	# end of debug
-        cnt = Controller()
-	msg1.linear.y = speed
-        rate = rospy.Rate(20.0)
-	modes = fcuModes()
 
-	while not rospy.is_shutdown():
-		print("going to position")
-		# compute the distance with haversine formula
-		# home_latitude = starting latitude before movement
-		# home longitude = starting longitude before movement
-		# latitude = current latitude during move
-		# longitude = current longitude during move
-		haversine_distance = haversine()
-		# break loop if desired distance covered 
-		if haversine_distance > distance:
-			break
 
-		velocity_pub.publish(msg1)
-
-		# This line might cause error because function have no access to rate object in main. 
-		# Should i move into global space or pass as argument
-		rate.sleep()
-
-		# TODO:: lower speed while getting closer to the final position
-		# TODO:: check if rospy.sleep() or rate.sleep() is better
-		# TODO:: is creating rate object necessary?
-
-	print("Latitude: {:.7f} ,Longitude: {:.7f}\nDistance Covered: {:.7f}".format(latitude, longitude, haversine_distance))
-
-	# Tell drone to stop its movement
-	# Not sure if this works. Need to test on gazebo
-	msg1.linear.x = 0.
-	msg1.linear.y = 0.
-	msg1.linear.z = 0.
-	for i in range(100):
-		velocity_pub.publish(msg1)
-
-	# DEBUG
-	print("Speed X: {} ,Speed Y: {} ,Speed Z: {} ".format(msg1.linear.x, msg1.linear.y, msg1.linear.z))
-
-	#rospy.sleep(1.)
-
-	# after reaching desired position, set home_latitude, home_longitude to current position value
-	previous_latitude = latitude
-	previous_longitude = longitude
-
-def imageProcces ():
-	pub = rospy.Publisher ('rgb/image_raw/', PositionTarget, queue_size=1)
-
-def testDrawSquare4M():
-	moveX(4, 1)
-	moveY(4, 1)
-	moveX(4, -1)
-	moveY(4, -1)
-	
 # Main function
 def main():
 
@@ -299,7 +297,7 @@ def main():
     sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
     
     rospy.Subscriber("/mavros/global_position/raw/fix", NavSatFix, globalPositionCallback)
-
+    rospy.Subscriber('mavros/local_position/pose', PoseStamped, localPositionCallback)
 
     # Make sure the drone is armed
     while not cnt.state.armed:
@@ -307,25 +305,30 @@ def main():
         rate.sleep()
 	
     modes.setTakeoff()
-    rospy.sleep(8)
+    rospy.sleep(10)
 
-    # set in takeoff mode and takeoff to default altitude (3 m)
-    # modes.setTakeoff()
-    # rate.sleep()
     # We need to send few setpoint messages, then activate OFFBOARD mode, to take effect
     k=0
     while k<10:
         sp_pub.publish(cnt.sp)
         rate.sleep()
-        k = k + 1 
-
+        k = k + 1
 
     print("MAIN: SET OFFBOARD")
     # activate OFFBOARD mode
     modes.setOffboardMode()
-    testDrawSquare4M()
-    modes.setAltitudeMode()
-    rospy.sleep(2)
+    moveX(5, 1)
+    rospy.sleep(1.5)
+    alcal()
+    modes.setLoiterMode()
+    rospy.sleep(5)
+    modes.setOffboardMode()
+    yuksel()
+    rospy.sleep(.5)
+    moveX(3, -1)
+    rospy.sleep(1.5)
+    #modes.setLoiterMode()
+    #rospy.sleep(0.1)
     modes.setLandMode()
 if __name__ == '__main__':
 	try:
