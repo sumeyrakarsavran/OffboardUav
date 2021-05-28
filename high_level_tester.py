@@ -223,7 +223,7 @@ def yuksel():
     rate = rospy.Rate(20.0)
     cnt = Controller()
     ALT_SP = 5
-    msg2.linear.z = 1.5
+    msg2.linear.z = 2.5
     cnt.level.pose.position.z = ALT_SP
     while not rospy.is_shutdown():
         print("Suanki Yukseklik",altitude)
