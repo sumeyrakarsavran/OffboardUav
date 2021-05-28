@@ -327,7 +327,7 @@ def main():
         rate.sleep()
 	
     modes.setTakeoff()
-    rospy.sleep(7)
+    rospy.sleep(10)
 
     # We need to send few setpoint messages, then activate OFFBOARD mode, to take effect
     k=0
