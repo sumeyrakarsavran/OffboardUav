@@ -76,7 +76,7 @@ def image_publish():
 					image_pub.publish (radius_data)
 					print ("radius=", radius)
 					rate.sleep ()
-				while 1:
+				for j in center:
 
 					if (centerx < 430 and centery < 310):
 						konum=1
@@ -120,7 +120,7 @@ def image_publish():
 						print ("merkez")
 						konum=0
 						konum_pub.publish(konum)
-						break
+
 	cam.release ()
 	cv2.destroyAllWindows ()
 
