@@ -226,36 +226,42 @@ class Controller:
 def movingcenter():
     global konum
     while 1:
+	msg1.header.stamp = rospy.get_rostime()
+    	msg1.header.frame_id ="world"
+    	msg1.coordinate_frame =8
+    	msg1.type_mask = int('011111000111', 2)
+    	msg1.velocity.y = speed
+    	rate = rospy.Rate(20.0)
         if konum ==1:
-            msg1.velocity.x = 1
-            msg1.velocity.y = 1
+            msg1.velocity.x = 0.7
+            msg1.velocity.y = 0.7
             velocity_pub.publish (msg1)
         elif konum ==2:
             msg1.velocity.x = 0
-            msg1.velocity.y = 1
+            msg1.velocity.y = 0.7
             velocity_pub.publish (msg1)
         elif konum ==3:
-            msg1.velocity.x = -1
-            msg1.velocity.y = 1
+            msg1.velocity.x = -0.7
+            msg1.velocity.y = 0.7
             velocity_pub.publish (msg1)
         elif konum ==4:
-            msg1.velocity.x = -1
+            msg1.velocity.x = -0.7
             msg1.velocity.y = 0
             velocity_pub.publish (msg1)
         elif konum ==5:
-            msg1.velocity.x = -1
-            msg1.velocity.y = -1
+            msg1.velocity.x = -0.7
+            msg1.velocity.y = -0.7
             velocity_pub.publish (msg1)
         elif konum ==6:
             msg1.velocity.x = 0
-            msg1.velocity.y = -1
+            msg1.velocity.y = -0.7
             velocity_pub.publish (msg1)
         elif konum ==7:
-            msg1.velocity.x = 1
-            msg1.velocity.y = -1
+            msg1.velocity.x = 0.7
+            msg1.velocity.y = -0.7
             velocity_pub.publish (msg1)
         elif konum ==8:
-            msg1.velocity.x = 1
+            msg1.velocity.x = 0.7
             msg1.velocity.y = 0
             velocity_pub.publish (msg1)
         elif konum ==0:
