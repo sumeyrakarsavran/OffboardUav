@@ -227,35 +227,35 @@ def movingcenter():
     global konum
     while 1:
         if konum ==1:
-            msg1.velocity.x = 0.5
-            msg1.velocity.y = 0.5
+            msg1.velocity.x = 1
+            msg1.velocity.y = 1
             velocity_pub.publish (msg1)
         elif konum ==2:
             msg1.velocity.x = 0
-            msg1.velocity.y = 0.5
+            msg1.velocity.y = 1
             velocity_pub.publish (msg1)
         elif konum ==3:
-            msg1.velocity.x = -0.5
-            msg1.velocity.y = 0.5
+            msg1.velocity.x = -1
+            msg1.velocity.y = 1
             velocity_pub.publish (msg1)
         elif konum ==4:
-            msg1.velocity.x = -0.5
+            msg1.velocity.x = -1
             msg1.velocity.y = 0
             velocity_pub.publish (msg1)
         elif konum ==5:
-            msg1.velocity.x = -0.5
-            msg1.velocity.y = -0.5
+            msg1.velocity.x = -1
+            msg1.velocity.y = -1
             velocity_pub.publish (msg1)
         elif konum ==6:
             msg1.velocity.x = 0
-            msg1.velocity.y = -0.5
+            msg1.velocity.y = -1
             velocity_pub.publish (msg1)
         elif konum ==7:
-            msg1.velocity.x = 0.5
-            msg1.velocity.y = -0.5
+            msg1.velocity.x = 1
+            msg1.velocity.y = -1
             velocity_pub.publish (msg1)
         elif konum ==8:
-            msg1.velocity.x = 0.5
+            msg1.velocity.x = 1
             msg1.velocity.y = 0
             velocity_pub.publish (msg1)
         elif konum ==0:
