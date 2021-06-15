@@ -230,7 +230,6 @@ def movingcenter():
     	msg1.header.frame_id ="world"
     	msg1.coordinate_frame =8
     	msg1.type_mask = int('011111000111', 2)
-    	msg1.velocity.y = speed
     	rate = rospy.Rate(20.0)
         if konum ==1:
             msg1.velocity.x = 0.7
