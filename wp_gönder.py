@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ROS python API
@@ -12,7 +13,6 @@ from std_msgs.msg import String, Float64
 from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
 
-velocity_pub =rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=10)
 msg1 = PositionTarget()
 
 # Current Position
@@ -81,8 +81,8 @@ def image_callback(radius):
 	red_latitude=latitude
 	red_longitude=longitude
 	print("*******GOT DATA********",radius,red_latitude,red_longitude)
-    	rate = rospy.Rate(20.0)
-    	rate.sleep()
+    rate = rospy.Rate(20.0)
+    rate.sleep()
 
 konum=10
 def cam_konum_callback(data):
@@ -226,47 +226,43 @@ class Controller:
 def movingcenter():
     global konum
     while 1:
-	msg1.header.stamp = rospy.get_rostime()
-    	msg1.header.frame_id ="world"
-    	msg1.coordinate_frame =8
-    	msg1.type_mask = int('011111000111', 2)
-    	rate = rospy.Rate(20.0)
+        cnt=Controller()
         if konum ==1:
-            msg1.velocity.x = 0.7
-            msg1.velocity.y = 0.7
-            velocity_pub.publish (msg1)
+            msg1.velocity.x = 0.5
+            msg1.velocity.y = 0.5
+            cnt.sp_pub.publish (msg1)
         elif konum ==2:
-            msg1.velocity.x = 0
-            msg1.velocity.y = 0.7
-            velocity_pub.publish (msg1)
+            msg1.velocity.x = 0.5
+            msg1.velocity.y = 0.5
+            cnt.sp_pub.publish (msg1)
         elif konum ==3:
-            msg1.velocity.x = -0.7
-            msg1.velocity.y = 0.7
-            velocity_pub.publish (msg1)
+            msg1.velocity.x = -0.5
+            msg1.velocity.y = 0.5
+            cnt.sp_pub.publish (msg1)
         elif konum ==4:
-            msg1.velocity.x = -0.7
+            msg1.velocity.x = -0.5
             msg1.velocity.y = 0
-            velocity_pub.publish (msg1)
+            cnt.sp_pub.publish (msg1)
         elif konum ==5:
-            msg1.velocity.x = -0.7
-            msg1.velocity.y = -0.7
-            velocity_pub.publish (msg1)
+            msg1.velocity.x = -0.5
+            msg1.velocity.y = -0.5
+            cnt.sp_pub.publish (msg1)
         elif konum ==6:
             msg1.velocity.x = 0
-            msg1.velocity.y = -0.7
-            velocity_pub.publish (msg1)
+            msg1.velocity.y = -0.5
+            cnt.sp_pub.publish (msg1)
         elif konum ==7:
-            msg1.velocity.x = 0.7
-            msg1.velocity.y = -0.7
-            velocity_pub.publish (msg1)
+            msg1.velocity.x = 0.5
+            msg1.velocity.y = -0.5
+            cnt.sp_pub.publish (msg1)
         elif konum ==8:
-            msg1.velocity.x = 0.7
+            msg1.velocity.x = 0.5
             msg1.velocity.y = 0
-            velocity_pub.publish (msg1)
+            cnt.sp_pub.publish (msg1)
         elif konum ==0:
             msg1.velocity.x = 0
             msg1.velocity.y = 0
-            velocity_pub.publish (msg1)
+            cnt.sp_pub.publish (msg1)
             break
 
 def waypointmove():
@@ -276,13 +272,13 @@ def waypointmove():
     glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
     movingcenter () #kırmızıyı ortala
     print(amsl)
-    glob_pos_pub( red_latitude,red_longitude,-5) #3 metreye alçal
+    glob_pos_pub( red_latitude,red_longitude,-,3) #3 metreye alçal
     print(amsl)
     modes.setLoiterMode()
     print("3 metreye alçaldı")
     rospy.sleep(5)
     modes.setOffboardMode()
-    glob_pos_pub( red_latitude,red_longitude,5) #7 metreye yüksel
+    glob_pos_pub( red_latitude,red_longitude,3) #7 metreye yüksel
     print("7 metreye yükseldi")
     glob_pos_pub( 41.090322,28.617505,0)
     modes.setLandMode()
