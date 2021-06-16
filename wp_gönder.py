@@ -13,7 +13,6 @@ from std_msgs.msg import String, Float64
 from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
 
-msg1 = PositionTarget()
 
 # Current Position
 latitude = 0
@@ -200,6 +199,10 @@ class Controller:
         self.state = State()  # using that msg for send few setpoint messages, then activate OFFBOARD mode, to take effect
         # Instantiate a setpoints message
         self.sp = PositionTarget()
+        self.sp.header.stamp = rospy.get_rostime ()
+        self.sp.header.frame_id = "world"
+        self.sp.coordinate_frame = 8
+        self.sp.type_mask = int ('011111000111', 2)
         self.sp_glob = GlobalPositionTarget()
         self.sp_glob.type_mask = int('010111111000', 2)
         self.sp_glob.coordinate_frame = 6  # FRAME_GLOBAL_INT
@@ -228,41 +231,41 @@ def movingcenter():
     while 1:
         cnt=Controller()
         if konum ==1:
-            msg1.velocity.x = 0.5
-            msg1.velocity.y = 0.5
-            cnt.sp_pub.publish (msg1)
+            cnt.sp.velocity.x = 0.5
+            cnt.sp.velocity.y = 0.5
+            cnt.sp_pub.publish (cnt.sp)
         elif konum ==2:
-            msg1.velocity.x = 0.5
-            msg1.velocity.y = 0.5
-            cnt.sp_pub.publish (msg1)
+            cnt.sp.velocity.x = 0.5
+            cnt.sp.velocity.y = 0.5
+            cnt.sp_pub.publish (cnt.sp)
         elif konum ==3:
-            msg1.velocity.x = -0.5
-            msg1.velocity.y = 0.5
-            cnt.sp_pub.publish (msg1)
+            cnt.sp.velocity.x = -0.5
+            cnt.sp.velocity.y = 0.5
+            cnt.sp_pub.publish (cnt.sp)
         elif konum ==4:
-            msg1.velocity.x = -0.5
-            msg1.velocity.y = 0
-            cnt.sp_pub.publish (msg1)
+            cnt.sp.velocity.x = -0.5
+            cnt.sp.velocity.y = 0
+            cnt.sp_pub.publish (cnt.sp)
         elif konum ==5:
-            msg1.velocity.x = -0.5
-            msg1.velocity.y = -0.5
-            cnt.sp_pub.publish (msg1)
+            cnt.sp.velocity.x = -0.5
+            cnt.sp.velocity.y = -0.5
+            cnt.sp_pub.publish (cnt.sp)
         elif konum ==6:
-            msg1.velocity.x = 0
-            msg1.velocity.y = -0.5
-            cnt.sp_pub.publish (msg1)
+            cnt.sp.velocity.x = 0
+            cnt.sp.velocity.y = -0.5
+            cnt.sp_pub.publish (cnt.sp)
         elif konum ==7:
-            msg1.velocity.x = 0.5
-            msg1.velocity.y = -0.5
-            cnt.sp_pub.publish (msg1)
+            cnt.sp.velocity.x = 0.5
+            cnt.sp.velocity.y = -0.5
+            cnt.sp_pub.publish (cnt.sp)
         elif konum ==8:
-            msg1.velocity.x = 0.5
-            msg1.velocity.y = 0
-            cnt.sp_pub.publish (msg1)
+            cnt.sp.velocity.x = 0.5
+            cnt.sp.velocity.y = 0
+            cnt.sp_pub.publish (cnt.sp)
         elif konum ==0:
-            msg1.velocity.x = 0
-            msg1.velocity.y = 0
-            cnt.sp_pub.publish (msg1)
+            cnt.sp.velocity.x = 0
+            cnt.sp.velocity.y = 0
+            cnt.sp_pub.publish (cnt.sp)
             break
 
 def waypointmove():
