@@ -135,6 +135,8 @@ class fcuModes:
             print("service set_mode call failed: %s. Stabilized Mode could not be set." % e)
 
     def setOffboardMode(self):
+
+	sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
         rospy.wait_for_service('/mavros/set_mode')
         cnt = Controller()
         rate = rospy.Rate(20.0)
