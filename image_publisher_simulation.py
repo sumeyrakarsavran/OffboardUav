@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # ROS python API
+# -*- coding: utf-8 -*-
 import rospy, cv2,time
 import numpy as np
 from std_msgs.msg import String

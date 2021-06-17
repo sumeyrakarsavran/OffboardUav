@@ -3,7 +3,7 @@
 # ROS python API
 import rospy, mavros,math,cv2
 # 3D point & Stamped Pose msgs
-from geometry_msgs.msg import Point, PoseStamped, Twist
+from geometry_msgs.msg import Point, PoseStamped, Twist,TwistStamped
 from sensor_msgs.msg import NavSatFix,Image
 # import all mavros messages and services
 from mavros_msgs.msg import *
@@ -12,8 +12,9 @@ from std_msgs.msg import String, Float64
 from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
 
-velocity_pub = rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
-msg1 = Twist()
+# Message publisher for haversine
+velocity_pub =rospy.Publisher('mavros/setpoint_velocity/cmd_vel', TwistStamped, queue_size=1)
+msg1 = TwistStamped()
 # Current Position
 latitude = 0
 longitude = 0
@@ -78,7 +79,7 @@ def image_callback(radius):
 	global red_latitude,red_longitude,latitude,longitude,pre_radius
 	pre_radius= radius
 	red_latitude=latitude
-	red_longitude=longitude	
+	red_longitude=longitude
 	print("*******GOT DATA********",radius,red_latitude,red_longitude)
 	rate = rospy.Rate(20.0)
 	rate.sleep()
@@ -134,24 +135,26 @@ class fcuModes:
             print("service set_mode call failed: %s. Stabilized Mode could not be set." % e)
 
     def setOffboardMode(self):
-        sp_glob_pub=rospy.Publisher('mavros/setpoint_raw/global', GlobalPositionTarget, queue_size=1)
         rospy.wait_for_service('/mavros/set_mode')
         cnt = Controller()
         rate = rospy.Rate(20.0)
         k = 0
         while k < 12:
-            sp_glob_pub.publish(cnt.sp_glob)
+            sp_pub.publish(cnt.sp)
             rate.sleep()
             k = k + 1
+            sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
+            rospy.wait_for_service('/mavros/set_mode')
 
         try:
             flightModeService = rospy.ServiceProxy('/mavros/set_mode', mavros_msgs.srv.SetMode)
             response = flightModeService(custom_mode='OFFBOARD')
             return response.mode_sent
-        except rospy.ServiceException, e:
+        except rospy.ServiceException as e:
             print
             "service set_mode call failed: %s. Offboard Mode could not be set." % e
             return False
+
 
     def setAltitudeMode(self):
         rospy.wait_for_service('mavros/set_mode')
@@ -198,11 +201,6 @@ class Controller:
         # Drone state
         self.state = State()  # using that msg for send few setpoint messages, then activate OFFBOARD mode, to take effect
         # Instantiate a setpoints message
-        self.sp = PositionTarget()
-        self.sp.header.stamp = rospy.get_rostime ()
-        self.sp.header.frame_id = "world"
-        self.sp.coordinate_frame = 8
-        self.sp.type_mask = int ('011111000111', 2)
         self.sp_glob = GlobalPositionTarget()
         self.sp_glob.type_mask = int('010111111000', 2)
         self.sp_glob.coordinate_frame = 6  # FRAME_GLOBAL_INT
@@ -229,43 +227,80 @@ class Controller:
 def movingcenter():
     global konum,msg1,velocity_pub
     while 1:
-	msg1.linear.z = 0.
+        msg1.header.stamp = rospy.get_rostime ()
+        msg1.header.frame_id = "world"
+        msg1.twist.linear.z = 0
         if konum ==1:
-            msg1.linear.x = 0.5
-            msg1.linear.y = 0.5
-	    velocity_pub.publish(msg1)
+            msg1.twist.linear.x = 0.3
+            msg1.twist.linear.y = 0.3
+            while not rospy.is_shutdown ():
+                velocity_pub.publish(msg1)
+                if not konum ==1:
+                    break
         elif konum ==2:
-            msg1.linear.x = 0.5
-            msg1.linear.y= 0.5
-	    velocity_pub.publish(msg1)
+            msg1.twist.linear.x = 0.3
+            msg1.twist.linear.y= 0.3
+            while not rospy.is_shutdown ():
+                velocity_pub.publish(msg1)
+                if not konum ==2:
+                    break
         elif konum ==3:
-            msg1.linear.x = -0.5
-            msg1.linear.y = 0.5
-	    velocity_pub.publish(msg1)
+            msg1.twist.linear.x = -0.3
+            msg1.twist.linear.y = 0.3
+            while not rospy.is_shutdown ():
+                velocity_pub.publish(msg1)
+                if not konum ==3:
+                    break
+
         elif konum ==4:
-            msg1.linear.x = -0.5
-            msg1.linear.y = 0
-	    velocity_pub.publish(msg1)
+            msg1.twist.linear.x = -0.3
+            msg1.twist.linear.y = 0
+            while not rospy.is_shutdown ():
+                velocity_pub.publish (msg1)
+                if not konum ==4:
+                    break
+
         elif konum ==5:
-            msg1.linear.x= -0.5
-            msg1.linear.y= -0.5
-	    velocity_pub.publish(msg1)
+            msg1.twist.linear.x= -0.3
+            msg1.twist.linear.y= -0.3
+            while not rospy.is_shutdown ():
+                velocity_pub.publish(msg1)
+                if not konum ==5:
+                    break
+
         elif konum ==6:
-            msg1.linear.x = 0
-            cnt.sp.velocity.y = -0.5
-	    velocity_pub.publish(msg1)
+            msg1.twist.linear.x = 0
+            msg1.twist.linear.y = -0.3
+            while not rospy.is_shutdown ():
+                velocity_pub.publish(msg1)
+                if not konum ==6:
+                    break
+
         elif konum ==7:
-            msg1.linear.x = 0.5
-            msg1.linear.y = -0.5
-	    velocity_pub.publish(msg1)
+            msg1.twist.linear.x = 0.3
+            msg1.twist.linear.y = -0.3
+            while not rospy.is_shutdown ():
+                velocity_pub.publish(msg1)
+                if not konum ==7:
+                    break
+
         elif konum ==8:
-            msg1.linear.x = 0.5
-            msg1.linear.y = 0
-	    velocity_pub.publish(msg1)
+            msg1.twist.linear.x = 0.3
+            msg1.twist.linear.y = 0
+            while not rospy.is_shutdown ():
+                velocity_pub.publish (msg1)
+                if not konum == 8:
+                    break
+
+
         elif konum ==0:
-            msg1.linear.x = 0
-            msg1.linear.y = 0
-	    velocity_pub.publish(msg1)
+            msg1.twist.linear.x = 0
+            msg1.twist.linear.y = 0
+            while not rospy.is_shutdown ():
+                velocity_pub.publish(msg1)
+                if not konum ==0:
+                    break
+
             break
 
 def waypointmove():
@@ -273,6 +308,9 @@ def waypointmove():
     modes = fcuModes()
     glob_pos_pub( 41.090322,28.617505,0)
     glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
+    modes.setLoiterMode()
+    rospy.sleep(2)
+    modes.setOffboardMode()
     movingcenter () #kırmızıyı ortala
     print(amsl)
     glob_pos_pub( red_latitude,red_longitude,-3) #3 metreye alçal
@@ -309,8 +347,8 @@ def main():
     rospy.Subscriber('mavros/altitude',Altitude,amslcallback)
 
     # Setpoint publisher
-    sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
     sp_glob_pub=rospy.Publisher('mavros/setpoint_raw/global', GlobalPositionTarget, queue_size=1)
+    sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
 
     # Make sure the drone is armed
     while not cnt.state.armed:
