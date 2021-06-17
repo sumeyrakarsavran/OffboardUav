@@ -87,7 +87,7 @@ def image_callback(radius):
 konum=10
 def cam_konum_callback(data):
     global konum
-    konum=data
+    konum=int(data)
     rate = rospy.Rate(20.0)
     rate.sleep()
 
@@ -135,17 +135,15 @@ class fcuModes:
             print("service set_mode call failed: %s. Stabilized Mode could not be set." % e)
 
     def setOffboardMode(self):
-
-	sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
+        global sp_glob_pub
         rospy.wait_for_service('/mavros/set_mode')
         cnt = Controller()
         rate = rospy.Rate(20.0)
         k = 0
         while k < 12:
-            sp_pub.publish(cnt.sp)
+            sp_glob_pub.publish(cnt.sp_glob)
             rate.sleep()
             k = k + 1
-            sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
             rospy.wait_for_service('/mavros/set_mode')
 
         try:
@@ -153,8 +151,7 @@ class fcuModes:
             response = flightModeService(custom_mode='OFFBOARD')
             return response.mode_sent
         except rospy.ServiceException as e:
-            print
-            "service set_mode call failed: %s. Offboard Mode could not be set." % e
+            print ("service set_mode call failed: %s. Offboard Mode could not be set." % e)
             return False
 
 
@@ -311,9 +308,6 @@ def waypointmove():
     modes = fcuModes()
     glob_pos_pub( 41.090322,28.617505,0)
     glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
-    modes.setLoiterMode()
-    rospy.sleep(2)
-    modes.setOffboardMode()
     movingcenter () #kırmızıyı ortala
     print(amsl)
     glob_pos_pub( red_latitude,red_longitude,-3) #3 metreye alçal
