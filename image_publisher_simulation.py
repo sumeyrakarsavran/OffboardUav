@@ -45,7 +45,6 @@ def image_publish():
 	#		out.write (frame)
 
 			if len(contours) > 0:
-				print("contours sıfırdan buyuk")
 				# find contour which has max area
 				c = max(contours, key=cv2.contourArea)
 				# find its coordinates and radius
