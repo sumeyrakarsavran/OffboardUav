@@ -77,10 +77,10 @@ def image_callback(radius):
 	global red_latitude,red_longitude,latitude,longitude,pre_radius
 	pre_radius= radius
 	red_latitude=latitude
-	red_longitude=longitude
+	red_longitude=longitude	
 	print("*******GOT DATA********",radius,red_latitude,red_longitude)
-    rate = rospy.Rate(20.0)
-    rate.sleep()
+	rate = rospy.Rate(20.0)
+	rate.sleep()
 
 konum=10
 def cam_konum_callback(data):
