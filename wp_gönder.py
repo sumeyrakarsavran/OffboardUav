@@ -210,6 +210,7 @@ class Controller:
         self.sp_glob.longitude = 0
         self.sp_glob.altitude = 0
         self.level = PoseStamped()
+        self.sp = PositionTarget()
 
         self.local_position_publisher = rospy.Publisher(mavros.get_topic('setpoint_position', 'local'), PoseStamped, queue_size=10)
     # set the flag to use position setpoints and yaw angle
