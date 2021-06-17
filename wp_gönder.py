@@ -86,7 +86,7 @@ def image_callback(radius):
 konum=10
 def cam_konum_callback(data):
     global konum
-    konum=data
+    konum=int (data.data)
     rate = rospy.Rate(20.0)
     rate.sleep()
 
