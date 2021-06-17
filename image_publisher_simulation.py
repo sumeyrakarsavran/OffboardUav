@@ -3,15 +3,14 @@
 # ROS python API
 import rospy, cv2,time
 import numpy as np
-from std_msgs.msg import String
-from tulpar import Num
+from std_msgs.msg import Int64
+
 def image_publish():
 	pre_radius = 0
-	image_pub = rospy.Publisher ('radius', String, queue_size=10)
-	konum_pub = rospy.Publisher ('konum', Num, queue_size=10)
+	image_pub = rospy.Publisher ('radius', Int64, queue_size=10)
+	konum_pub = rospy.Publisher ('konum', Int64, queue_size=10)
 	rospy.init_node ('image_publisher', anonymous=True)
 	rate=rospy.Rate(20)
-	msg=Num()
 	dispW=960
 	dispH=720
 	flip=2
@@ -57,56 +56,46 @@ def image_publish():
 
 					if pre_radius < radius:
 						pre_radius=radius
-						radius_data=str(radius)
-						image_pub.publish(radius_data)
+						image_pub.publish(radius)
 						print("radius=", radius)
 						rate.sleep()
 
 					if (centerx < 360 and centery < 240):
 						konum = 1
 						print (konum)
-						msg.num=konum
-						konum_pub.publish(msg)
+						konum_pub.publish (konum)
 					elif(centerx > 360 and centery < 240 and centerx < 600):
 						konum = 2
 						print (konum)
-						msg.num=konum
-						konum_pub.publish(msg)
+						konum_pub.publish (konum)
 					elif (centerx > 600 and centery < 240):
 						konum = 3
 						print (konum)
-						msg.num=konum
-						konum_pub.publish(msg)
+						konum_pub.publish (konum)
 					elif (centerx > 600 and centery > 240 and centery < 480):
 						konum = 4
 						print (konum)
-						msg.num=konum
-						konum_pub.publish(msg)
+						konum_pub.publish (konum)
 					elif (centerx > 600 and centery > 480):
 						konum = 5
 						print (konum)
-						msg.num=konum
-						konum_pub.publish(msg)
+						konum_pub.publish (konum)
 					elif (centerx < 600 and centery > 480 and centerx > 360):
 						konum = 6
 						print (konum)
-						msg.num=konum
-						konum_pub.publish(msg)
+						konum_pub.publish (konum)
 					elif (centerx < 360 and centery > 480):
 						konum = 7
 						print (konum)
-						msg.num=konum
-						konum_pub.publish(msg)
+						konum_pub.publish (konum)
 					elif (centerx < 360 and centery < 480 and centery > 240):
 						konum = 8
 						print (konum)
-						msg.num=konum
-						konum_pub.publish(msg)
+						konum_pub.publish (konum)
 					elif centerx > 360 and centerx < 600 and centery < 480 and centery > 240:
 						print ("merkez")
 						konum = 0
-						msg.num=konum
-						konum_pub.publish(msg)
+						konum_pub.publish (konum)
 	cap.release()
 	cv2.destroyAllWindows()
 
