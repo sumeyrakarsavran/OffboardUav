@@ -220,8 +220,35 @@ class Controller:
         self.state = msg
 
     def updateSp(self):
-        self.level.pose.position.x = local_x
-        self.level.pose.position.y = local_y
+        self.sp.position.x = local_x
+        self.sp.position.y = local_y
+def alcal():
+    print("ALCALIYOR")
+    rate = rospy.Rate(20.0)
+    cnt=Controller()
+    ALT_SP = 3
+    cnt.sp.position.z = ALT_SP
+    while not rospy.is_shutdown():
+        cnt.updateSp()
+        cnt.sp_pub.publish(cnt.sp)
+        rate.sleep()
+        if (msg1.position.z  +0.15)> altitude:
+            print("ALCALDIGI DEGER=",altitude)
+            break
+def yuksel():
+    print("YUKSELIYOR")
+    rate = rospy.Rate(20.0)
+    cnt=Controller()
+    ALT_SP = 6
+    cnt.sp.position.z = ALT_SP
+    while not rospy.is_shutdown():
+        cnt.updateSp()
+        cnt.sp_pub.publish(cnt.sp)
+        rate.sleep()
+        if (msg1.position.z -0.15)< altitude:
+            print("YUKSELDIGI DEGER=",altitude)
+            break
+
 
 def movingcenter():
     global konum,msg1,velocity_pub
@@ -310,13 +337,11 @@ def waypointmove():
     movingcenter () #kırmızıyı ortala
     print("ortalama bitti")
     print(amsl)
-    glob_pos_pub( red_latitude,red_longitude,-3) #3 metreye alçal
-    print(amsl)
+    alcal()
     modes.setLoiterMode()
-    print("3 metreye alçaldı")
     rospy.sleep(5)
     modes.setOffboardMode()
-    glob_pos_pub( red_latitude,red_longitude,3) #7 metreye yüksel
+    yuksel()
     print("7 metreye yükseldi")
     glob_pos_pub( 41.090322,28.617505,0)
     modes.setLandMode()
