@@ -80,7 +80,7 @@ def image_callback(radius):
 	pre_radius= radius
 	red_latitude=latitude
 	red_longitude=longitude
-	print("*******GOT DATA********",radius,red_latitude,red_longitude)
+	print("************************GOT DATA***************************",radius,red_latitude,red_longitude)
 	rate = rospy.Rate(20.0)
 	rate.sleep()
 
