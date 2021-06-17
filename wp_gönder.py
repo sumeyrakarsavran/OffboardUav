@@ -274,7 +274,7 @@ def waypointmove():
     glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
     movingcenter () #kırmızıyı ortala
     print(amsl)
-    glob_pos_pub( red_latitude,red_longitude,-,3) #3 metreye alçal
+    glob_pos_pub( red_latitude,red_longitude,-3) #3 metreye alçal
     print(amsl)
     modes.setLoiterMode()
     print("3 metreye alçaldı")
