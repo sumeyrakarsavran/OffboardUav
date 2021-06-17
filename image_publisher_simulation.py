@@ -3,11 +3,11 @@
 # ROS python API
 import rospy, cv2,time
 import numpy as np
-from std_msgs.msg import Int64
+from std_msgs.msg import Int64, Float64
 
 def image_publish():
 	pre_radius = 0
-	image_pub = rospy.Publisher ('radius', Int64, queue_size=10)
+	image_pub = rospy.Publisher ('radius', Float64, queue_size=10)
 	konum_pub = rospy.Publisher ('konum', Int64, queue_size=10)
 	rospy.init_node ('image_publisher', anonymous=True)
 	rate=rospy.Rate(20)

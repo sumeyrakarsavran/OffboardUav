@@ -338,7 +338,7 @@ def main():
     rospy.Subscriber('mavros/state', State, cnt.stateCb)
     rospy.Subscriber("/mavros/global_position/raw/fix", NavSatFix, globalPositionCallback)
     rospy.Subscriber('mavros/local_position/pose', PoseStamped, localPositionCallback)
-    rospy.Subscriber('radius', String, image_callback)
+    rospy.Subscriber('radius', Float64, image_callback)
     rospy.Subscriber('konum', Int64, cam_konum_callback)
     rospy.Subscriber('mavros/altitude',Altitude,amslcallback)
 
