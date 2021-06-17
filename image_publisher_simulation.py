@@ -4,13 +4,14 @@
 import rospy, cv2,time
 import numpy as np
 from std_msgs.msg import String
-
+from tulpar import Num
 def image_publish():
 	pre_radius = 0
 	image_pub = rospy.Publisher ('radius', String, queue_size=10)
-	konum_pub = rospy.Publisher ('konum', String, queue_size=10)
+	konum_pub = rospy.Publisher ('konum', Num, queue_size=10)
 	rospy.init_node ('image_publisher', anonymous=True)
 	rate=rospy.Rate(20)
+	msg=Num()
 	dispW=960
 	dispH=720
 	flip=2
@@ -45,6 +46,7 @@ def image_publish():
 	#		out.write (frame)
 
 			if len(contours) > 0:
+				print("contours sıfırdan buyuk")
 				# find contour which has max area
 				c = max(contours, key=cv2.contourArea)
 				# find its coordinates and radius
@@ -63,52 +65,50 @@ def image_publish():
 					if (centerx < 360 and centery < 240):
 						konum = 1
 						print (konum)
-						konum_data = str (konum)
-						konum_pub.publish (konum_data)
+						msg.num=konum
+						konum_pub.publish(msg)
 					elif(centerx > 360 and centery < 240 and centerx < 600):
 						konum = 2
 						print (konum)
-						konum_data = str (konum)
-						konum_pub.publish (konum_data)
+						msg.num=konum
+						konum_pub.publish(msg)
 					elif (centerx > 600 and centery < 240):
 						konum = 3
 						print (konum)
-						konum_data = str (konum)
-						konum_pub.publish (konum_data)
+						msg.num=konum
+						konum_pub.publish(msg)
 					elif (centerx > 600 and centery > 240 and centery < 480):
 						konum = 4
 						print (konum)
-						konum_data = str (konum)
-						konum_pub.publish (konum_data)
+						msg.num=konum
+						konum_pub.publish(msg)
 					elif (centerx > 600 and centery > 480):
 						konum = 5
 						print (konum)
-						konum_data = str (konum)
-						konum_pub.publish (konum_data)
+						msg.num=konum
+						konum_pub.publish(msg)
 					elif (centerx < 600 and centery > 480 and centerx > 360):
 						konum = 6
 						print (konum)
-						konum_data = str (konum)
-						konum_pub.publish (konum_data)
+						msg.num=konum
+						konum_pub.publish(msg)
 					elif (centerx < 360 and centery > 480):
 						konum = 7
 						print (konum)
-						konum_data = str (konum)
-						konum_pub.publish (konum_data)
+						msg.num=konum
+						konum_pub.publish(msg)
 					elif (centerx < 360 and centery < 480 and centery > 240):
 						konum = 8
 						print (konum)
-						konum_data = str (konum)
-						konum_pub.publish (konum_data)
+						msg.num=konum
+						konum_pub.publish(msg)
 					elif centerx > 360 and centerx < 600 and centery < 480 and centery > 240:
 						print ("merkez")
 						konum = 0
-						konum_data = str (konum)
-						konum_pub.publish (konum_data)
+						msg.num=konum
+						konum_pub.publish(msg)
 	cap.release()
 	cv2.destroyAllWindows()
-
-
 
 
 if __name__ == '__main__':

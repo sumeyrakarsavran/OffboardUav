@@ -11,7 +11,7 @@ from mavros_msgs.srv import *
 from std_msgs.msg import String, Float64
 from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
-
+from tulpar import Num
 # Message publisher for haversine
 velocity_pub =rospy.Publisher('mavros/setpoint_velocity/cmd_vel', TwistStamped, queue_size=1)
 msg1 = TwistStamped()
@@ -87,8 +87,7 @@ def image_callback(radius):
 konum=10
 def cam_konum_callback(data):
     global konum
-    konum1=str(data)
-    konum=int(float(konum1))
+    konum=data
     rate = rospy.Rate(20.0)
     rate.sleep()
 
@@ -341,7 +340,7 @@ def main():
     rospy.Subscriber("/mavros/global_position/raw/fix", NavSatFix, globalPositionCallback)
     rospy.Subscriber('mavros/local_position/pose', PoseStamped, localPositionCallback)
     rospy.Subscriber('radius', String, image_callback)
-    rospy.Subscriber('konum', String, cam_konum_callback)
+    rospy.Subscriber('konum', Num, cam_konum_callback)
     rospy.Subscriber('mavros/altitude',Altitude,amslcallback)
 
     # Setpoint publisher
