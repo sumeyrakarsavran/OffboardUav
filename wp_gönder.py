@@ -231,6 +231,7 @@ def movingcenter():
         msg1.coordinate_frame = 8
         msg1.type_mask = int ('011111000111', 2)
         msg1.velocity.z = 0
+        print (konum)
         if konum ==1:
             msg1.velocity.x = 1
             msg1.velocity.y = 1
