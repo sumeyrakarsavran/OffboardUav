@@ -232,29 +232,29 @@ def movingcenter():
         msg1.type_mask = int ('011111000111', 2)
         msg1.velocity.z = 0
         if konum ==1:
-            msg1.velocity.x = 0.3
-            msg1.velocity.y = 0.3
+            msg1.velocity.x = 1
+            msg1.velocity.y = 1
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==1:
                     break
         elif konum ==2:
-            msg1.velocity.x = 0.3
-            msg1.velocity.y= 0.3
+            msg1.velocity.x = 1
+            msg1.velocity.y= 1
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==2:
                     break
         elif konum ==3:
-            msg1.velocity.x = -0.3
-            msg1.velocity.y = 0.3
+            msg1.velocity.x = -1
+            msg1.velocity.y = 1
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==3:
                     break
 
         elif konum ==4:
-            msg1.velocity.x = -0.3
+            msg1.velocity.x = -1
             msg1.velocity.y = 0
             while not rospy.is_shutdown ():
                 velocity_pub.publish (msg1)
@@ -262,8 +262,8 @@ def movingcenter():
                     break
 
         elif konum ==5:
-            msg1.velocity.x= -0.3
-            msg1.velocity.y= -0.3
+            msg1.velocity.x= -1
+            msg1.velocity.y= -1
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==5:
@@ -271,22 +271,22 @@ def movingcenter():
 
         elif konum ==6:
             msg1.velocity.x = 0
-            msg1.velocity.y = -0.3
+            msg1.velocity.y = -1
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==6:
                     break
 
         elif konum ==7:
-            msg1.velocity.x = 0.3
-            msg1.velocity.y = -0.3
+            msg1.velocity.x = 1
+            msg1.velocity.y = -1
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==7:
                     break
 
         elif konum ==8:
-            msg1.velocity.x = 0.3
+            msg1.velocity.x = 1
             msg1.velocity.y = 0
             while not rospy.is_shutdown ():
                 velocity_pub.publish (msg1)
