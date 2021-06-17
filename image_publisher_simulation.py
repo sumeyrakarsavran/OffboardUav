@@ -6,7 +6,6 @@ import rospy, cv2,time
 import numpy as np
 from std_msgs.msg import String
 
-
 def image_publish():
 	pre_radius = 0
 	image_pub = rospy.Publisher ('radius', String, queue_size=10)
