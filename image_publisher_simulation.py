@@ -15,8 +15,8 @@ def image_publish():
     dispW = 960
     dispH = 720
     flip = 2
-    # fourcc = cv2.VideoWriter_fourcc (*'XVID')
-    # out = cv2.VideoWriter ('output.avi', fourcc, 24.0, (960, 720))
+    fourcc = cv2.VideoWriter_fourcc (*'XVID')
+    out = cv2.VideoWriter ('output.avi', fourcc, 24.0, (960, 720))
     camSet = 'nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, ' \
              'format=NV12, framerate=21/1 ! nvvidconv flip-method=' + str (flip) + \
              ' ! video/x-raw, width=' + str (dispW) + ', height=' + str (dispH) + \
@@ -49,7 +49,7 @@ def image_publish():
         mask = mask1 + mask2
         cv2.rectangle (frame, (600, 480), (360, 240), (0, 255, 0), 3)
         contours = cv2.findContours (mask.copy (), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
-        #		out.write (frame)
+        out.write (frame)
         if len (contours) > 0:
             # find contour which has max area
             c = max (contours, key=cv2.contourArea)
