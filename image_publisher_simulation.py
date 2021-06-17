@@ -28,24 +28,28 @@ def image_publish():
 		print("error cam cannot open")
 		exit()
 	while not rospy.is_shutdown():
-			lower_red = (161,155,84)
-			upper_red = (179, 255, 255)
 			ret, frame = cap.read()
 			width = int (frame.shape[1])
 			height = int (frame.shape[0])
 			dim = (width, height)
 			frame = cv2.resize(frame, dim)
-			blurred_org_frame = cv2.GaussianBlur(frame, (11, 11), 0)
-			hsv_frame = cv2.cvtColor(blurred_org_frame, cv2.COLOR_BGR2HSV)
-			mask = cv2.inRange(hsv_frame, lower_red, upper_red)
-			mask = cv2.erode(mask, None, iterations=2)
-			mask = cv2.dilate(mask, None, iterations=2)
+			hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+			
+			# Range for lower red
+			lower_red = np.array([0,120,70])
+			upper_red = np.array([10,255,255])
+			mask1 = cv2.inRange(hsv_frame, lower_red, upper_red)
+
+			# Range for upper range
+			lower_red = np.array([170,120,70])
+			upper_red = np.array([180,255,255])
+			mask2 = cv2.inRange(hsv_frame,lower_red,upper_red)
+
+			mask = mask1+mask2
 			cv2.rectangle (frame, (600, 480), (360, 240), (0, 255, 0), 3)
 			contours = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
 	#		out.write (frame)
-
 			if len(contours) > 0:
-				print("contours sıfırdan buyuk")
 				# find contour which has max area
 				c = max(contours, key=cv2.contourArea)
 				# find its coordinates and radius
