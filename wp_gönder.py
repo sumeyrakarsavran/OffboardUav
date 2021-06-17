@@ -305,19 +305,19 @@ def movingcenter():
 def waypointmove():
     global red_longitude, red_latitude
     modes = fcuModes()
-    glob_pos_pub( 41.090322,28.617505,0)
-    glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
+  #  glob_pos_pub( 41.090322,28.617505,0)
+ #   glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
     movingcenter () #kırmızıyı ortala
-    print(amsl)
-    glob_pos_pub( red_latitude,red_longitude,-3) #3 metreye alçal
-    print(amsl)
-    modes.setLoiterMode()
-    print("3 metreye alçaldı")
-    rospy.sleep(5)
-    modes.setOffboardMode()
-    glob_pos_pub( red_latitude,red_longitude,3) #7 metreye yüksel
-    print("7 metreye yükseldi")
-    glob_pos_pub( 41.090322,28.617505,0)
+ #   print(amsl)
+#    glob_pos_pub( red_latitude,red_longitude,-3) #3 metreye alçal
+   # print(amsl)
+  #  modes.setLoiterMode()
+ #   print("3 metreye alçaldı")
+#    rospy.sleep(5)
+   # modes.setOffboardMode()
+  #  glob_pos_pub( red_latitude,red_longitude,3) #7 metreye yüksel
+ #   print("7 metreye yükseldi")
+#    glob_pos_pub( 41.090322,28.617505,0)
     modes.setLandMode()
 # Main function
 def main():
