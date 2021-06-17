@@ -12,8 +12,8 @@ from std_msgs.msg import String, Float64,Int64
 from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
 # Message publisher for haversine
-velocity_pub =rospy.Publisher('mavros/setpoint_velocity/cmd_vel', TwistStamped, queue_size=1)
-msg1 = TwistStamped()
+velocity_pub =rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=10)
+msg1 = PositionTarget()
 # Current Position
 latitude = 0
 longitude = 0
@@ -228,64 +228,66 @@ def movingcenter():
     while 1:
         msg1.header.stamp = rospy.get_rostime ()
         msg1.header.frame_id = "world"
-        msg1.twist.linear.z = 0
+        msg1.coordinate_frame = 8
+        msg1.type_mask = int ('011111000111', 2)
+        msg1.velocity.z = 0
         if konum ==1:
-            msg1.twist.linear.x = 0.3
-            msg1.twist.linear.y = 0.3
+            msg1.velocity.x = 0.3
+            msg1.velocity.y = 0.3
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==1:
                     break
         elif konum ==2:
-            msg1.twist.linear.x = 0.3
-            msg1.twist.linear.y= 0.3
+            msg1.velocity.x = 0.3
+            msg1.velocity.y= 0.3
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==2:
                     break
         elif konum ==3:
-            msg1.twist.linear.x = -0.3
-            msg1.twist.linear.y = 0.3
+            msg1.velocity.x = -0.3
+            msg1.velocity.y = 0.3
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==3:
                     break
 
         elif konum ==4:
-            msg1.twist.linear.x = -0.3
-            msg1.twist.linear.y = 0
+            msg1.velocity.x = -0.3
+            msg1.velocity.y = 0
             while not rospy.is_shutdown ():
                 velocity_pub.publish (msg1)
                 if not konum ==4:
                     break
 
         elif konum ==5:
-            msg1.twist.linear.x= -0.3
-            msg1.twist.linear.y= -0.3
+            msg1.velocity.x= -0.3
+            msg1.velocity.y= -0.3
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==5:
                     break
 
         elif konum ==6:
-            msg1.twist.linear.x = 0
-            msg1.twist.linear.y = -0.3
+            msg1.velocity.x = 0
+            msg1.velocity.y = -0.3
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==6:
                     break
 
         elif konum ==7:
-            msg1.twist.linear.x = 0.3
-            msg1.twist.linear.y = -0.3
+            msg1.velocity.x = 0.3
+            msg1.velocity.y = -0.3
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==7:
                     break
 
         elif konum ==8:
-            msg1.twist.linear.x = 0.3
-            msg1.twist.linear.y = 0
+            msg1.velocity.x = 0.3
+            msg1.velocity.y = 0
             while not rospy.is_shutdown ():
                 velocity_pub.publish (msg1)
                 if not konum == 8:
@@ -293,8 +295,8 @@ def movingcenter():
 
 
         elif konum ==0:
-            msg1.twist.linear.x = 0
-            msg1.twist.linear.y = 0
+            msg1.velocity.x = 0
+            msg1.velocity.y = 0
             while not rospy.is_shutdown ():
                 velocity_pub.publish(msg1)
                 if not konum ==0:
