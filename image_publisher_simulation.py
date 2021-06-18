@@ -68,39 +68,39 @@ def image_publish():
                 if (centerx < 360 and centery < 240):
                     konum = int(1)
                     print (konum)
-                    konum_pub.publish (konum)
+                    konum_pub.publish(konum)
                 elif (centerx > 360 and centery < 240 and centerx < 600):
                     konum = int(2)
                     print (konum)
-                    konum_pub.publish (konum)
+                    konum_pub.publish(konum)
                 elif (centerx > 600 and centery < 240):
                     konum = int(3)
                     print (konum)
-                    konum_pub.publish (konum)
+                    konum_pub.publish(konum)
                 elif (centerx > 600 and centery > 240 and centery < 480):
                     konum = int(4)
                     print (konum)
-                    konum_pub.publish (konum)
+                    konum_pub.publish(konum)
                 elif (centerx > 600 and centery > 480):
                     konum = int(5)
                     print (konum)
-                    konum_pub.publish (konum)
+                    konum_pub.publish(konum)
                 elif (centerx < 600 and centery > 480 and centerx > 360):
                     konum = int(6)
                     print (konum)
-                    konum_pub.publish (konum)
+                    konum_pub.publish(konum)
                 elif (centerx < 360 and centery > 480):
                     konum = int(7)
                     print (konum)
-                    konum_pub.publish (konum)
+                    konum_pub.publish(konum)
                 elif (centerx < 360 and centery < 480 and centery > 240):
                     konum = int(8)
                     print (konum)
-                    konum_pub.publish (konum)
-                elif centerx > 360 and centerx < 600 and centery < 480 and centery > 240:
+                    konum_pub.publish(konum)
+                elif 600 < centerx > 450 and centery < 480 > 330:
                     print ("merkez")
                     konum = int(0)
-                    konum_pub.publish (konum)
+                    konum_pub.publish(konum)
     cap.release ()
     cv2.destroyAllWindows ()
 

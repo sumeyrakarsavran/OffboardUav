@@ -14,10 +14,14 @@ from cv_bridge import CvBridge, CvBridgeError
 # Message publisher for haversine
 velocity_pub =rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=10)
 msg1 = PositionTarget()
+z_pub = rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
+msg2 = Twist()
+
 # Current Position
 latitude = 0
 longitude = 0
 altitude=0
+altitude1=0
 local_x = 0
 local_y = 0
 # Position before Move function execute
@@ -25,6 +29,11 @@ previous_latitude = 0
 previous_longitude = 0
 previous_altitude = 0.0
 global sp_pub,sp_glob_pub
+
+
+def altitude_callback(data):
+    global altitude1
+    altitude1 = data.relative
 
 mavros.set_namespace() #for global callback
 def globalPositionCallback(globalPositionCallback):
@@ -222,39 +231,51 @@ class Controller:
     def updateSp(self):
         self.sp.position.x = local_x
         self.sp.position.y = local_y
+
 def alcal():
+    global altitude1
     print("ALCALIYOR")
     rate = rospy.Rate(20.0)
-    cnt=Controller()
     ALT_SP = 3
-    cnt.sp.position.z = ALT_SP
+    msg2.linear.z = -1.5
     while not rospy.is_shutdown():
-        cnt.updateSp()
-        cnt.sp_pub.publish(cnt.sp)
+        print("Suanki Yukseklik",altitude1)
+        z_pub.publish(msg2)
         rate.sleep()
-        if (msg1.position.z  +0.15)> altitude:
-            print("ALCALDIGI DEGER=",altitude)
+        if (ALT_SP +0.25)> altitude1:
+        print("ALCALDIGI DEGER=",altitude1)
             break
+    msg2.linear.z = 0.
+    for i in range(100):
+        z_pub.publish(msg2)
+    rate.sleep()
+
+
 def yuksel():
+    global altitude1
     print("YUKSELIYOR")
     rate = rospy.Rate(20.0)
-    cnt=Controller()
     ALT_SP = 6
-    cnt.sp.position.z = ALT_SP
+    msg2.linear.z = 3
     while not rospy.is_shutdown():
-        cnt.updateSp()
-        cnt.sp_pub.publish(cnt.sp)
-        rate.sleep()
-        if (msg1.position.z -0.15)< altitude:
-            print("YUKSELDIGI DEGER=",altitude)
+        print("Suanki Yukseklik",altitude1)
+        if (ALT_SP -0.15) <altitude1:
+            print("YUKSELDIGI DEGER=",altitude1)
             break
 
+        z_pub.publish(msg2)
+        rate.sleep()
+
+    msg2.linear.z = 0.
+    for i in range(100):
+        z_pub.publish(msg2)
+    rate.sleep()
 
 def movingcenter():
     global konum,msg1,velocity_pub
     while 1:
         msg1.header.stamp = rospy.get_rostime ()
-        msg1.header.frame_id = "world"
+        msg1.header.frame_id = "local_ned"
         msg1.coordinate_frame = 8
         msg1.type_mask = int ('011111000111', 2)
         msg1.velocity.z = 0
@@ -367,6 +388,7 @@ def main():
     rospy.Subscriber('radius', Float64, image_callback)
     rospy.Subscriber('konum', Int64, cam_konum_callback)
     rospy.Subscriber('mavros/altitude',Altitude,amslcallback)
+    rospy.Subscriber('mavros/altitude', Altitude, altitude_callback)
 
     # Setpoint publisher
     sp_glob_pub=rospy.Publisher('mavros/setpoint_raw/global', GlobalPositionTarget, queue_size=1)
