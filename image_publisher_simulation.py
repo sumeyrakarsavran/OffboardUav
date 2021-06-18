@@ -97,7 +97,7 @@ def image_publish():
                     konum = int(8)
                     print (konum)
                     konum_pub.publish(konum)
-                elif centerx > 400 and centerx < 600 and centery < 480 and centery > 280:
+                elif centerx > 430 and centerx < 600 and centery < 480 and centery > 310:
                     print ("merkez")
                     konum = int(0)
                     konum_pub.publish(konum)
