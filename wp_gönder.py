@@ -243,7 +243,7 @@ def alcal():
         z_pub.publish(msg2)
         rate.sleep()
         if (ALT_SP +0.25)> altitude1:
-        print("ALCALDIGI DEGER=",altitude1)
+            print("ALCALDIGI DEGER=",altitude1)
             break
     msg2.linear.z = 0.
     for i in range(100):
