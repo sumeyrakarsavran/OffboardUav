@@ -6,6 +6,10 @@ import numpy as np
 from std_msgs.msg import Int64, Float64
 
 
+def konum(args):
+    pass
+
+
 def image_publish():
     pre_radius = 0
     image_pub = rospy.Publisher ('radius', Float64, queue_size=10)
@@ -14,6 +18,8 @@ def image_publish():
     rate = rospy.Rate (20)
     dispW = 960
     dispH = 720
+    merkezx = 480
+    merkezy = 360
     flip = 2
     fourcc = cv2.VideoWriter_fourcc (*'XVID')
     out = cv2.VideoWriter ('output.avi', fourcc, 24.0, (960, 720))
@@ -65,42 +71,34 @@ def image_publish():
                     print ("radius=", radius)
                     rate.sleep ()
 
-                if (centerx < 360 and centery < 240):
-                    konum = int(1)
+                if (480 < centerx and centery < 360):
+                    konum.bolge = int (1)
                     print (konum)
-                    konum_pub.publish(konum)
-                elif (centerx > 360 and centery < 240 and centerx < 600):
-                    konum = int(2)
+                    konum_pub.publish (konum)
+                    konum.farkx = merkezx - centerx
+                    konum.farky = centery - merkezy
+
+                elif (centerx < 480 and centery < 360):
+                    konum.farkx = centerx - merkezx
+                    konum.farky = centery - merkezy
+                    konum.bolge = int (2)
                     print (konum)
-                    konum_pub.publish(konum)
-                elif (centerx > 600 and centery < 240):
-                    konum = int(3)
+                    konum_pub.publish (konum)
+
+                elif (centerx < 480 and 360 < centery):
+                    konum.farkx = centerx - merkezx
+                    konum.farky = merkezy - centery
+                    konum.bolge = int (3)
                     print (konum)
-                    konum_pub.publish(konum)
-                elif (centerx > 600 and centery > 240 and centery < 480):
-                    konum = int(4)
+                    konum_pub.publish (konum)
+
+                elif (480 < centerx and 360 < centery):
+                    konum.farkx = merkezx - centerx
+                    konum.farky = merkezy - centery
+                    konum.bolge = int (4)
                     print (konum)
-                    konum_pub.publish(konum)
-                elif (centerx > 600 and centery > 480):
-                    konum = int(5)
-                    print (konum)
-                    konum_pub.publish(konum)
-                elif (centerx < 600 and centery > 480 and centerx > 360):
-                    konum = int(6)
-                    print (konum)
-                    konum_pub.publish(konum)
-                elif (centerx < 360 and centery > 480):
-                    konum = int(7)
-                    print (konum)
-                    konum_pub.publish(konum)
-                elif (centerx < 360 and centery < 480 and centery > 240):
-                    konum = int(8)
-                    print (konum)
-                    konum_pub.publish(konum)
-                elif centerx > 430 and centerx < 600 and centery < 480 and centery > 310:
-                    print ("merkez")
-                    konum = int(0)
-                    konum_pub.publish(konum)
+                    konum_pub.publish (konum)
+
     cap.release ()
     cv2.destroyAllWindows ()
 
