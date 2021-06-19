@@ -65,8 +65,13 @@ def image_publish():
             centery1 = int(y)
             centerx2 = centerx1
             centery2 = centery1
-            centerx=(centerx2+centerx1)/2
-            centery=(centery2+centery1)/2
+            centerx3 = centerx2
+            centery3 = centery2
+            centerx4 = centerx3
+            centery4 = centery3
+            print(centery4,centery3,centery2,centery1)
+            centerx=(centerx2+centerx1+centerx3+centerx4)/4
+            centery=(centery2+centery1+centery3+centery4)/4
             if radius > 10:
 
                 if pre_radius < radius:
