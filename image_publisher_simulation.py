@@ -65,8 +65,8 @@ def image_publish():
             matrix = np.zeros (shape=(10, 2), dtype=int)
 
             if k < 10:
-                matrix[k, 1] = int (x)
-                matrix[k, 2] = int (y)
+                matrix[k, 0] = int (x)
+                matrix[k, 1] = int (y)
                 k += 1
             summatrix = matrix.sum (axis=1)
             centerx = summatrix[1, 1] / 10
