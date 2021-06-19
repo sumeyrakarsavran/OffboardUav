@@ -12,8 +12,8 @@ def konum(args):
 
 def image_publish():
     pre_radius = 0
-    image_pub = rospy.Publisher ('radius', Float64, queue_size=10)
-    konum_pub = rospy.Publisher ('konum', Int64, queue_size=10)
+    image_pub = rospy.Publisher ('radius', Float64, queue_size=1)
+    konum_pub = rospy.Publisher ('konum', Int64, queue_size=1)
     rospy.init_node ('image_publisher', anonymous=True)
     rate = rospy.Rate (20)
     dispW = 960
@@ -71,7 +71,7 @@ def image_publish():
                     print ("radius=", radius)
                     rate.sleep ()
 
-                if (485 < centerx and centery < 365):
+                if (485 < centerx and centery < 355):
                     konum.bolge = int (1)
                     konum.farkx = int(centerx - merkezx)
                     konum.farky = int(merkezy - centery)
@@ -79,7 +79,7 @@ def image_publish():
                     konum_pub.publish (konum)
                     print(centerx,centery)
 
-                elif (centerx < 485 and centery < 365):
+                elif (centerx < 475 and centery < 355):
                     konum.bolge = int (2)
                     konum.farkx = int(merkezx - centerx)
                     konum.farky = int(merkezy - centery)
@@ -87,7 +87,7 @@ def image_publish():
                     print(centerx,centery)
                     konum_pub.publish (konum)
 
-                elif (centerx < 485 and 365 < centery):
+                elif (centerx < 475 and 365 < centery):
                     konum.farkx = int(merkezx - centerx)
                     konum.farky = int(centery - merkezy)
                     konum.bolge = int (3)
