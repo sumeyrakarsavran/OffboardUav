@@ -285,7 +285,7 @@ def movingcenter():
         print (konum)
         if konum ==1:
             msg1.linear.z = 0.
-            msg1.linear.x = 0.3
+            msg1.linear.x = -0.3
             msg1.linear.y = -0.3
             while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
@@ -298,7 +298,7 @@ def movingcenter():
         elif konum ==2:
             msg1.linear.z = 0.
             msg1.linear.x = 0.3
-            msg1.linear.y= 0.3
+            msg1.linear.y= -0.3
             while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
@@ -309,7 +309,7 @@ def movingcenter():
 
         elif konum ==3:
             msg1.linear.z = 0.
-            msg1.linear.x = -0.3
+            msg1.linear.x = 0.3
             msg1.linear.y = 0.3
             while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
@@ -322,7 +322,7 @@ def movingcenter():
         elif konum ==4:
             msg1.linear.z = 0.
             msg1.linear.x = -0.3
-            msg1.linear.y = -0.3
+            msg1.linear.y = 0.3
             while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
@@ -349,8 +349,8 @@ def movingcenter():
 def waypointmove():
     global red_longitude, red_latitude
     modes = fcuModes()
-    glob_pos_pub( 41.090322,28.617505,0)
-    glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
+   # glob_pos_pub( 41.090322,28.617505,0)
+    #glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
     movingcenter () #kırmızıyı ortala alçal yüksel
     print("su bırakıldı")
     print(amsl)
@@ -383,7 +383,7 @@ def main():
     # Setpoint publisher
     sp_glob_pub=rospy.Publisher('mavros/setpoint_raw/global', GlobalPositionTarget, queue_size=1)
     sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
-
+"""
     # Make sure the drone is armed
     while not cnt.state.armed:
         modes.setArm()
@@ -395,7 +395,7 @@ def main():
     print("MAIN: SET OFFBOARD")
     # activate OFFBOARD mode
     modes.setOffboardMode()
-    print("takeoff amsl altitude", amsl)
+    print("takeoff amsl altitude", amsl)"""
     waypointmove()
 
 if __name__ == '__main__':
