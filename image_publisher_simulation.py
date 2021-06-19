@@ -61,8 +61,12 @@ def image_publish():
             c = max (contours, key=cv2.contourArea)
             # find its coordinates and radius
             ((x, y), radius) = cv2.minEnclosingCircle (c)
-            centerx = x
-            centery = y
+            centerx1 = int(x)
+            centery1 = int(y)
+            centerx2 = centerx1
+            centery2 = centery1
+            centerx=(centerx2+centerx1)/2
+            centery=(centery2+centery1)/2
             if radius > 10:
 
                 if pre_radius < radius:
