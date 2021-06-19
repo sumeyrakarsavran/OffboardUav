@@ -77,13 +77,14 @@ def image_publish():
                     konum.farky = centery - merkezy
                     print (konum.bolge,konum.farkx,konum.farky)
                     konum_pub.publish (konum)
-
+                    print(centerx,centery)
 
                 elif (centerx < 480 and centery < 360):
                     konum.farkx = centerx - merkezx
                     konum.farky = centery - merkezy
                     konum.bolge = int (2)
                     print (konum.bolge,konum.farkx,konum.farky)
+                    print(centerx,centery)
                     konum_pub.publish (konum)
 
                 elif (centerx < 480 and 360 < centery):
@@ -91,6 +92,7 @@ def image_publish():
                     konum.farky = merkezy - centery
                     konum.bolge = int (3)
                     print (konum.bolge,konum.farkx,konum.farky)
+                    print(centerx,centery)
                     konum_pub.publish (konum)
 
                 elif (480 < centerx and 360 < centery):
@@ -98,6 +100,7 @@ def image_publish():
                     konum.farky = merkezy - centery
                     konum.bolge = int (4)
                     print (konum.bolge,konum.farkx,konum.farky)
+                    print(centerx,centery)
                     konum_pub.publish (konum)
 
     cap.release ()
