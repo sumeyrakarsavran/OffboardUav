@@ -71,7 +71,7 @@ def image_publish():
                     print ("radius=", radius)
                     rate.sleep ()
 
-                if (485 < centerx and centery < 355):
+                if (480 < centerx and centery < 355 or centery< 360 and 485 < centerx):
                     konum.bolge = int (1)
                     konum.farkx = int(centerx - merkezx)
                     konum.farky = int(merkezy - centery)
@@ -79,7 +79,7 @@ def image_publish():
                     konum_pub.publish (konum)
                     print(centerx,centery)
 
-                elif (centerx < 475 and centery < 355):
+                elif (centerx <475 and centery < 360 or centery< 355 and centerx < 480 ):
                     konum.bolge = int (2)
                     konum.farkx = int(merkezx - centerx)
                     konum.farky = int(merkezy - centery)
@@ -87,7 +87,7 @@ def image_publish():
                     print(centerx,centery)
                     konum_pub.publish (konum)
 
-                elif (centerx < 475 and 365 < centery):
+                elif (centerx <475 and 360 < centery or 365 < centery and centerx < 480 ):
                     konum.farkx = int(merkezx - centerx)
                     konum.farky = int(centery - merkezy)
                     konum.bolge = int (3)
@@ -95,7 +95,7 @@ def image_publish():
                     print(centerx,centery)
                     konum_pub.publish (konum)
 
-                elif (485 < centerx and 365 < centery):
+                elif (480 < centerx and 365 < centery or 360 < centery and 485 < centerx ):
                     konum.farkx =int(centerx - merkezx)
                     konum.farky =int(centery - merkezy)
                     konum.bolge = int (4)
