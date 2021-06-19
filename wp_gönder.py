@@ -12,10 +12,8 @@ from std_msgs.msg import String, Float64,Int64
 from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
 # Message publisher for haversine
-velocity_pub =rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=10)
-msg1 = PositionTarget()
-z_pub = rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
-msg2 = Twist()
+velocity_pub =rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
+msg1 = Twist()
 
 # Current Position
 latitude = 0
@@ -80,6 +78,8 @@ last_red_latitude = 0
 last_red_longitude = 0
 red_latitude = 0
 red_longitude = 0
+red_latitude2 = 0
+red_longitude2 = 0
 pre_radius=0
 
 
@@ -93,9 +93,13 @@ def image_callback(radius):
 	rate.sleep()
 
 konum=10
+global farkx
+global farky
 def cam_konum_callback(data):
-    global konum
-    konum=int (data.data)
+    global konum,farkx,farky
+    konum=int (data.data.bolge)
+    farkx = data.data.farkx
+    farky = data.data.farky
     rate = rospy.Rate(20.0)
     rate.sleep()
 
@@ -237,17 +241,17 @@ def alcal():
     print("ALCALIYOR")
     rate = rospy.Rate(20.0)
     ALT_SP = 3
-    msg2.linear.z = -1.5
+    msg1.linear.z = -1.5
     while not rospy.is_shutdown():
         print("Suanki Yukseklik",altitude1)
-        z_pub.publish(msg2)
+        velocity_pub.publish(msg1)
         rate.sleep()
         if (ALT_SP +0.25)> altitude1:
             print("ALCALDIGI DEGER=",altitude1)
             break
-    msg2.linear.z = 0.
+    msg1.linear.z = 0.
     for i in range(100):
-        z_pub.publish(msg2)
+        velocity_pub.publish(msg1)
     rate.sleep()
 
 
@@ -256,98 +260,90 @@ def yuksel():
     print("YUKSELIYOR")
     rate = rospy.Rate(20.0)
     ALT_SP = 6
-    msg2.linear.z = 3
+    msg1.linear.z = 3
     while not rospy.is_shutdown():
         print("Suanki Yukseklik",altitude1)
         if (ALT_SP -0.15) <altitude1:
             print("YUKSELDIGI DEGER=",altitude1)
             break
 
-        z_pub.publish(msg2)
+        velocity_pub.publish(msg1)
         rate.sleep()
 
-    msg2.linear.z = 0.
+    msg1.linear.z = 0.
     for i in range(100):
-        z_pub.publish(msg2)
+        velocity_pub.publish(msg1)
     rate.sleep()
 
 def movingcenter():
-    global konum,msg1,velocity_pub
+    global konum,msg1,velocity_pub,farkx,farky,konum,red_longitude2,red_latitude2,longitude,latitude
+    modes = fcuModes()
+    rate = rospy.Rate(20.0)
+
     while 1:
-        msg1.header.stamp = rospy.get_rostime ()
-        msg1.header.frame_id = "local_ned"
-        msg1.coordinate_frame = 8
-        msg1.type_mask = int ('011111000111', 2)
-        msg1.velocity.z = 0
+        msg1.linear.z = 0
         print (konum)
         if konum ==1:
-            msg1.velocity.x = 0.2
-            msg1.velocity.y = -0.2
-            while not rospy.is_shutdown ():
+            msg1.linear.z = 0.
+            msg1.linear.x = 0.3
+            msg1.linear.y = -0.3
+            while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
-                if not konum ==1:
-                    break
+                rate.sleep ()
+                if  farky<10:
+                    msg1.linear.y = 0
+                if  farkx<10:
+                    msg1.linear.x = 0
+
         elif konum ==2:
-            msg1.velocity.x = 0
-            msg1.velocity.y= -0.2
-            while not rospy.is_shutdown ():
+            msg1.linear.z = 0.
+            msg1.linear.x = 0.3
+            msg1.linear.y= 0.3
+            while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
-                if not konum ==2:
-                    break
+                rate.sleep ()
+                if  farky<10:
+                    msg1.linear.y = 0
+                if  farkx<10:
+                    msg1.linear.x = 0
+
         elif konum ==3:
-            msg1.velocity.x = -0.2
-            msg1.velocity.y = -0.2
-            while not rospy.is_shutdown ():
+            msg1.linear.z = 0.
+            msg1.linear.x = -0.3
+            msg1.linear.y = 0.3
+            while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
-                if not konum ==3:
-                    break
+                rate.sleep ()
+                if  farky<10:
+                    msg1.linear.y = 0
+                if  farkx<10:
+                    msg1.linear.x = 0
 
         elif konum ==4:
-            msg1.velocity.x = -0.2
-            msg1.velocity.y = 0
-            while not rospy.is_shutdown ():
-                velocity_pub.publish (msg1)
-                if not konum ==4:
-                    break
-
-        elif konum ==5:
-            msg1.velocity.x= -0.2
-            msg1.velocity.y= 0.2
-            while not rospy.is_shutdown ():
+            msg1.linear.z = 0.
+            msg1.linear.x = -0.3
+            msg1.linear.y = -0.3
+            while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
-                if not konum ==5:
-                    break
-
-        elif konum ==6:
-            msg1.velocity.x = 0
-            msg1.velocity.y = 0.2
-            while not rospy.is_shutdown ():
-                velocity_pub.publish(msg1)
-                if not konum ==6:
-                    break
-
-        elif konum ==7:
-            msg1.velocity.x = 0.2
-            msg1.velocity.y = 0.2
-            while not rospy.is_shutdown ():
-                velocity_pub.publish(msg1)
-                if not konum ==7:
-                    break
-
-        elif konum ==8:
-            msg1.velocity.x = 0.2
-            msg1.velocity.y = 0
-            while not rospy.is_shutdown ():
-                velocity_pub.publish (msg1)
-                if not konum == 8:
-                    break
-
+                rate.sleep ()
+                if  farky<10:
+                    msg1.linear.y = 0
+                if  farkx<10:
+                    msg1.linear.x = 0
 
         elif konum ==0:
-            msg1.velocity.x = 0
-            msg1.velocity.y = 0
-            for i in range (100):
-                velocity_pub.publish (msg1)
+            msg1.linear.z = 0.
+            msg1.linear.x = 0
+            msg1.linear.y = 0
+            red_latitude2 = latitude
+            red_longitude2= longitude
+            alcal ()
+            print ("3 metreye alçaldı")
+            modes.setLoiterMode ()
+            rospy.sleep (5)
+            modes.setOffboardMode ()
+            yuksel ()
+            print ("7 metreye yükseldi")
             break
 
 def waypointmove():
@@ -355,15 +351,9 @@ def waypointmove():
     modes = fcuModes()
     glob_pos_pub( 41.090322,28.617505,0)
     glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
-    movingcenter () #kırmızıyı ortala
-    print("ortalama bitti")
+    movingcenter () #kırmızıyı ortala alçal yüksel
+    print("su bırakıldı")
     print(amsl)
-    alcal()
-    modes.setLoiterMode()
-    rospy.sleep(5)
-    modes.setOffboardMode()
-    yuksel()
-    print("7 metreye yükseldi")
     glob_pos_pub( 41.090322,28.617505,0)
     modes.setLandMode()
 # Main function
