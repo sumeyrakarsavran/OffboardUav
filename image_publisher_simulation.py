@@ -75,8 +75,7 @@ def image_publish():
             centerx = summatrix[0, 0] / 10
             centery = summatrix[0, 1] / 10
             print (centerx, centery)"""
-            if radius > 10:
-""""
+"""           if radius > 10:
                 if pre_radius < radius:
                     pre_radius = radius
                     image_pub.publish (radius)
