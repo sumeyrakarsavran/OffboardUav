@@ -68,12 +68,12 @@ def image_publish():
                 print(x,y)
                 matrix[k, 0] = int (x)
                 matrix[k, 1] = int (y)
-                k += 1
-            summatrix = matrix.sum (axis=0)
+                k = k+1
+            """summatrix = matrix.sum (axis=0)
             print(summatrix)
             centerx = summatrix[0, 0] / 10
             centery = summatrix[0, 1] / 10
-            print (centerx, centery)
+            print (centerx, centery)"""
             if radius > 10:
 
                 if pre_radius < radius:
