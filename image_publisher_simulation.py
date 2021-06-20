@@ -63,12 +63,11 @@ def image_publish():
             # find its coordinates and radius
             matrix = np.zeros (shape=(10, 2), dtype=int)
 
-            while k < 10:
+            while k < 100:
                 ((x, y), radius) = cv2.minEnclosingCircle (c)
                 print(x,y)
-                matrix[k, 0] = int (x)
-                matrix[k, 1] = int (y)
                 k = k + 1
+                time.sleep(1)
 
             print(matrix)
             """summatrix = matrix.sum (axis=0)
@@ -77,7 +76,7 @@ def image_publish():
             centery = summatrix[0, 1] / 10
             print (centerx, centery)"""
             if radius > 10:
-
+""""
                 if pre_radius < radius:
                     pre_radius = radius
                     image_pub.publish (radius)
@@ -122,7 +121,7 @@ def image_publish():
                     konum.bolge = int (0)
                     print (konum.bolge, konum.farkx, konum.farky)
                     print (centerx, centery)
-                    konum_pub.publish (konum)
+                    konum_pub.publish (konum)"""
 
     cap.release ()
     cv2.destroyAllWindows ()
