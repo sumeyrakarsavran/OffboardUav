@@ -74,8 +74,8 @@ def image_publish():
             print(summatrix)
             centerx = summatrix[0, 0] / 10
             centery = summatrix[0, 1] / 10
-            print (centerx, centery)"""
-"""           if radius > 10:
+            print (centerx, centery)
+           if radius > 10:
                 if pre_radius < radius:
                     pre_radius = radius
                     image_pub.publish (radius)
@@ -119,8 +119,8 @@ def image_publish():
                     konum.farky = int (centery - merkezy)
                     konum.bolge = int (0)
                     print (konum.bolge, konum.farkx, konum.farky)
-                    print (centerx, centery)
-                    konum_pub.publish (konum)"""
+                    print (centerx, centery)"""
+                    #konum_pub.publish (konum) 
 
     cap.release ()
     cv2.destroyAllWindows ()
