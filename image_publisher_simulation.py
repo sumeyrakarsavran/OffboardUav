@@ -68,7 +68,7 @@ def image_publish():
                 print(x,y)
                 matrix[k, 0] = int (x)
                 matrix[k, 1] = int (y)
-                k = k+1
+                k + 1
             """summatrix = matrix.sum (axis=0)
             print(summatrix)
             centerx = summatrix[0, 0] / 10
