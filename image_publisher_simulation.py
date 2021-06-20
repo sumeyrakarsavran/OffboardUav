@@ -11,6 +11,7 @@ def konum(args):
 
 
 def image_publish():
+    k = 0
     pre_radius = 0
     image_pub = rospy.Publisher ('radius', Float64, queue_size=1)
     konum_pub = rospy.Publisher ('konum', Int64, queue_size=1)
@@ -60,7 +61,6 @@ def image_publish():
             # find contour which has max area
             c = max (contours, key=cv2.contourArea)
             # find its coordinates and radius
-            k = 0
             matrix = np.zeros (shape=(10, 2), dtype=int)
 
             if k < 10:
