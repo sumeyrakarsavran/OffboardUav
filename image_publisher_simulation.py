@@ -60,11 +60,12 @@ def image_publish():
             # find contour which has max area
             c = max (contours, key=cv2.contourArea)
             # find its coordinates and radius
-            ((x, y), radius) = cv2.minEnclosingCircle (c)
             k = 0
             matrix = np.zeros (shape=(10, 2), dtype=int)
 
             if k < 10:
+                ((x, y), radius) = cv2.minEnclosingCircle (c)
+                print(x,y)
                 matrix[k, 0] = int (x)
                 matrix[k, 1] = int (y)
                 k += 1
