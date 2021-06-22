@@ -61,19 +61,9 @@ def image_publish():
             # find contour which has max area
             c = max (contours, key=cv2.contourArea)
             # find its coordinates and radius
-            matrix = np.zeros (shape=(10, 2), dtype=int)
-
-            while k < 100:
-                ((x, y), radius) = cv2.minEnclosingCircle (c)
-                print(x,y)
-                k = k + 1
-                time.sleep(1)
-
-            print(matrix)
-            """summatrix = matrix.sum (axis=0)
-            print(summatrix)
-            centerx = summatrix[0, 0] / 10
-            centery = summatrix[0, 1] / 10
+            ((x, y), radius) = cv2.minEnclosingCircle (c)
+            centerx = int(x)
+            centery = int(y)
             print (centerx, centery)
            if radius > 10:
                 if pre_radius < radius:
@@ -119,8 +109,9 @@ def image_publish():
                     konum.farky = int (centery - merkezy)
                     konum.bolge = int (0)
                     print (konum.bolge, konum.farkx, konum.farky)
-                    print (centerx, centery)"""
-                    #konum_pub.publish (konum) 
+                    print (centerx, centery)
+                        
+                    konum_pub.publish (konum)
 
     cap.release ()
     cv2.destroyAllWindows ()
