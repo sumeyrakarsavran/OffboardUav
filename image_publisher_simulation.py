@@ -15,6 +15,7 @@ GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
 p = GPIO.PWM (output_pin, 50)
 val = 25
 incr = -5
+p.start (val)
 
 
 def konum(args):
@@ -42,7 +43,6 @@ def image_publish():
              ', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
 
     cap = cv2.VideoCapture (camSet)
-    p.start(val)
     time.sleep (2.0)
     kernel = np.ones ((5, 5), np.float32) / 25
     if not cap.isOpened ():
@@ -94,10 +94,9 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     print (centerx, centery)
-                    time.sleep (0.5)
                     try:
                         while True:
-                            time.sleep (0.5)
+                            time.sleep (0.25)
                             if val >= 100:
                                 incr = -incr
                             if val <= 0:
