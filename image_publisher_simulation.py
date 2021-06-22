@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ROS python API
-import rospy, cv2, time,board
+import rospy, cv2, time
 import numpy as np
 from std_msgs.msg import Int64, Float64
 from adafruit_servokit import ServoKit
