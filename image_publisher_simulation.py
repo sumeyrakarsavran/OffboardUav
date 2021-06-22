@@ -6,11 +6,7 @@ import numpy as np
 from std_msgs.msg import Int64, Float64
 import RPi.GPIO as GPIO
 output_pins = {
-    'JETSON_XAVIER': 18,
     'JETSON_NANO': 33,
-    'JETSON_NX': 33,
-    'CLARA_AGX_XAVIER': 18,
-    'JETSON_TX2_NX': 32,
 }
 output_pin = output_pins.get(GPIO.model, None)
 GPIO.setmode (GPIO.BOARD)
@@ -18,8 +14,7 @@ GPIO.setmode (GPIO.BOARD)
 GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
 p = GPIO.PWM (output_pin, 50)
 val = 25
-incr = 5
-p.start (val)
+incr = -5
 
 
 def konum(args):
@@ -47,6 +42,7 @@ def image_publish():
              ', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
 
     cap = cv2.VideoCapture (camSet)
+    p.start(val)
     time.sleep (2.0)
     kernel = np.ones ((5, 5), np.float32) / 25
     if not cap.isOpened ():
