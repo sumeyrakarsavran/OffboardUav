@@ -65,7 +65,9 @@ def image_publish():
             centerx = int(x)
             centery = int(y)
             print (centerx, centery)
-           if radius > 10:
+
+            if radius > 10:
+
                 if pre_radius < radius:
                     pre_radius = radius
                     image_pub.publish (radius)
@@ -110,7 +112,7 @@ def image_publish():
                     konum.bolge = int (0)
                     print (konum.bolge, konum.farkx, konum.farky)
                     print (centerx, centery)
-                        
+
                     konum_pub.publish (konum)
 
     cap.release ()
