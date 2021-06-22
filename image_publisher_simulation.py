@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ROS python API
-import rospy, cv2, time
+import rospy, cv2, time,board
 import numpy as np
 from std_msgs.msg import Int64, Float64
+from adafruit_servokit import ServoKit
 
+kit = ServoKit(channels=16)
 
 def konum(args):
     pass
@@ -112,7 +114,10 @@ def image_publish():
                     konum.bolge = int (0)
                     print (konum.bolge, konum.farkx, konum.farky)
                     print (centerx, centery)
-
+                    sweep = range (0, 180)
+                    kit.servo[0].angle = 180
+                    sweep = range (180, 0, -1)
+                    kit.servo[0].angle = 0
                     konum_pub.publish (konum)
 
     cap.release ()
