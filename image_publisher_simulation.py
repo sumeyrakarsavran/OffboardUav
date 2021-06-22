@@ -98,14 +98,19 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     print (centerx, centery)
-                    p.start (val)
                     time.sleep (0.5)
-                    if val >= 100:
-                        incr = -incr
-                    if val <= 0:
-                        incr = -incr
-                    val += incr
-                    p.ChangeDutyCycle (val)
+                    try:
+                        while True:
+                            time.sleep (0.5)
+                            if val >= 100:
+                                incr = -incr
+                            if val <= 0:
+                                incr = -incr
+                            val += incr
+                            p.ChangeDutyCycle (val)
+                    finally:
+                        p.stop ()
+                        GPIO.cleanup ()
                 elif (centerx < 475 and centery < 360 or centery < 355 and centerx < 480):
                     konum.bolge = int (2)
                     konum.farkx = int (merkezx - centerx)
