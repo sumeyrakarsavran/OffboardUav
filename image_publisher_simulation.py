@@ -4,9 +4,22 @@
 import rospy, cv2, time
 import numpy as np
 from std_msgs.msg import Int64, Float64
-from adafruit_servokit import ServoKit
-
-kit = ServoKit (channels=16)
+import RPi.GPIO as GPIO
+output_pins = {
+    'JETSON_XAVIER': 18,
+    'JETSON_NANO': 33,
+    'JETSON_NX': 33,
+    'CLARA_AGX_XAVIER': 18,
+    'JETSON_TX2_NX': 32,
+}
+output_pin = output_pins.get(GPIO.model, None)
+GPIO.setmode (GPIO.BOARD)
+# set pin as an output pin with optional initial state of HIGH
+GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
+p = GPIO.PWM (output_pin, 50)
+val = 25
+incr = -5
+p.start (val)
 
 
 def konum(args):
@@ -14,6 +27,7 @@ def konum(args):
 
 
 def image_publish():
+    global val , incr
     k = 0
     pre_radius = 0
     image_pub = rospy.Publisher ('radius', Float64, queue_size=1)
@@ -115,12 +129,15 @@ def image_publish():
                     konum.bolge = int (0)
                     print (konum.bolge, konum.farkx, konum.farky)
                     print (centerx, centery)
-                    sweep = range (0, 180)
-                    kit.servo[0].angle = 180
-                    sweep = range (180, 0, -1)
-                    kit.servo[0].angle = 0
                     konum_pub.publish (konum)
-
+                    while True:
+                        time.sleep (0.5)
+                        if val >= 100:
+                            incr = -incr
+                        if val <= 0:
+                            incr = -incr
+                        val += incr
+                        p.ChangeDutyCycle (val)
     cap.release ()
     cv2.destroyAllWindows ()
 
