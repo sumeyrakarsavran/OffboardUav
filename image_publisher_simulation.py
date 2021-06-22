@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # ROS python API
 import rospy, cv2, time
@@ -7,7 +7,8 @@ import numpy as np
 from std_msgs.msg import Int64, Float64
 from adafruit_servokit import ServoKit
 
-kit = ServoKit(channels=16)
+kit = ServoKit (channels=16)
+
 
 def konum(args):
     pass
@@ -65,8 +66,8 @@ def image_publish():
             c = max (contours, key=cv2.contourArea)
             # find its coordinates and radius
             ((x, y), radius) = cv2.minEnclosingCircle (c)
-            centerx = int(x)
-            centery = int(y)
+            centerx = int (x)
+            centery = int (y)
             print (centerx, centery)
 
             if radius > 10:
