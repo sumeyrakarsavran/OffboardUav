@@ -18,7 +18,7 @@ GPIO.setmode (GPIO.BOARD)
 GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
 p = GPIO.PWM (output_pin, 50)
 val = 25
-incr = -5
+incr = 5
 p.start (val)
 
 
@@ -98,6 +98,7 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     print (centerx, centery)
+                    p.start (val)
                     time.sleep (0.5)
                     if val >= 100:
                         incr = -incr
