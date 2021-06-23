@@ -102,7 +102,7 @@ global farkx
 global farky
 def cam_konum_callback(data):
     global konum,farkx,farky
-    konum=int (data.data.bolge)
+    konum=int (data.konum.bolge)
     farkx = data.data.farkx
     farky = data.data.farky
     rate = rospy.Rate(20.0)
