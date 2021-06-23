@@ -5,18 +5,11 @@ import rospy, cv2, time
 import numpy as np
 from std_msgs.msg import Int64, Float64
 import RPi.GPIO as GPIO
-output_pins = {
-    'JETSON_NANO': 33,
-}
-output_pin = output_pins.get(GPIO.model, None)
-GPIO.setmode (GPIO.BOARD)
-# set pin as an output pin with optional initial state of HIGH
-GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
-p = GPIO.PWM (output_pin, 50)
-val = 25
-incr = -5
-p.start (val)
 
+output_pin2 = 33
+GPIO.setmode (GPIO.BOARD)
+GPIO.setup (output_pin2, GPIO.OUT, initial=GPIO.HIGH)
+p2 = GPIO.PWM (output_pin2, 50)
 
 def konum(args):
     pass
@@ -94,18 +87,11 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     print (centerx, centery)
-                    try:
-                        while True:
-                            time.sleep (0.25)
-                            if val >= 100:
-                                incr = -incr
-                            if val <= 0:
-                                incr = -incr
-                            val += incr
-                            p.ChangeDutyCycle (val)
-                    finally:
-                        p.stop ()
-                        GPIO.cleanup ()
+                    p2.start (2.5)
+                    time.sleep (0.25)
+                    p2.stop ()
+                    GPIO.cleanup ()
+
                 elif (centerx < 475 and centery < 360 or centery < 355 and centerx < 480):
                     konum.bolge = int (2)
                     konum.farkx = int (merkezx - centerx)
