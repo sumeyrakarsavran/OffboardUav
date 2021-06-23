@@ -88,8 +88,12 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     print (centerx, centery)
-                    p2.start (2.5)
-                    time.sleep (0.5)
+                    while True:
+                        p2.start(12)
+                        time.sleep (0.5)
+                        k=k+1
+                        if k == 3:
+                            break
                     p2.stop ()
                     GPIO.cleanup ()
 
