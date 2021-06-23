@@ -85,15 +85,15 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     print (centerx, centery)
-                    GPIO.setmode (GPIO.BOARD)
-                    GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
-                    p = GPIO.PWM (output_pin, 1000)  # set (Hz) frequency
-                    p.start (90)  # set (%) duty-cycle
 
                     print ("PWM running. Press CTRL+C to exit.")
                     try:
                         while True:
-                            pass
+                            GPIO.setmode (GPIO.BOARD)
+                            GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
+                            p = GPIO.PWM (output_pin, 1000)  # set (Hz) frequency
+                            p.start (2.5)  # set (%) duty-cycle
+
                     finally:
                         p.stop ()
                         GPIO.cleanup ()
