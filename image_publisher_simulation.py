@@ -6,17 +6,18 @@ import numpy as np
 from std_msgs.msg import Int64, Float64
 import RPi.GPIO as GPIO
 
-output_pin2 = 33
-GPIO.setmode (GPIO.BOARD)
-GPIO.setup (output_pin2, GPIO.OUT, initial=GPIO.HIGH)
-p2 = GPIO.PWM (output_pin2, 50)
+
 
 def konum(args):
     pass
 
 
 def image_publish():
-    global val , incr
+    output_pin2 = 33
+    GPIO.setmode (GPIO.BOARD)
+    GPIO.setup (output_pin2, GPIO.OUT, initial=GPIO.HIGH)
+    p2 = GPIO.PWM (output_pin2, 50)
+
     k = 0
     pre_radius = 0
     image_pub = rospy.Publisher ('radius', Float64, queue_size=1)
@@ -88,7 +89,7 @@ def image_publish():
                     konum_pub.publish (konum)
                     print (centerx, centery)
                     p2.start (2.5)
-                    time.sleep (0.25)
+                    time.sleep (0.5)
                     p2.stop ()
                     GPIO.cleanup ()
 
