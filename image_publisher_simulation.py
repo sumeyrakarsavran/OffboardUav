@@ -16,7 +16,7 @@ def image_publish():
     output_pin2 = 33
     GPIO.setmode (GPIO.BOARD)
     GPIO.setup (output_pin2, GPIO.OUT, initial=GPIO.HIGH)
-    p2 = GPIO.PWM (output_pin2)
+    p2 = GPIO.PWM (output_pin2, 1000)
 
     k = 0
     pre_radius = 0
