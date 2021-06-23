@@ -4,7 +4,7 @@
 import rospy, cv2, time
 import numpy as np
 from std_msgs.msg import Int64, Float64
-import RPi.GPIO as GPIO
+import Jetson.GPIO as GPIO
 
 
 
