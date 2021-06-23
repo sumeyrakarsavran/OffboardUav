@@ -88,7 +88,10 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     print (centerx, centery)
-                    p2.start(2.5)
+                    GPIO.setmode (GPIO.BOARD)
+                    GPIO.setup (output_pin2, GPIO.OUT, initial=GPIO.HIGH)
+                    p2 = GPIO.PWM (output_pin2, 50)
+                    p2.start (2.5)
                     p2.stop ()
                     GPIO.cleanup ()
 
