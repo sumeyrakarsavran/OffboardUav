@@ -73,11 +73,6 @@ def image_publish():
             if radius > 10:
                 GPIO.setmode (GPIO.BOARD)
                 GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
-                p2 = GPIO.PWM (output_pin, 50)
-                p2.start (2.5)
-                time.sleep (0.25)
-                p2.stop ()
-                GPIO.cleanup ()
                 if pre_radius < radius:
                     pre_radius = radius
                     image_pub.publish (radius)
