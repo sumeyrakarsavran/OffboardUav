@@ -14,9 +14,6 @@ def konum(args):
 
 def image_publish():
     output_pin2 = 33
-    GPIO.setmode (GPIO.BOARD)
-    GPIO.setup (output_pin2, GPIO.OUT, initial=GPIO.HIGH)
-    p2 = GPIO.PWM (output_pin2, 1000)
 
     k = 0
     pre_radius = 0
@@ -90,8 +87,9 @@ def image_publish():
                     print (centerx, centery)
                     GPIO.setmode (GPIO.BOARD)
                     GPIO.setup (output_pin2, GPIO.OUT, initial=GPIO.HIGH)
-                    p2 = GPIO.PWM (output_pin2, 50)
+                    p2 = GPIO.PWM (output_pin2, 1000)
                     p2.start (2.5)
+                    time.sleep(0.25)
                     p2.stop ()
                     GPIO.cleanup ()
 
