@@ -92,8 +92,8 @@ def image_publish():
                             GPIO.setmode (GPIO.BOARD)
                             GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
                             p = GPIO.PWM (output_pin, 1000)  # set (Hz) frequency
-                            p.start (2.5)  # set (%) duty-cycle
-
+                            p.start (90)  # set (%) duty-cycle
+                            time.sleep(0.5)
                     finally:
                         p.stop ()
                         GPIO.cleanup ()
