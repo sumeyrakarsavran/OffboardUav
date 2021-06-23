@@ -289,18 +289,14 @@ def yuksel():
     rate.sleep()
 
 def movingcenter():
+    servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
     global konum,msg1,velocity_pub,farkx,farky,konum,red_longitude2,red_latitude2,longitude,latitude
     modes = fcuModes()
     rate = rospy.Rate(20.0)
-    #servo output settings
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(output_pin2, GPIO.OUT, initial=GPIO.HIGH)
-    p2 = GPIO.PWM(output_pin2, 50)
+
     while 1:
-        p2.start (2.5)
-        rospy.sleep (0.25)
-        p2.stop ()
-        GPIO.cleanup ()
+        s = 1
+        servo_pub.publish (s)
         msg1.linear.z = 0
         if konum ==1:
             msg1.linear.z = 0.
@@ -359,11 +355,9 @@ def movingcenter():
             alcal ()
             print ("3 metreye alçaldı")
             modes.setLoiterMode ()
+            s=1
+            servo_pub.publish(s)
             rospy.sleep (10)
-            p2.start (2.5)
-            rospy.sleep (0.25)
-            p2.stop ()
-            GPIO.cleanup ()
             modes.setOffboardMode ()
             yuksel ()
             print ("7 metreye yükseldi")

@@ -111,7 +111,7 @@ def image_publish():
                     konum.bolge = int (4)
                     print (konum.bolge, konum.farkx, konum.farky)
                     print (centerx, centery)
-                    konum_pub.publish (konum.bolge)
+                    konum_pub.publish (konum)
 
                 elif (475 <= centerx <= 485 and 355 <= centery <= 365):
                     konum.farkx = int (centerx - merkezx)
