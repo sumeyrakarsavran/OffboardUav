@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ROS python API
-import rospy, mavros,math,cv2
+import rospy, mavros,math,time
 # 3D point & Stamped Pose msgs
 from geometry_msgs.msg import Point, PoseStamped, Twist,TwistStamped
 from sensor_msgs.msg import NavSatFix,Image
@@ -11,7 +11,12 @@ from mavros_msgs.srv import *
 from std_msgs.msg import String, Float64,Int64
 from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
-# Message publisher for haversine
+
+# GPIO import for servo and pump
+import RPi.GPIO as GPIO
+output_pin2 = 33
+
+# Message publisher for local velocity
 velocity_pub =rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
 msg1 = Twist()
 
@@ -279,11 +284,18 @@ def movingcenter():
     global konum,msg1,velocity_pub,farkx,farky,konum,red_longitude2,red_latitude2,longitude,latitude
     modes = fcuModes()
     rate = rospy.Rate(20.0)
-
+    #servo output settings
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(output_pin2, GPIO.OUT, initial=GPIO.HIGH)
+    p2 = GPIO.PWM(output_pin2, 50)
     while 1:
         msg1.linear.z = 0
         print (konum)
         if konum ==1:
+            p2.start (2.5)
+            rospy.sleep (0.25)
+            p2.stop ()
+            GPIO.cleanup ()
             msg1.linear.z = 0.
             msg1.linear.x = -0.3
             msg1.linear.y = -0.3
@@ -340,7 +352,11 @@ def movingcenter():
             alcal ()
             print ("3 metreye alçaldı")
             modes.setLoiterMode ()
-            rospy.sleep (5)
+            rospy.sleep (10)
+            p2.start (2.5)
+            rospy.sleep (0.25)
+            p2.stop ()
+            GPIO.cleanup ()
             modes.setOffboardMode ()
             yuksel ()
             print ("7 metreye yükseldi")
