@@ -284,7 +284,7 @@ def movingcenter():
     rate = rospy.Rate(20.0)
 
     while 1:
-        s = 1
+        s = int(1)
         servo_pub.publish (s)
         msg1.linear.z = 0
         if konum ==1:

@@ -12,10 +12,11 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(output_pin2, GPIO.OUT, initial=GPIO.HIGH)
 p2 = GPIO.PWM(output_pin2, 50)
 servo_durum=0
+
 def servo_callback(data):
     global servo_durum
     servo_durum= int(data.data)
-
+    print(servo_durum)
 def main():
     global servo_durum
     while True:
