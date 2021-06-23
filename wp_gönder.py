@@ -402,11 +402,16 @@ def main():
     # activate OFFBOARD mode
     modes.setOffboardMode()"""
     #print("takeoff amsl altitude", amsl)
+    s = int (1)
+    servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
 
+
+    servo_pub.publish (s)
     waypointmove()
 
 if __name__ == '__main__':
     try:
+
         main()
     except rospy.ROSInterruptException:
         pass
