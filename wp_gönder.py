@@ -102,6 +102,7 @@ global farkx
 global farky
 def cam_konum_callback(data):
     global konum,farkx,farky
+    print(data)
     konum=int (data.konum.bolge)
     farkx = data.data.farkx
     farky = data.data.farky
@@ -290,7 +291,6 @@ def movingcenter():
     p2 = GPIO.PWM(output_pin2, 50)
     while 1:
         msg1.linear.z = 0
-        print (konum)
         if konum ==1:
             p2.start (2.5)
             rospy.sleep (0.25)
