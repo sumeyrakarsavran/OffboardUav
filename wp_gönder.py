@@ -399,7 +399,7 @@ def main():
     # Setpoint publisher
     sp_glob_pub=rospy.Publisher('mavros/setpoint_raw/global', GlobalPositionTarget, queue_size=1)
     sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
-"""
+    """
     # Make sure the drone is armed
     while not cnt.state.armed:
         modes.setArm()
@@ -410,8 +410,9 @@ def main():
     # We need to send few setpoint messages, then activate OFFBOARD mode, to take effect
     print("MAIN: SET OFFBOARD")
     # activate OFFBOARD mode
-    modes.setOffboardMode()
-    print("takeoff amsl altitude", amsl)"""
+    modes.setOffboardMode()"""
+    #print("takeoff amsl altitude", amsl)
+
     waypointmove()
 
 if __name__ == '__main__':
