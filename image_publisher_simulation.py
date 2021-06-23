@@ -13,7 +13,7 @@ def konum(args):
 
 
 def image_publish():
-    output_pin2 = 33
+    output_pin = 33
 
     k = 0
     pre_radius = 0
@@ -86,12 +86,17 @@ def image_publish():
                     konum_pub.publish (konum)
                     print (centerx, centery)
                     GPIO.setmode (GPIO.BOARD)
-                    GPIO.setup (output_pin2, GPIO.OUT, initial=GPIO.HIGH)
-                    p2 = GPIO.PWM (output_pin2, 1000)
-                    p2.start (2.5)
-                    time.sleep(0.25)
-                    p2.stop ()
-                    GPIO.cleanup ()
+                    GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
+                    p = GPIO.PWM (output_pin, 1000)  # set (Hz) frequency
+                    p.start (90)  # set (%) duty-cycle
+
+                    print ("PWM running. Press CTRL+C to exit.")
+                    try:
+                        while True:
+                            pass
+                    finally:
+                        p.stop ()
+                        GPIO.cleanup ()
 
                 elif (centerx < 475 and centery < 360 or centery < 355 and centerx < 480):
                     konum.bolge = int (2)
