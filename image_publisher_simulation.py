@@ -71,7 +71,13 @@ def image_publish():
             print (centerx, centery)
 
             if radius > 10:
-
+                GPIO.setmode (GPIO.BOARD)
+                GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
+                p2 = GPIO.PWM (output_pin, 50)
+                p2.start (2.5)
+                time.sleep (0.25)
+                p2.stop ()
+                GPIO.cleanup ()
                 if pre_radius < radius:
                     pre_radius = radius
                     image_pub.publish (radius)
@@ -86,17 +92,7 @@ def image_publish():
                     konum_pub.publish (konum)
                     print (centerx, centery)
 
-                    print ("PWM running. Press CTRL+C to exit.")
-                    try:
-                        while True:
-                            GPIO.setmode (GPIO.BOARD)
-                            GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
-                            p = GPIO.PWM (output_pin, 1000)  # set (Hz) frequency
-                            p.start (90)  # set (%) duty-cycle
-                            time.sleep(0.5)
-                    finally:
-                        p.stop ()
-                        GPIO.cleanup ()
+
 
                 elif (centerx < 475 and centery < 360 or centery < 355 and centerx < 480):
                     konum.bolge = int (2)
