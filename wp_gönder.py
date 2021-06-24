@@ -408,6 +408,8 @@ def main():
 
         servo_pub.publish (s)
         rate.sleep()
+
+        print("publish edildi")
     waypointmove()
 
 if __name__ == '__main__':

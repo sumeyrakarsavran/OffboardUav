@@ -20,13 +20,17 @@ def servo_callback(data):
 def main():
     global servo_durum
     while True:
+        if servo_durum==0:
+            rospy.Subscriber ('servo', Int64, servo_callback)
 
-        rospy.Subscriber('servo', Int64, servo_callback)
-        if servo_durum==1:
+        elif servo_durum==1:
             p2.start (12)
             time.sleep (0.5)
             p2.stop ()
             GPIO.cleanup ()
-
+            break
 if __name__ == '__main__':
+    rospy.init_node ('servo_durum1', anonymous=True)
+
+    rospy.Subscriber ('servo', Int64, servo_callback)
     main()
