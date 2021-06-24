@@ -11,6 +11,7 @@ from mavros_msgs.srv import *
 from std_msgs.msg import String, Float64,Int64
 from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
+import RPi.GPIO as GPIO
 
 # Message publisher for local velocity
 velocity_pub =rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
@@ -404,12 +405,17 @@ def main():
     #print("takeoff amsl altitude", amsl)
     s = int (1)
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
-    for i in range(10):
 
-        servo_pub.publish (s)
-        rate.sleep()
+    output_pin = 18
 
-        print("publish edildi")
+    GPIO.setmode (GPIO.BCM)
+    GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
+    curr_value = GPIO.HIGH
+    GPIO.output (output_pin, curr_value)
+    time.sleep (5)
+    GPIO.output (output_pin, GPIO.LOW)
+
+    GPIO.cleanup ()
     #waypointmove()
 
 if __name__ == '__main__':
