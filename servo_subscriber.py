@@ -24,7 +24,7 @@ def main():
             rospy.Subscriber ('servo', Int64, servo_callback)
 
         elif servo_durum==1:
-            p2.start (15)
+            p2.start (12)
             time.sleep (0.5)
             p2.stop ()
             GPIO.cleanup ()
