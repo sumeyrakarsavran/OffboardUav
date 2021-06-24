@@ -404,10 +404,12 @@ def main():
     #print("takeoff amsl altitude", amsl)
     s = int (1)
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
-    servo_pub.publish (s)
-    rate.sleep()
+    for i in range(10):
 
-    print("publish edildi")
+        servo_pub.publish (s)
+        rate.sleep()
+
+        print("publish edildi")
     #waypointmove()
 
 if __name__ == '__main__':
