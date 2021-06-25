@@ -287,30 +287,6 @@ def movingcenter():
         msg1.linear.z = 0
         if konum ==1:
             msg1.linear.z = 0.
-            msg1.linear.x = 0.3
-            msg1.linear.y = -0.3
-            if farkx>19 and farky>19:
-                velocity_pub.publish(msg1)
-                rate.sleep ()
-                if  farky<20:
-                    msg1.linear.y = 0
-                if  farkx<20:
-                    msg1.linear.x = 0
-
-        elif konum ==2:
-            msg1.linear.z = 0.
-            msg1.linear.x = 0.3
-            msg1.linear.y= 0.3
-            if farkx>19 and farky>19:
-                velocity_pub.publish(msg1)
-                rate.sleep ()
-                if  farky<20:
-                    msg1.linear.y = 0
-                if  farkx<20:
-                    msg1.linear.x = 0
-
-        elif konum ==3:
-            msg1.linear.z = 0.
             msg1.linear.x = -0.3
             msg1.linear.y = 0.3
             if farkx>19 and farky>19:
@@ -321,10 +297,34 @@ def movingcenter():
                 if  farkx<20:
                     msg1.linear.x = 0
 
-        elif konum ==4:
+        elif konum ==2:
             msg1.linear.z = 0.
             msg1.linear.x = -0.3
+            msg1.linear.y= -0.3
+            if farkx>19 and farky>19:
+                velocity_pub.publish(msg1)
+                rate.sleep ()
+                if  farky<20:
+                    msg1.linear.y = 0
+                if  farkx<20:
+                    msg1.linear.x = 0
+
+        elif konum ==3:
+            msg1.linear.z = 0.
+            msg1.linear.x = 0.3
             msg1.linear.y = -0.3
+            if farkx>19 and farky>19:
+                velocity_pub.publish(msg1)
+                rate.sleep ()
+                if  farky<20:
+                    msg1.linear.y = 0
+                if  farkx<20:
+                    msg1.linear.x = 0
+
+        elif konum ==4:
+            msg1.linear.z = 0.
+            msg1.linear.x = 0.3
+            msg1.linear.y = 0.3
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
