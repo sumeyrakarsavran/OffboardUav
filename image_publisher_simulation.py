@@ -64,7 +64,7 @@ def image_publish():
             if radius > 10:
 
                 if pre_radius < radius:
-		    rate = rospy.Rate (20)
+		    rate = rospy.Rate (30)
                     pre_radius = radius
                     image_pub.publish (radius)
                     print ("radius=", radius)
