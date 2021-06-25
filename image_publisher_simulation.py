@@ -5,22 +5,20 @@ import rospy, cv2, time
 import numpy as np
 from std_msgs.msg import Int64, Float64
 import Jetson.GPIO as GPIO
+from tulpar.msg import camera
 
 
-
-def konum(args):
-    pass
 
 
 def image_publish():
     output_pin = 33
-
+    konum = camera ()
     k = 0
     pre_radius = 0
     image_pub = rospy.Publisher ('radius', Float64, queue_size=1)
-    konum_pub = rospy.Publisher ('konum', Int64, queue_size=1)
+    konum_pub = rospy.Publisher ('konum', camera, queue_size=1)
     rospy.init_node ('image_publisher', anonymous=True)
-    rate = rospy.Rate (20)
+    rate = rospy.Rate (5)
     dispW = 960
     dispH = 720
     merkezx = 480

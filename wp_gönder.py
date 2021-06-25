@@ -11,7 +11,7 @@ from mavros_msgs.srv import *
 from std_msgs.msg import String, Float64,Int64
 from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
-import RPi.GPIO as GPIO
+from tulpar.msg import camera
 
 # Message publisher for local velocity
 velocity_pub =rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
@@ -100,10 +100,10 @@ global farky
 def cam_konum_callback(data):
     global konum,farkx,farky
     print(data)
-    konum=int (data.konum.bolge)
-    farkx = data.data.farkx
-    farky = data.data.farky
-    rate = rospy.Rate(20.0)
+    konum=int (data.bolge)
+    farkx = int (data.farkx)
+    farky = (data.farky)
+    rate = rospy.Rate(5.0)
     rate.sleep()
 
 # Flight modes class
@@ -153,7 +153,7 @@ class fcuModes:
         global sp_glob_pub
         rospy.wait_for_service('/mavros/set_mode')
         cnt = Controller()
-        rate = rospy.Rate(20.0)
+        rate = rospy.Rate(5.0)
         k = 0
         while k < 12:
             sp_glob_pub.publish(cnt.sp_glob)
@@ -229,7 +229,7 @@ class Controller:
     # self.wp.position.z = self.ALT_SP
         self.local_pos = Point(0, 0, 0)
         self.sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
-        self.rate = rospy.Rate(20.0)
+        self.rate = rospy.Rate(5.0)
 
 ## Drone State callback
     def stateCb(self, msg):
@@ -242,7 +242,7 @@ class Controller:
 def alcal():
     global altitude1
     print("ALCALIYOR")
-    rate = rospy.Rate(20.0)
+    rate = rospy.Rate(5.0)
     ALT_SP = 3
     msg1.linear.z = -1.5
     while not rospy.is_shutdown():
@@ -261,7 +261,7 @@ def alcal():
 def yuksel():
     global altitude1
     print("YUKSELIYOR")
-    rate = rospy.Rate(20.0)
+    rate = rospy.Rate(5.0)
     ALT_SP = 6
     msg1.linear.z = 3
     while not rospy.is_shutdown():
@@ -280,9 +280,9 @@ def yuksel():
 
 def movingcenter():
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
-    global konum,msg1,velocity_pub,farkx,farky,konum,red_longitude2,red_latitude2,longitude,latitude
+    global konum,msg1,velocity_pub,farkx,farky,red_longitude2,red_latitude2,longitude,latitude
     modes = fcuModes()
-    rate = rospy.Rate(20.0)
+    rate = rospy.Rate(5.0)
 
     while 1:
         s = int(1)
@@ -376,14 +376,14 @@ def main():
     cnt = Controller()
 
     # ROS loop rate
-    rate = rospy.Rate(20.0)
+    rate = rospy.Rate(5.0)
 
     # Subscribe to drone state
     rospy.Subscriber('mavros/state', State, cnt.stateCb)
     rospy.Subscriber("/mavros/global_position/raw/fix", NavSatFix, globalPositionCallback)
     rospy.Subscriber('mavros/local_position/pose', PoseStamped, localPositionCallback)
     rospy.Subscriber('radius', Float64, image_callback)
-    rospy.Subscriber('konum', Int64, cam_konum_callback)
+    rospy.Subscriber('konum', camera, cam_konum_callback)
     rospy.Subscriber('mavros/altitude',Altitude,amslcallback)
     rospy.Subscriber('mavros/altitude', Altitude, altitude_callback)
 
@@ -405,18 +405,11 @@ def main():
     #print("takeoff amsl altitude", amsl)
     s = int (1)
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
+    """for i in range(100):
 
-    output_pin = 18
-
-    GPIO.setmode (GPIO.BCM)
-    GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
-    curr_value = GPIO.HIGH
-    GPIO.output (output_pin, curr_value)
-    time.sleep (5)
-    GPIO.output (output_pin, GPIO.LOW)
-
-    GPIO.cleanup ()
-    #waypointmove()
+        servo_pub.publish (s)
+        rate.sleep()"""
+    waypointmove()
 
 if __name__ == '__main__':
     try:
