@@ -12,6 +12,7 @@ from std_msgs.msg import String, Float64,Int64
 from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
 from tulpar.msg import camera
+import Jetson.GPIO as GPIO
 
 # Message publisher for local velocity
 velocity_pub =rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
@@ -279,18 +280,15 @@ def yuksel():
     rate.sleep()
 
 def movingcenter():
-    servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
     global konum,msg1,velocity_pub,farkx,farky,red_longitude2,red_latitude2,longitude,latitude
     modes = fcuModes()
     rate = rospy.Rate(5.0)
 
     while 1:
-        s = int(1)
-        servo_pub.publish (s)
         msg1.linear.z = 0
         if konum ==1:
             msg1.linear.z = 0.
-            msg1.linear.x = -0.3
+            msg1.linear.x = 0.3
             msg1.linear.y = -0.3
             while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
@@ -303,7 +301,7 @@ def movingcenter():
         elif konum ==2:
             msg1.linear.z = 0.
             msg1.linear.x = 0.3
-            msg1.linear.y= -0.3
+            msg1.linear.y= 0.3
             while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
@@ -314,7 +312,7 @@ def movingcenter():
 
         elif konum ==3:
             msg1.linear.z = 0.
-            msg1.linear.x = 0.3
+            msg1.linear.x = -0.3
             msg1.linear.y = 0.3
             while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
@@ -327,7 +325,7 @@ def movingcenter():
         elif konum ==4:
             msg1.linear.z = 0.
             msg1.linear.x = -0.3
-            msg1.linear.y = 0.3
+            msg1.linear.y = -0.3
             while not farkx<9 and farky<9:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
@@ -345,8 +343,12 @@ def movingcenter():
             alcal ()
             print ("3 metreye alçaldı")
             modes.setLoiterMode ()
-            s=1
-            servo_pub.publish(s)
+            """s = int (1)
+            servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
+            for i in range(100):
+
+                servo_pub.publish (s)
+                rate.sleep()"""
             rospy.sleep (10)
             modes.setOffboardMode ()
             yuksel ()
@@ -356,8 +358,8 @@ def movingcenter():
 def waypointmove():
     global red_longitude, red_latitude
     modes = fcuModes()
-   # glob_pos_pub( 41.090322,28.617505,0)
-    #glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
+    glob_pos_pub( 41.090322,28.617505,0)
+    glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
     movingcenter () #kırmızıyı ortala alçal yüksel
     print("su bırakıldı")
     print(amsl)
@@ -390,7 +392,7 @@ def main():
     # Setpoint publisher
     sp_glob_pub=rospy.Publisher('mavros/setpoint_raw/global', GlobalPositionTarget, queue_size=1)
     sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
-    """
+
     # Make sure the drone is armed
     while not cnt.state.armed:
         modes.setArm()
@@ -401,14 +403,8 @@ def main():
     # We need to send few setpoint messages, then activate OFFBOARD mode, to take effect
     print("MAIN: SET OFFBOARD")
     # activate OFFBOARD mode
-    modes.setOffboardMode()"""
-    #print("takeoff amsl altitude", amsl)
-    s = int (1)
-    servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
-    """for i in range(100):
-
-        servo_pub.publish (s)
-        rate.sleep()"""
+    modes.setOffboardMode()
+    print("takeoff amsl altitude", amsl)
     waypointmove()
 
 if __name__ == '__main__':
