@@ -11,7 +11,7 @@ def image_publish():
     image_pub = rospy.Publisher ('radius', Float64, queue_size=10)
     konum_pub = rospy.Publisher ('konum', Int64, queue_size=10)
     rospy.init_node ('image_publisher', anonymous=True)
-    rate = rospy.Rate (20)
+    rate = rospy.Rate (10)
     dispW = 960
     dispH = 720
     flip = 2

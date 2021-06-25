@@ -59,7 +59,7 @@ def glob_pos_pub (wp_lat,wp_long,wp_alt):
     cnt.sp_glob.latitude = wp_lat
     cnt.sp_glob.longitude = wp_long
     cnt.sp_glob.altitude = amsl+wp_alt
-    rate = rospy.Rate(20.0)
+    rate = rospy.Rate(10.0)
 
     while not rospy.is_shutdown():
         rate.sleep()
@@ -89,14 +89,14 @@ def image_callback(radius):
 	red_latitude=latitude
 	red_longitude=longitude
 	print("************************GOT DATA***************************",radius,red_latitude,red_longitude)
-	rate = rospy.Rate(20.0)
+	rate = rospy.Rate(10.0)
 	rate.sleep()
 
 konum=10
 def cam_konum_callback(data):
     global konum
     konum=int (data.data)
-    rate = rospy.Rate(20.0)
+    rate = rospy.Rate(10.0)
     rate.sleep()
 
 # Flight modes class
@@ -146,7 +146,7 @@ class fcuModes:
         global sp_glob_pub
         rospy.wait_for_service('/mavros/set_mode')
         cnt = Controller()
-        rate = rospy.Rate(20.0)
+        rate = rospy.Rate(10.0)
         k = 0
         while k < 12:
             sp_glob_pub.publish(cnt.sp_glob)
@@ -222,7 +222,7 @@ class Controller:
     # self.wp.position.z = self.ALT_SP
         self.local_pos = Point(0, 0, 0)
         self.sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
-        self.rate = rospy.Rate(20.0)
+        self.rate = rospy.Rate(10.0)
 
 ## Drone State callback
     def stateCb(self, msg):
@@ -235,7 +235,7 @@ class Controller:
 def alcal():
     global altitude1
     print("ALCALIYOR")
-    rate = rospy.Rate(20.0)
+    rate = rospy.Rate(10.0)
     ALT_SP = 3
     msg2.linear.z = -1.5
     while not rospy.is_shutdown():
@@ -254,7 +254,7 @@ def alcal():
 def yuksel():
     global altitude1
     print("YUKSELIYOR")
-    rate = rospy.Rate(20.0)
+    rate = rospy.Rate(10.0)
     ALT_SP = 6
     msg2.linear.z = 3
     while not rospy.is_shutdown():
@@ -379,7 +379,7 @@ def main():
     cnt = Controller()
 
     # ROS loop rate
-    rate = rospy.Rate(20.0)
+    rate = rospy.Rate(10.0)
 
     # Subscribe to drone state
     rospy.Subscriber('mavros/state', State, cnt.stateCb)
