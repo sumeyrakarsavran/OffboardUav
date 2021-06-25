@@ -287,8 +287,8 @@ def movingcenter():
         msg1.linear.z = 0
         if konum ==1:
             msg1.linear.z = 0.
-            msg1.linear.x = -0.3
-            msg1.linear.y = 0.3
+            msg1.linear.x = -0.2
+            msg1.linear.y = 0.2
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
@@ -299,8 +299,8 @@ def movingcenter():
 
         elif konum ==2:
             msg1.linear.z = 0.
-            msg1.linear.x = -0.3
-            msg1.linear.y= -0.3
+            msg1.linear.x = -0.2
+            msg1.linear.y= -0.2
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
@@ -311,8 +311,8 @@ def movingcenter():
 
         elif konum ==3:
             msg1.linear.z = 0.
-            msg1.linear.x = 0.3
-            msg1.linear.y = -0.3
+            msg1.linear.x = 0.2
+            msg1.linear.y = -0.2
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
@@ -323,8 +323,8 @@ def movingcenter():
 
         elif konum ==4:
             msg1.linear.z = 0.
-            msg1.linear.x = 0.3
-            msg1.linear.y = 0.3
+            msg1.linear.x = 0.2
+            msg1.linear.y = 0.2
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
