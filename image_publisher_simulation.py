@@ -4,16 +4,10 @@
 import rospy, cv2, time
 import numpy as np
 from std_msgs.msg import Int64, Float64
-import Jetson.GPIO as GPIO
 from tulpar.msg import camera
 
-
-
-
 def image_publish():
-    output_pin = 33
     konum = camera ()
-    k = 0
     pre_radius = 0
     image_pub = rospy.Publisher ('radius', Float64, queue_size=1)
     konum_pub = rospy.Publisher ('konum', camera, queue_size=1)
@@ -69,8 +63,7 @@ def image_publish():
             print (centerx, centery)
 
             if radius > 10:
-                GPIO.setmode (GPIO.BOARD)
-                GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
+
                 if pre_radius < radius:
                     pre_radius = radius
                     image_pub.publish (radius)
@@ -82,7 +75,7 @@ def image_publish():
                     konum.farkx = int (centerx - merkezx)
                     konum.farky = int (merkezy - centery)
                     print (konum.bolge, konum.farkx, konum.farky)
-                    konum_pub.publish (konum.bolge)
+                    konum_pub.publish (konum)
                     print (centerx, centery)
 
 
