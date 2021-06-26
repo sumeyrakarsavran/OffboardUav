@@ -82,30 +82,33 @@ def image_publish():
             frame = cv2.putText(frame,'2', (440, 340), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             frame = cv2.putText(frame,'3', (440, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             frame = cv2.putText(frame,'4', (500, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-            frame = cv2.putText(frame, 'centerx = {} '.format(centerx), (750, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-            frame = cv2.putText(frame, 'centery = {} '.format(centery), (750, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+            frame = cv2.putText(frame, 'targetx = {} '.format(centerx), (750, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+            frame = cv2.putText(frame, 'targety = {} '.format(centery), (750, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
             konum.bolge = int (10)
             if radius >= 0:
 
                 frame = cv2.line(frame, ((int(x)), (int(y) + 10)), ((int(x)), (int(y) - 10)), (0, 0, 255), 5)
                 frame = cv2.line(frame, ((int(x) - 10), (int(y))), ((int(x) + 10), (int(y))), (0, 0, 255), 5)
-		farkx = int (centerx - merkezx)
-                farky = int (centery - merkezy)
-       	    	r=math.sqrt((konum.farkx**2)+(konum.farky**2))
-        	r = float("{0:.1f}".format(r))
-            	frame = cv2.putText(frame, 'farkx = {} '.format(farkx), (750, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-            	frame = cv2.putText(frame, 'farky = {} '.format(farky), (750, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-            	frame = cv2.putText(frame, 'vektor = {} '.format(r), (750, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+		konum.farkx = int (centerx - merkezx)
+                konum.farky = int (centery - merkezy)
+       	    	r = math.sqrt((konum.farkx**2)+(konum.farky**2))
+                konum.bolge = int (r)
+            	frame = cv2.putText(frame, 'dx = {} '.format(konum.farkx), (750, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+            	frame = cv2.putText(frame, 'dy = {} '.format(konum.farky), (750, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+            	frame = cv2.putText(frame, 'distance = {} '.format(r), (750, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
             	out.write (frame)
-
+		print(konum.farkx,konum.farky,konum.bolge)
+                konum_pub.publish (konum)
+                rate.sleep ()
                 if pre_radius < radius:
 		    rate = rospy.Rate (30)
                     pre_radius = radius
                     image_pub.publish (radius)
-                    print ("radius=", radius)
                     rate.sleep ()
+                    print ("radius=", radius)
 
-                if (480 < centerx and centery < 340 or centery < 360 and 500 < centerx):
+
+                """if (480 < centerx and centery < 340 or centery < 360 and 500 < centerx):
                     konum.bolge = int (1)
                     konum.farkx = int (centerx - merkezx)
                     konum.farky = int (merkezy - centery)
@@ -144,7 +147,7 @@ def image_publish():
                     konum.bolge = int (0)
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
-                    rate.sleep ()
+                    rate.sleep ()"""
     cap.release ()
     cv2.destroyAllWindows ()
 

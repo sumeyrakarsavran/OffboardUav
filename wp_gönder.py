@@ -95,7 +95,7 @@ def image_callback(radius):
 	rate = rospy.Rate(30)
 	rate.sleep()
 
-konum=10
+konum=1000
 farkx=0
 farky=0
 def cam_konum_callback(data):
@@ -105,6 +105,7 @@ def cam_konum_callback(data):
     farky = int (data.farky)
     rate = rospy.Rate(20)
     rate.sleep()
+    print(farkx,farky,konum)
 # Flight modes class
 class fcuModes:
     def __init__(self):
@@ -261,11 +262,11 @@ def yuksel():
     global altitude1
     print("YUKSELIYOR")
     rate = rospy.Rate(5.0)
-    ALT_SP = 6
+    ALT_SP = 5
     msg1.linear.z = 3
     while not rospy.is_shutdown():
         print("Suanki Yukseklik",altitude1)
-        if (ALT_SP -0.15) <altitude1:
+        if (ALT_SP -0.15) < altitude1:
             print("YUKSELDIGI DEGER=",altitude1)
             break
 
@@ -281,12 +282,40 @@ def movingcenter():
     global konum,msg1,velocity_pub,farkx,farky,red_longitude2,red_latitude2,longitude,latitude
     modes = fcuModes()
     rate = rospy.Rate(20.0)
-    r=math.sqrt((farkx**2)+(farky**2))
-    r = float("{0:.1f}".format(r))
-    v = 0.2
-
     while 1:
-        msg1.linear.z = 0
+    	v = (0.1+(0.0005*konum))
+	if konum>=50:
+            msg1.linear.z = 0
+
+	    if farkx <= -30:
+                msg1.linear.y = v
+		velocity_pub.publish(msg1)
+                rate.sleep()
+
+	    elif farkx >= 30:
+	        msg1.linear.y = -v
+		velocity_pub.publish(msg1)
+                rate.sleep()
+
+	    if farky <= -30:
+	        msg1.linear.x = v
+		velocity_pub.publish(msg1)
+                rate.sleep()
+
+	    elif farky >= 30:
+	        msg1.linear.x = -v
+		velocity_pub.publish(msg1)
+                rate.sleep()
+
+ 	if konum < 50:
+            msg1.linear.z = 0
+	    msg1.linear.y = 0
+	    msg1.linear.x = 0
+    	    for i in range(100):
+                velocity_pub.publish(msg1)
+                rate.sleep()
+	    break
+"""
         if konum ==1:
             msg1.linear.z = 0.
             msg1.linear.x = -v
@@ -343,13 +372,13 @@ def movingcenter():
             red_longitude2= longitude
 	    print("****ortalama bitti****")
             break
-
+"""
 def waypointmove():
     rate = rospy.Rate(20.0)
     global red_longitude, red_latitude
     modes = fcuModes()
-    glob_pos_pub( 41.0902848,28.6176366,0)
-    """glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
+    #glob_pos_pub( 41.0902848,28.6176366,0)
+    glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
     movingcenter () #kırmızıyı ortala alçal yüksel  """ 
     alcal ()
     print ("3 metreye alçaldı")
@@ -361,11 +390,11 @@ def waypointmove():
         servo_pub.publish (s)
         rate.sleep()"""
     rospy.sleep (10)
-    """modes.setOffboardMode ()
+    modes.setOffboardMode ()
     yuksel ()
     print("su bırakıldı")
     print(amsl)
-    glob_pos_pub( 41.090322,28.617505,0)"""
+    glob_pos_pub( 41.090322,28.617505,0)
     modes.setLandMode()
 # Main function
 def main():
@@ -396,7 +425,7 @@ def main():
     sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
     
     # Make sure the drone is armed
-    while not cnt.state.armed:
+    """while not cnt.state.armed:
         modes.setArm()
         rate.sleep()
     print("home amsl altitude", amsl)
@@ -406,8 +435,9 @@ def main():
     print("MAIN: SET OFFBOARD")
     # activate OFFBOARD mode
     modes.setOffboardMode()
-    print("takeoff amsl altitude", amsl)
-    waypointmove()
+    print("takeoff amsl altitude", amsl)"""
+    #waypointmove()
+    movingcenter()
 if __name__ == '__main__':
     try:
 
