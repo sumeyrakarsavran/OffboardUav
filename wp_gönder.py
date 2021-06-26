@@ -282,55 +282,57 @@ def movingcenter():
     global konum,msg1,velocity_pub,farkx,farky,red_longitude2,red_latitude2,longitude,latitude
     modes = fcuModes()
     rate = rospy.Rate(5.0)
+    r=math.sqrt((farkx**2)+(farky**2))
+    v=float(1/600*r)
 
     while 1:
         msg1.linear.z = 0
         if konum ==1:
             msg1.linear.z = 0.
-            msg1.linear.x = -0.2
-            msg1.linear.y = 0.2
+            msg1.linear.x = -v
+            msg1.linear.y = v
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<20:
+                if  farky<30:
                     msg1.linear.y = 0
-                if  farkx<20:
+                if  farkx<30:
                     msg1.linear.x = 0
 
         elif konum ==2:
             msg1.linear.z = 0.
-            msg1.linear.x = -0.2
-            msg1.linear.y= -0.2
+            msg1.linear.x = -v
+            msg1.linear.y= -v
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<20:
+                if  farky<30:
                     msg1.linear.y = 0
-                if  farkx<20:
+                if  farkx<30:
                     msg1.linear.x = 0
 
         elif konum ==3:
             msg1.linear.z = 0.
-            msg1.linear.x = 0.2
-            msg1.linear.y = -0.2
+            msg1.linear.x = v
+            msg1.linear.y = -v
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<20:
+                if  farky<30:
                     msg1.linear.y = 0
-                if  farkx<20:
+                if  farkx<30:
                     msg1.linear.x = 0
 
         elif konum ==4:
             msg1.linear.z = 0.
-            msg1.linear.x = 0.2
-            msg1.linear.y = 0.2
+            msg1.linear.x = v
+            msg1.linear.y = v
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<20:
+                if  farky<30:
                     msg1.linear.y = 0
-                if  farkx<20:
+                if  farkx<30:
                     msg1.linear.x = 0
 
         elif konum ==0:
