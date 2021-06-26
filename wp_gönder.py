@@ -244,7 +244,7 @@ def alcal():
     global altitude1
     print("ALCALIYOR")
     rate = rospy.Rate(10.0)
-    ALT_SP = 3
+    ALT_SP = 4
     msg2.linear.z = -1.5
     while not rospy.is_shutdown():
         print("Suanki Yukseklik",altitude1)
@@ -263,7 +263,7 @@ def yuksel():
     global altitude1
     print("YUKSELIYOR")
     rate = rospy.Rate(10.0)
-    ALT_SP = 5
+    ALT_SP = 4
     msg2.linear.z = 3
     while not rospy.is_shutdown():
         print("Suanki Yukseklik",altitude1)
@@ -284,7 +284,7 @@ def movingcenter():
     modes = fcuModes()
     rate = rospy.Rate(5)
     while 1:
-    	v = (0.1+(0.0005*konum))
+    	v = (0.05+(0.0009167*konum))
 	if konum>=20:
             msg1.velocity.z = 0
 	    msg1.header.stamp = rospy.get_rostime()
