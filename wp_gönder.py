@@ -288,22 +288,22 @@ def movingcenter():
             msg1.linear.z = 0
 
 	    if farkx <= -30:
-                msg1.linear.y = v
+                msg1.linear.y = -v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
 	    elif farkx >= 30:
-	        msg1.linear.y = -v
+	        msg1.linear.y = v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
 	    if farky <= -30:
-	        msg1.linear.x = v
+	        msg1.linear.x = -v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
 	    elif farky >= 30:
-	        msg1.linear.x = -v
+	        msg1.linear.x = v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
