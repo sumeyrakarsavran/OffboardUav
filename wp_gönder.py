@@ -345,6 +345,7 @@ def movingcenter():
             break
 
 def waypointmove():
+    rate = rospy.Rate(20.0)
     global red_longitude, red_latitude
     modes = fcuModes()
     """glob_pos_pub( 41.090322,28.617505,0)
