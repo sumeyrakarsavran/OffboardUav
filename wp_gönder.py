@@ -15,9 +15,10 @@ from tulpar.msg import camera
 import Jetson.GPIO as GPIO
 
 # Message publisher for local velocity
-velocity_pub =rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
-msg1 = Twist()
-
+velocity_pub =rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=10)
+msg1 = PositionTarget()
+z_pub = rospy.Publisher('/mavros/setpoint_velocity/cmd_vel_unstamped', Twist, queue_size=10)
+msg2 = Twist()
 # Current Position
 latitude = 0
 longitude = 0
@@ -244,17 +245,17 @@ def alcal():
     print("ALCALIYOR")
     rate = rospy.Rate(5.0)
     ALT_SP = 3
-    msg1.linear.z = -1.5
+    msg2.linear.z = -1.5
     while not rospy.is_shutdown():
         print("Suanki Yukseklik",altitude1)
-        velocity_pub.publish(msg1)
+        z_pub.publish(msg2)
         rate.sleep()
         if (ALT_SP +0.25)> altitude1:
             print("ALCALDIGI DEGER=",altitude1)
             break
-    msg1.linear.z = 0.
+    msg2.linear.z = 0.
     for i in range(100):
-        velocity_pub.publish(msg1)
+        velocity_pub.publish(msg2)
     rate.sleep()
 
 
@@ -263,19 +264,19 @@ def yuksel():
     print("YUKSELIYOR")
     rate = rospy.Rate(5.0)
     ALT_SP = 5
-    msg1.linear.z = 3
+    msg2.linear.z = 3
     while not rospy.is_shutdown():
         print("Suanki Yukseklik",altitude1)
         if (ALT_SP -0.15) < altitude1:
             print("YUKSELDIGI DEGER=",altitude1)
             break
 
-        velocity_pub.publish(msg1)
+        z_pub.publish(msg2)
         rate.sleep()
 
-    msg1.linear.z = 0.
+    msg2.linear.z = 0.
     for i in range(100):
-        velocity_pub.publish(msg1)
+        z_pub.publish(msg2)
     rate.sleep()
 
 def movingcenter():
@@ -285,41 +286,41 @@ def movingcenter():
     while 1:
     	v = (0.1+(0.0005*konum))
 	if konum>=20:
-            msg1.linear.z = 0
+            msg1.velocity.z = 0
 
 	    if farkx <= -22:
-                msg1.linear.y = -v
+                msg1.velocity.y = -v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
 	    elif farkx >= 22:
-	        msg1.linear.y = v
+	        msg1.velocity.y = v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 	    elif -22 < farkx < 22:
-		msg1.linear.y = 0
+		msg1.velocity.y = 0
 		velocity_pub.publish(msg1)
                 rate.sleep()
 		
 	    if farky <= -22:
-	        msg1.linear.x = -v
+	        msg1.velocity.x = -v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
 	    elif farky >= 22:
-	        msg1.linear.x = v
+	        msg1.velocity.x = v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 		
 	    elif -22 < farkx < 22:
-		msg1.linear.x = 0
+		msg1.velocity.x = 0
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
  	if konum < 20:
-            msg1.linear.z = 0
-	    msg1.linear.y = 0
-	    msg1.linear.x = 0
+            msg1.velocity.z = 0
+	    msg1.velocity.y = 0
+	    msg1.velocity.x = 0
     	    for i in range(100):
                 velocity_pub.publish(msg1)
                 rate.sleep()
