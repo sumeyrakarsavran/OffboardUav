@@ -378,7 +378,7 @@ def waypointmove():
     global red_longitude, red_latitude
     modes = fcuModes()
     #glob_pos_pub( 41.0902848,28.6176366,0)
-    glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
+    #glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
     movingcenter () #kırmızıyı ortala alçal yüksel  """ 
     alcal ()
     print ("3 metreye alçaldı")
