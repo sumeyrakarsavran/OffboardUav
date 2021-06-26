@@ -243,26 +243,26 @@ class Controller:
 def alcal():
     global altitude1
     print("ALCALIYOR")
-    rate = rospy.Rate(5.0)
+    rate = rospy.Rate(10.0)
     ALT_SP = 3
     msg2.linear.z = -1.5
     while not rospy.is_shutdown():
         print("Suanki Yukseklik",altitude1)
         z_pub.publish(msg2)
         rate.sleep()
-        if (ALT_SP +0.25)> altitude1:
+        if (ALT_SP + 0.25)> altitude1:
             print("ALCALDIGI DEGER=",altitude1)
             break
     msg2.linear.z = 0.
     for i in range(100):
-        velocity_pub.publish(msg2)
+        z_pub.publish(msg2)
     rate.sleep()
 
 
 def yuksel():
     global altitude1
     print("YUKSELIYOR")
-    rate = rospy.Rate(5.0)
+    rate = rospy.Rate(10.0)
     ALT_SP = 5
     msg2.linear.z = 3
     while not rospy.is_shutdown():
