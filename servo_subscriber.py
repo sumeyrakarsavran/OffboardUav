@@ -21,7 +21,10 @@ def main():
     global servo_durum
     while True:
         if servo_durum==0:
+            rate = rospy.Rate (5.0)
+
             rospy.Subscriber ('servo', Int64, servo_callback)
+            rate.sleep ()
 
         elif servo_durum==1:
             p2.start (12)
