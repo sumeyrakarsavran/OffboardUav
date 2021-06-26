@@ -284,39 +284,39 @@ def movingcenter():
     rate = rospy.Rate(20.0)
     while 1:
     	v = 0.2
-	if konum>=25:
+	if konum>=20:
             msg1.linear.z = 0
 
-	    if farkx <= -30:
+	    if farkx <= -22:
                 msg1.linear.y = -v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
-	    elif farkx >= 30:
+	    elif farkx >= 22:
 	        msg1.linear.y = v
 		velocity_pub.publish(msg1)
                 rate.sleep()
-	    elif -30 < farkx < 30:
+	    elif -22 < farkx < 22:
 		msg1.linear.y = 0
 		velocity_pub.publish(msg1)
                 rate.sleep()
 		
-	    if farky <= -30:
+	    if farky <= -22:
 	        msg1.linear.x = -v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
-	    elif farky >= 30:
+	    elif farky >= 22:
 	        msg1.linear.x = v
 		velocity_pub.publish(msg1)
                 rate.sleep()
 		
-	    elif -30 < farkx < 30:
+	    elif -22 < farkx < 22:
 		msg1.linear.x = 0
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
- 	if konum < 25:
+ 	if konum < 20:
             msg1.linear.z = 0
 	    msg1.linear.y = 0
 	    msg1.linear.x = 0
@@ -398,12 +398,12 @@ def waypointmove():
 
         servo_pub.publish (s)
         rate.sleep()"""
-    rospy.sleep (10)
-    modes.setOffboardMode ()
-    yuksel ()
+    rospy.sleep (5)
+    #modes.setOffboardMode ()
+    #yuksel ()
     print("su bırakıldı")
     print(amsl)
-    glob_pos_pub( 41.090322,28.617505,0)
+    #glob_pos_pub( 41.090322,28.617505,0)
     modes.setLandMode()
 # Main function
 def main():
