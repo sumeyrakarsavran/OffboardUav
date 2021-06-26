@@ -287,6 +287,10 @@ def movingcenter():
     	v = (0.1+(0.0005*konum))
 	if konum>=20:
             msg1.velocity.z = 0
+	    msg1.header.stamp = rospy.get_rostime()
+  	    msg1.header.frame_id ="local_ned"
+  	    msg1.coordinate_frame =8
+  	    msg1.type_mask = int('011111000111', 2)
 
 	    if farkx <= -22:
                 msg1.velocity.y = v
