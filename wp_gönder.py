@@ -95,7 +95,7 @@ def image_callback(radius):
 	rate = rospy.Rate(30)
 	rate.sleep()
 
-konum=1000
+konum=100
 farkx=0
 farky=0
 def cam_konum_callback(data):
@@ -283,7 +283,7 @@ def movingcenter():
     modes = fcuModes()
     rate = rospy.Rate(20.0)
     while 1:
-    	v = (0.1+(0.0005*r))
+    	v = (0.1+(0.0005*konum))
 	if konum>=20:
             msg1.linear.z = 0
 
