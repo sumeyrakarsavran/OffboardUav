@@ -105,7 +105,7 @@ def image_publish():
                     print ("radius=", radius)
                     rate.sleep ()
 
-                if (480 < centerx and centery < 320 or centery < 360 and 500 < centerx):
+                if (480 < centerx and centery < 340 or centery < 360 and 500 < centerx):
                     konum.bolge = int (1)
                     konum.farkx = int (centerx - merkezx)
                     konum.farky = int (merkezy - centery)
@@ -114,7 +114,7 @@ def image_publish():
                     rate.sleep ()
 
 
-                elif (centerx < 440 and centery < 360 or centery < 320 and centerx < 480):
+                elif (centerx < 460 and centery < 360 or centery < 340 and centerx < 480):
                     konum.bolge = int (2)
                     konum.farkx = int (merkezx - centerx)
                     konum.farky = int (merkezy - centery)
@@ -122,7 +122,7 @@ def image_publish():
                     konum_pub.publish (konum)
                     rate.sleep ()
 
-                elif (centerx < 440 and 360 < centery or 400 < centery and centerx < 480):
+                elif (centerx < 460 and 360 < centery or 380 < centery and centerx < 480):
                     konum.farkx = int (merkezx - centerx)
                     konum.farky = int (centery - merkezy)
                     konum.bolge = int (3)
@@ -130,7 +130,7 @@ def image_publish():
                     konum_pub.publish (konum)
                     rate.sleep ()
 
-                elif (480 < centerx and 400 < centery or 360 < centery and 500 < centerx):
+                elif (480 < centerx and 380 < centery or 360 < centery and 490 < centerx):
                     konum.farkx = int (centerx - merkezx)
                     konum.farky = int (centery - merkezy)
                     konum.bolge = int (4)
@@ -138,7 +138,7 @@ def image_publish():
                     konum_pub.publish (konum)
                     rate.sleep ()
 
-                elif (440 <= centerx <= 500 and 320 <= centery <= 400):
+                elif (460 <= centerx <= 500 and 320 <= centery <= 380):
                     konum.farkx = int (centerx - merkezx)
                     konum.farky = int (centery - merkezy)
                     konum.bolge = int (0)
