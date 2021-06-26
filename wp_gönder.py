@@ -341,7 +341,7 @@ def movingcenter():
             msg1.linear.y = 0
             red_latitude2 = latitude
             red_longitude2= longitude
-            print ("7 metreye yükseldi")
+	    print("****ortalama bitti****")
             break
 
 def waypointmove():
