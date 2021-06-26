@@ -19,7 +19,7 @@ def image_publish():
     image_pub = rospy.Publisher ('radius', Float64, queue_size=1)
     konum_pub = rospy.Publisher ('konum', camera, queue_size=1)
     rospy.init_node ('image_publisher', anonymous=True)
-    rate = rospy.Rate (24)
+    rate = rospy.Rate (20)
     dispW = 960
     dispH = 720
     merkezx = 480
