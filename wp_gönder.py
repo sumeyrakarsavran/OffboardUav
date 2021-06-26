@@ -65,12 +65,12 @@ def glob_pos_pub (wp_lat,wp_long,wp_alt):
     while not rospy.is_shutdown():
         rate.sleep()
         sp_glob_pub.publish(cnt.sp_glob)
-        latitude = float("{0:.6f}".format(latitude))
-        longitude = float("{0:.6f}".format(longitude))
+        latitude = float("{0:.7f}".format(latitude))
+        longitude = float("{0:.7f}".format(longitude))
         print(latitude,wp_lat,longitude,wp_long,cnt.sp_glob.altitude,amsl)
         #print("poselanıyor")
         #print(longitude,latitude,altitude,cnt.sp_glob.altitude)
-        if(latitude-0.000001) < wp_lat <(latitude+0.000001) and (longitude-0.000002)< wp_long <(longitude+0.000002) and (amsl-0.5 )< cnt.sp_glob.altitude < (amsl +0.5):
+        if(latitude-0.0000005) < wp_lat <(latitude+0.0000005) and (longitude-0.0000005)< wp_long <(longitude+0.0000005) and (amsl-0.5 )< cnt.sp_glob.altitude < (amsl +0.5):
             print("Konuma gidildi.")
             break
 
@@ -348,7 +348,7 @@ def waypointmove():
     rate = rospy.Rate(20.0)
     global red_longitude, red_latitude
     modes = fcuModes()
-    glob_pos_pub( 41.090281,28.617627,0)
+    glob_pos_pub( 41.0902848,28.6176366,0)
     """glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
     movingcenter () #kırmızıyı ortala alçal yüksel  """ 
     alcal ()
