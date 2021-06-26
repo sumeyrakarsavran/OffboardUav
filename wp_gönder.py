@@ -284,7 +284,7 @@ def movingcenter():
     rate = rospy.Rate(20.0)
     while 1:
     	v = 0.2
-	if konum>=50:
+	if konum>=25:
             msg1.linear.z = 0
 
 	    if farkx <= -30:
@@ -307,7 +307,7 @@ def movingcenter():
 		velocity_pub.publish(msg1)
                 rate.sleep()
 
- 	if konum < 50:
+ 	if konum < 25:
             msg1.linear.z = 0
 	    msg1.linear.y = 0
 	    msg1.linear.x = 0
