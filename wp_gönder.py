@@ -284,7 +284,7 @@ def movingcenter():
     rate = rospy.Rate(5.0)
     r=math.sqrt((farkx**2)+(farky**2))
     r = float("{0:.1f}".format(r))
-    v = float(1/450*r)
+    v = 0.2
 
     while 1:
         msg1.linear.z = 0
