@@ -425,7 +425,7 @@ def main():
     sp_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
     
     # Make sure the drone is armed
-    """while not cnt.state.armed:
+    while not cnt.state.armed:
         modes.setArm()
         rate.sleep()
     print("home amsl altitude", amsl)
@@ -435,9 +435,8 @@ def main():
     print("MAIN: SET OFFBOARD")
     # activate OFFBOARD mode
     modes.setOffboardMode()
-    print("takeoff amsl altitude", amsl)"""
-    #waypointmove()
-    movingcenter()
+    print("takeoff amsl altitude", amsl)
+    waypointmove()
 if __name__ == '__main__':
     try:
 
