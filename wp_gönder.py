@@ -283,7 +283,7 @@ def movingcenter():
     modes = fcuModes()
     rate = rospy.Rate(20.0)
     while 1:
-    	v = (0.1+(0.0005*konum))
+    	v = 0.2
 	if konum>=50:
             msg1.linear.z = 0
 
