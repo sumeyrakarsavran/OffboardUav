@@ -104,7 +104,7 @@ def cam_konum_callback(data):
     konum= int (data.bolge)
     farkx = int (data.farkx)
     farky = int (data.farky)
-    rate = rospy.Rate(20)
+    rate = rospy.Rate(5)
     rate.sleep()
     print(farkx,farky,konum)
 # Flight modes class
@@ -282,7 +282,7 @@ def yuksel():
 def movingcenter():
     global konum,msg1,velocity_pub,farkx,farky,red_longitude2,red_latitude2,longitude,latitude
     modes = fcuModes()
-    rate = rospy.Rate(20.0)
+    rate = rospy.Rate(1)
     while 1:
     	v = (0.1+(0.0005*konum))
 	if konum>=20:
