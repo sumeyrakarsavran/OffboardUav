@@ -294,9 +294,9 @@ def movingcenter():
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<35:
+                if  farky<20:
                     msg1.linear.y = 0
-                if  farkx<35:
+                if  farkx<20:
                     msg1.linear.x = 0
 
         elif konum ==2:
@@ -306,9 +306,9 @@ def movingcenter():
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<35:
+                if  farky<20:
                     msg1.linear.y = 0
-                if  farkx<35:
+                if  farkx<20:
                     msg1.linear.x = 0
 
         elif konum ==3:
@@ -318,9 +318,9 @@ def movingcenter():
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<35:
+                if  farky<20:
                     msg1.linear.y = 0
-                if  farkx<35:
+                if  farkx<20:
                     msg1.linear.x = 0
 
         elif konum ==4:
@@ -330,9 +330,9 @@ def movingcenter():
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<35:
+                if  farky<20:
                     msg1.linear.y = 0
-                if  farkx<35:
+                if  farkx<20:
                     msg1.linear.x = 0
 
         elif konum ==0:
@@ -356,7 +356,7 @@ def waypointmove():
     modes.setLoiterMode ()
     s = int (1)
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
-    for i in range(20):
+    for i in range(5):
 
         servo_pub.publish (s)
         rate.sleep()
