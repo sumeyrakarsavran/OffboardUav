@@ -104,7 +104,7 @@ def cam_konum_callback(data):
     konum= int (data.bolge)
     farkx = int (data.farkx)
     farky = int (data.farky)
-    rate = rospy.Rate(24)
+    rate = rospy.Rate(20)
     rate.sleep()
     print(farkx,farky,konum)
 # Flight modes class
