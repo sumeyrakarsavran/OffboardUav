@@ -283,7 +283,8 @@ def movingcenter():
     modes = fcuModes()
     rate = rospy.Rate(5.0)
     r=math.sqrt((farkx**2)+(farky**2))
-    v=float(1/600*r)
+    r = float("{0:.1f}".format(r))
+    v = float(1/600*r)
 
     while 1:
         msg1.linear.z = 0
