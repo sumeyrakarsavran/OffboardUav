@@ -91,7 +91,7 @@ def image_callback(radius):
 	pre_radius= radius
 	red_latitude=latitude
 	red_longitude=longitude
-	print("************************GOT DATA***************************",radius,red_latitude,red_longitude)
+	print("*************GOT DATA*************",radius,red_latitude,red_longitude)
 	rate = rospy.Rate(30)
 	rate.sleep()
 
@@ -100,12 +100,11 @@ farkx=0
 farky=0
 def cam_konum_callback(data):
     global konum,farkx,farky
-    konum=int (data.bolge)
+    konum= int (data.bolge)
     farkx = int (data.farkx)
-    farky = (data.farky)
+    farky = int (data.farky)
     rate = rospy.Rate(20)
     rate.sleep()
-    print("data alındı",data)
 # Flight modes class
 class fcuModes:
     def __init__(self):
@@ -281,7 +280,7 @@ def yuksel():
 def movingcenter():
     global konum,msg1,velocity_pub,farkx,farky,red_longitude2,red_latitude2,longitude,latitude
     modes = fcuModes()
-    rate = rospy.Rate(5.0)
+    rate = rospy.Rate(20.0)
     r=math.sqrt((farkx**2)+(farky**2))
     r = float("{0:.1f}".format(r))
     v = 0.2
@@ -295,9 +294,9 @@ def movingcenter():
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<30:
+                if  farky<35:
                     msg1.linear.y = 0
-                if  farkx<30:
+                if  farkx<35:
                     msg1.linear.x = 0
 
         elif konum ==2:
@@ -307,9 +306,9 @@ def movingcenter():
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<30:
+                if  farky<35:
                     msg1.linear.y = 0
-                if  farkx<30:
+                if  farkx<35:
                     msg1.linear.x = 0
 
         elif konum ==3:
@@ -319,9 +318,9 @@ def movingcenter():
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<30:
+                if  farky<35:
                     msg1.linear.y = 0
-                if  farkx<30:
+                if  farkx<35:
                     msg1.linear.x = 0
 
         elif konum ==4:
@@ -331,9 +330,9 @@ def movingcenter():
             if farkx>19 and farky>19:
                 velocity_pub.publish(msg1)
                 rate.sleep ()
-                if  farky<30:
+                if  farky<35:
                     msg1.linear.y = 0
-                if  farkx<30:
+                if  farkx<35:
                     msg1.linear.x = 0
 
         elif konum ==0:
@@ -354,12 +353,12 @@ def waypointmove():
     alcal ()
     print ("3 metreye alçaldı")
     modes.setLoiterMode ()
-    """s = int (1)
+    s = int (1)
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
-    for i in range(100):
+    for i in range(20):
 
         servo_pub.publish (s)
-        rate.sleep()"""
+        rate.sleep()
     rospy.sleep (10)
     modes.setOffboardMode ()
     yuksel ()
