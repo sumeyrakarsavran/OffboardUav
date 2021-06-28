@@ -300,8 +300,7 @@ def movingcenter():
     modes = fcuModes ()
     rate = rospy.Rate (5)
     while 1:
-        v = (0.05 + (0.0009167 * konum))
-        v = (0.05 + (0.0002167 * konum))
+        v = (0.1 + (0.0009167 * konum))
         if konum >= 20:
             msg1.velocity.z = 0
             msg1.header.stamp = rospy.get_rostime ()
@@ -312,12 +311,12 @@ def movingcenter():
 
             if farkx <= -22  :
                     msg1.yaw = 0.09   #rad
-                    msg1.yaw_rate = v #(rad/sn)
+                    msg1.yaw_rate = 0.5 #(rad/sn)
                     velocity_pub.publish (msg1)
                     rate.sleep ()
 	    elif farkx >= 22:
                     msg1.yaw = 0.09    #rad
-                    msg1.yaw_rate = -v #(rad/sn)
+                    msg1.yaw_rate = -0.5 #(rad/sn)
                     velocity_pub.publish (msg1)
                     rate.sleep ()
             elif -22 < farkx < 22:
