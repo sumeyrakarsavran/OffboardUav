@@ -75,7 +75,7 @@ def glob_pos_pub(wp_lat, wp_long, wp_alt):
         sp_glob_pub.publish (cnt.sp_glob)
         latitude = float ("{0:.7f}".format (latitude))
         longitude = float ("{0:.7f}".format (longitude))
-        print (latitude, wp_lat, longitude, wp_long, cnt.sp_glob.altitude, amsl)
+        #print (latitude, wp_lat, longitude, wp_long, cnt.sp_glob.altitude, amsl)
         # print("poselanıyor")
         # print(longitude,latitude,altitude,cnt.sp_glob.altitude)
         if (latitude - 0.0000005) < wp_lat < (latitude + 0.0000005) and (longitude - 0.0000005) < wp_long < (
