@@ -78,10 +78,10 @@ def image_publish():
             ((x, y), radius) = cv2.minEnclosingCircle (c)
             centerx = int (x)
             centery = int (y)
-            frame = cv2.putText(frame,'1', (500, 340), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+            """frame = cv2.putText(frame,'1', (500, 340), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             frame = cv2.putText(frame,'2', (440, 340), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             frame = cv2.putText(frame,'3', (440, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-            frame = cv2.putText(frame,'4', (500, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+            frame = cv2.putText(frame,'4', (500, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)"""
             frame = cv2.putText(frame, 'targetx = {} '.format(centerx), (750, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
             frame = cv2.putText(frame, 'targety = {} '.format(centery), (750, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
             konum.bolge = int (10)
