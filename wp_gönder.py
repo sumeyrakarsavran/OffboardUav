@@ -310,16 +310,16 @@ def movingcenter():
 
             while 1:
                 if farkx <= -22 or farkx >= 22 :
-                msg1.yaw = 1    #rad
-                msg1.yaw_rate = 0.2 #(rad/sn)
-                velocity_pub.publish (msg1)
-                rate.sleep ()
-                if -22 < farkx < 22:
-                        msg1.yaw = 0  # rad
-                        msg1.yaw_rate = 0
-                        velocity_pub.publish (msg1)
-                        rate.sleep ()
-                        break
+                    msg1.yaw = 1    #rad
+                    msg1.yaw_rate = 0.2 #(rad/sn)
+                    velocity_pub.publish (msg1)
+                    rate.sleep ()
+                elif -22 < farkx < 22:
+                    msg1.yaw = 0  # rad
+                    msg1.yaw_rate = 0
+                    velocity_pub.publish (msg1)
+                    rate.sleep ()
+                    break
 
             """elif farkx >= 22:
                 msg1.velocity.y = -v
