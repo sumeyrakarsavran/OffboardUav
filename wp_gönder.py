@@ -308,13 +308,13 @@ def movingcenter():
             msg1.coordinate_frame = 8
             msg1.type_mask = int ('011111000111', 2)
 
-            if farkx <= -22 or farkx >= 22 :
+            while 1:
+                if farkx <= -22 or farkx >= 22 :
                 msg1.yaw = 1    #rad
                 msg1.yaw_rate = 0.2 #(rad/sn)
-                while 1:
-                    velocity_pub.publish (msg1)
-                    rate.sleep ()
-                    if -22 < farkx < 22:
+                velocity_pub.publish (msg1)
+                rate.sleep ()
+                if -22 < farkx < 22:
                         msg1.yaw = 0  # rad
                         msg1.yaw_rate = 0
                         velocity_pub.publish (msg1)
