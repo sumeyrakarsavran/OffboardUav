@@ -97,7 +97,7 @@ def image_publish():
             	frame = cv2.putText(frame, 'dy = {} '.format(konum.farky), (750, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
             	frame = cv2.putText(frame, 'distance = {} '.format(r), (750, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
             	out.write (frame)
-		print(konum.farkx,konum.farky,konum.bolge)
+		print("dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
                 konum_pub.publish (konum)
                 rate.sleep ()
                 if pre_radius < radius:
