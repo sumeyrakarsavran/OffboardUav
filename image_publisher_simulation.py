@@ -61,14 +61,14 @@ def image_publish():
         mask = mask1 + mask2
         #cv2.rectangle (frame, (600, 480), (360, 240), (0, 255, 0), 3)
         contours = cv2.findContours (mask.copy (), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
-        frame = cv2.line(frame, (430,310), (460,310), (0,255,0), 4)
-        frame = cv2.line(frame, (430,310), (430,340), (0,255,0), 4)
-        frame = cv2.line(frame, (530,310), (500,310), (0,255,0), 4)
-        frame = cv2.line(frame, (530,310), (530,340), (0,255,0), 4)
-        frame = cv2.line(frame, (530,410), (530,380), (0,255,0), 4)
-        frame = cv2.line(frame, (530,410), (500,410), (0,255,0), 4)
-        frame = cv2.line(frame, (430,410), (460,410), (0,255,0), 4)
-        frame = cv2.line(frame, (430,410), (430,380), (0,255,0), 4) 
+        frame = cv2.line(frame, (450,330), (470,330), (0,255,0), 4)
+        frame = cv2.line(frame, (450,330), (450,350), (0,255,0), 4)
+        frame = cv2.line(frame, (510,330), (510,350), (0,255,0), 4)
+        frame = cv2.line(frame, (510,330), (490,330), (0,255,0), 4)
+        frame = cv2.line(frame, (510,390), (510,370), (0,255,0), 4)
+        frame = cv2.line(frame, (510,390), (490,390), (0,255,0), 4)
+        frame = cv2.line(frame, (450,390), (450,370), (0,255,0), 4)
+        frame = cv2.line(frame, (450,390), (470,390), (0,255,0), 4) 
         frame = cv2.line(frame, (480,350), (480,370), (0,255,0), 4) #center crosshair
         frame = cv2.line(frame, (470,360), (490,360), (0,255,0), 4) #center crosshair
         if len (contours) > 0:
