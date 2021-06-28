@@ -310,7 +310,7 @@ def movingcenter():
 
 
             if farkx <= -22  :
-                    msg1.yaw = 0.09   #rad
+                    msg1.yaw = 0.02   #rad
                     msg1.yaw_rate = 0.5 #(rad/sn)
                     velocity_pub.publish (msg1)
                     rate.sleep ()
@@ -324,31 +324,20 @@ def movingcenter():
                     msg1.yaw_rate = 0
                     velocity_pub.publish (msg1)
                     rate.sleep ()
+		    if farky <= -22:
+                        msg1.velocity.x = v
+                        velocity_pub.publish (msg1)
+                	rate.sleep ()
 
-            """elif farkx >= 22:
-                msg1.velocity.y = -v
-                velocity_pub.publish (msg1)
-                rate.sleep ()
-            
-            elif -22 < farkx < 22:
-                msg1.velocity.y = 0
-                velocity_pub.publish (msg1)
-                rate.sleep ()"""
+            	    elif farky >= 22:
+                	msg1.velocity.x = -v
+                	velocity_pub.publish (msg1)
+                	rate.sleep ()
 
-            if farky <= -22:
-                msg1.velocity.x = v
-                velocity_pub.publish (msg1)
-                rate.sleep ()
-
-            elif farky >= 22:
-                msg1.velocity.x = -v
-                velocity_pub.publish (msg1)
-                rate.sleep ()
-
-            elif -22 < farky < 22:
-                msg1.velocity.x = 0
-                velocity_pub.publish (msg1)
-                rate.sleep ()
+            	    elif -22 < farky < 22:
+                	msg1.velocity.x = 0
+                	velocity_pub.publish (msg1)
+                	rate.sleep ()
 
         elif konum < 20:
             msg1.velocity.z = 0
@@ -360,6 +349,17 @@ def movingcenter():
                 velocity_pub.publish (msg1)
                 rate.sleep ()
             break
+            """elif farkx >= 22:
+                msg1.velocity.y = -v
+                velocity_pub.publish (msg1)
+                rate.sleep ()
+            
+            elif -22 < farkx < 22:
+                msg1.velocity.y = 0
+                velocity_pub.publish (msg1)
+                rate.sleep ()"""
+
+
 
 
 def waypointmove():
