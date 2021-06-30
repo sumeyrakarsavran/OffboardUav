@@ -13,6 +13,10 @@ from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
 from tulpar.msg import camera
 import Jetson.GPIO as GPIO
+#PUMP
+output_pin = 18
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(output_pin, GPIO.OUT, initial=GPIO.HIGH)
 
 # Message publisher for local velocity
 velocity_pub = rospy.Publisher ('mavros/setpoint_raw/local', PositionTarget, queue_size=10)
@@ -75,7 +79,7 @@ def glob_pos_pub(wp_lat, wp_long, wp_alt):
         sp_glob_pub.publish (cnt.sp_glob)
         latitude = float ("{0:.7f}".format (latitude))
         longitude = float ("{0:.7f}".format (longitude))
-        #print (latitude, wp_lat, longitude, wp_long, cnt.sp_glob.altitude, amsl)
+        # print (latitude, wp_lat, longitude, wp_long, cnt.sp_glob.altitude, amsl)
         # print("poselanıyor")
         # print(longitude,latitude,altitude,cnt.sp_glob.altitude)
         if (latitude - 0.0000005) < wp_lat < (latitude + 0.0000005) and (longitude - 0.0000005) < wp_long < (
@@ -308,36 +312,51 @@ def movingcenter():
             msg1.coordinate_frame = 8
             msg1.type_mask = int ('011111000111', 2)
 
-
-            if farkx <= -22  :
-                    msg1.yaw = 0.02   #rad
-                    msg1.yaw_rate = 0.5 #(rad/sn)
-                    velocity_pub.publish (msg1)
-                    rate.sleep ()
-	    elif farkx >= 22:
-                    msg1.yaw = 0.09    #rad
-                    msg1.yaw_rate = -0.5 #(rad/sn)
-                    velocity_pub.publish (msg1)
-                    rate.sleep ()
+            """if farkx <= -22:
+                msg1.yaw = 0.0  # rad
+                msg1.yaw_rate = 0.09  # (rad/sn)
+                velocity_pub.publish (msg1)
+                rate.sleep ()
+            elif farkx >= 22:
+                #msg1.yaw = 0  # rad
+                #msg1.yaw_rate = -0.09   # (rad/sn)
+                velocity_pub.publish (msg1)
+                rate.sleep ()
             elif -22 < farkx < 22:
-                    msg1.yaw = 0  # rad
-                    msg1.yaw_rate = 0
-                    velocity_pub.publish (msg1)
-                    rate.sleep ()
-		    if farky <= -22:
-                        msg1.velocity.x = v
-                        velocity_pub.publish (msg1)
-                	rate.sleep ()
+                msg1.yaw = 0  # rad
+                msg1.yaw_rate = 0
+                velocity_pub.publish (msg1)
+                rate.sleep ()"""
 
-            	    elif farky >= 22:
-                	msg1.velocity.x = -v
-                	velocity_pub.publish (msg1)
-                	rate.sleep ()
+            if farkx <= -22 :
+                msg1.velocity.y = -v
+                velocity_pub.publish (msg1)
+                rate.sleep ()
 
-            	    elif -22 < farky < 22:
-                	msg1.velocity.x = 0
-                	velocity_pub.publish (msg1)
-                	rate.sleep ()
+            elif farkx >= 22:
+                msg1.velocity.y = v
+                velocity_pub.publish (msg1)
+                rate.sleep ()
+
+            elif -22 < farkx < 22:
+                msg1.velocity.y = 0
+                velocity_pub.publish (msg1)
+                rate.sleep ()
+
+            if farky <= -22:
+                msg1.velocity.x = -v
+                velocity_pub.publish (msg1)
+                rate.sleep ()
+
+            elif farky >= 22:
+                msg1.velocity.x = v
+                velocity_pub.publish (msg1)
+                rate.sleep ()
+
+            elif -22 < farky < 22:
+                msg1.velocity.x = 0
+                velocity_pub.publish (msg1)
+                rate.sleep ()
 
         elif konum < 20:
             msg1.velocity.z = 0
@@ -349,25 +368,24 @@ def movingcenter():
                 velocity_pub.publish (msg1)
                 rate.sleep ()
             break
-            """elif farkx >= 22:
-                msg1.velocity.y = -v
-                velocity_pub.publish (msg1)
-                rate.sleep ()
-            
-            elif -22 < farkx < 22:
-                msg1.velocity.y = 0
-                velocity_pub.publish (msg1)
-                rate.sleep ()"""
-
-
 
 
 def waypointmove():
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
-    #glob_pos_pub( 41.0902848,28.6176366,0)
-    # glob_pos_pub( red_latitude,red_longitude,0) #kırmızıya git
+    """glob_pos_pub (41.0902848, 28.6176366, 0) #blue lat long
+    alcal ()
+    print ("3 metreye alçaldı")
+    modes.setLoiterMode ()
+    GPIO.output (output_pin, GPIO.HIGH) #SUYU AL
+    rospy.sleep (15)
+    GPIO.output (output_pin, GPIO.LOW) #SUYU ALMAYI DURDUR
+    GPIO.cleanup ()
+    print("SU ALINDI")
+    # modes.setOffboardMode ()
+    # yuksel ()"""
+    # glob_pos_pub( red_latitude,red_longitude,0) # red lat long
     movingcenter ()  # kırmızıyı ortala alçal yüksel  """
     alcal ()
     print ("3 metreye alçaldı")
@@ -378,11 +396,10 @@ def waypointmove():
         servo_pub.publish (s)
         rate.sleep()"""
     rospy.sleep (5)
+    print ("SU BIRAKILIYOR")
     # modes.setOffboardMode ()
     # yuksel ()
-    print ("su bırakıldı")
-    print (amsl)
-    # glob_pos_pub( 41.090322,28.617505,0)
+    # glob_pos_pub( 41.0902848,28.6176366,0) #FARKLI BİR YERE LAND İÇİN GİT
     modes.setLandMode ()
 
 
