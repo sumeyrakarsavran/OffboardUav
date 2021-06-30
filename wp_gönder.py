@@ -304,7 +304,7 @@ def movingcenter():
     modes = fcuModes ()
     rate = rospy.Rate (5)
     while 1:
-        v = (0.1 + (0.0009167 * konum))
+        v = (0.15 + (0.0009167 * konum))
         if konum >= 20:
             msg1.velocity.z = 0
             msg1.header.stamp = rospy.get_rostime ()
