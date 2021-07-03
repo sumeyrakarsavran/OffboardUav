@@ -367,14 +367,12 @@ def movingcenter():
             msg1.velocity.x = 0
             msg1.yaw = 0  # rad
             msg1.yaw_rate = 0
+            #count=count+1
+            #print(count)
+            #if count==140:
             velocity_pub.publish (msg1)
             rate.sleep ()
-            count=count+1
-            print(count)
-            if count==140:
-                velocity_pub.publish (msg1)
-                rate.sleep ()
-                break
+            break
 
 
 def waypointmove():
