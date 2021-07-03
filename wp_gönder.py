@@ -302,10 +302,10 @@ def yuksel():
 def movingcenter():
     global konum, msg1, velocity_pub, farkx, farky, red_longitude2, red_latitude2, longitude, latitude
     modes = fcuModes ()
-    rate = rospy.Rate (10)
+    rate = rospy.Rate (20)
     while 1:
-        v = (0.1 + (0.000833 * konum)) #Vmax =0.6
-        #v = (0.05 + (0.0009167 * konum)) #Vmax=0.6
+        #v = (0.1 + (0.000833 * konum)) #Vmax =0.6
+        v = (0.05 + (0.0009167 * konum)) #Vmax=0.6
 
         if konum >= 20:
             msg1.velocity.z = 0
