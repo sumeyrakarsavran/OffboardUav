@@ -28,7 +28,7 @@ def image_publish():
     fourcc = cv2.VideoWriter_fourcc (*'XVID')
     out = cv2.VideoWriter (a, fourcc, 15.0, (960, 720))
     camSet = 'nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, ' \
-             'format=NV12, framerate=21/1 ! nvvidconv flip-method=' + str (flip) + \
+             'format=NV12, framerate=30/1 ! nvvidconv flip-method=' + str (flip) + \
              ' ! video/x-raw, width=' + str (dispW) + ', height=' + str (dispH) + \
              ', format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink'
 
@@ -68,9 +68,9 @@ def image_publish():
         frame = cv2.line(frame, (510,390), (510,370), (0,255,0), 4)
         frame = cv2.line(frame, (510,390), (490,390), (0,255,0), 4)
         frame = cv2.line(frame, (450,390), (450,370), (0,255,0), 4)
-        frame = cv2.line(frame, (450,390), (470,390), (0,255,0), 4)
+        frame = cv2.line(frame, (450,390), (470,390), (0,255,0), 4)"""
         frame = cv2.line(frame, (480,350), (480,370), (0,255,0), 4) #center crosshair
-        frame = cv2.line(frame, (470,360), (490,360), (0,255,0), 4) #center crosshair"""
+        frame = cv2.line(frame, (470,360), (490,360), (0,255,0), 4) #center crosshair
         if len (contours) > 0:
             # find contour which has max area
             c = max (contours, key=cv2.contourArea)
@@ -87,21 +87,20 @@ def image_publish():
             konum.bolge = int (10)
             if radius >= 0:
 
-                """frame = cv2.line(frame, ((int(x)), (int(y) + 10)), ((int(x)), (int(y) - 10)), (0, 0, 255), 5)
-                frame = cv2.line(frame, ((int(x) - 10), (int(y))), ((int(x) + 10), (int(y))), (0, 0, 255), 5)"""
-		konum.farkx = int (centerx - merkezx)
+                frame = cv2.line(frame, ((int(x)), (int(y) + 10)), ((int(x)), (int(y) - 10)), (0, 0, 255), 5)
+                frame = cv2.line(frame, ((int(x) - 10), (int(y))), ((int(x) + 10), (int(y))), (0, 0, 255), 5)
+                konum.farkx = int (centerx - merkezx)
                 konum.farky = int (centery - merkezy)
-       	    	r = math.sqrt((konum.farkx**2)+(konum.farky**2))
+                r = math.sqrt((konum.farkx**2)+(konum.farky**2))
                 konum.bolge = int (r)
-            	"""frame = cv2.putText(frame, 'dx = {} '.format(konum.farkx), (750, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-            	frame = cv2.putText(frame, 'dy = {} '.format(konum.farky), (750, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-            	frame = cv2.putText(frame, 'distance = {} '.format(r), (750, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)"""
-            	#out.write (frame)
-		print("dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
+                frame = cv2.putText(frame, 'dx = {} '.format(konum.farkx), (750, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                frame = cv2.putText(frame, 'dy = {} '.format(konum.farky), (750, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                frame = cv2.putText(frame, 'distance = {} '.format(r), (750, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                out.write (frame)
+                print("dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
                 konum_pub.publish (konum)
                 rate.sleep ()
                 if pre_radius < radius:
-		    rate = rospy.Rate (30)
                     pre_radius = radius
                     image_pub.publish (radius)
                     rate.sleep ()

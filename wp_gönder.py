@@ -306,7 +306,8 @@ def movingcenter():
     while 1:
         #v = (0.1 + (0.000833 * konum)) #Vmax =0.6
         v = (0.05 + (0.0009167 * konum)) #Vmax=0.6
-
+        dist=22
+        count=0
         if konum >= 20:
             msg1.velocity.z = 0
             msg1.header.stamp = rospy.get_rostime ()
@@ -314,48 +315,48 @@ def movingcenter():
             msg1.coordinate_frame = 8
             msg1.type_mask = int ('011111000111', 2)
 
-            """if farkx <= -22:
+            """if farkx <= -dist:
                 msg1.yaw = 0.0  # rad
                 msg1.yaw_rate = 0.09  # (rad/sn)
                 velocity_pub.publish (msg1)
                 rate.sleep ()
-            elif farkx >= 22:
+            elif farkx >= dist:
                 #msg1.yaw = 0  # rad
                 #msg1.yaw_rate = -0.09   # (rad/sn)
                 velocity_pub.publish (msg1)
                 rate.sleep ()
-            elif -22 < farkx < 22:
+            elif -dist < farkx < dist:
                 msg1.yaw = 0  # rad
                 msg1.yaw_rate = 0
                 velocity_pub.publish (msg1)
                 rate.sleep ()"""
 
-            if farkx <= -10 :
+            if farkx <= -dist :
                 msg1.velocity.y = -v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-            elif farkx >= 10:
+            elif farkx >= dist:
                 msg1.velocity.y = v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-            elif -10 < farkx < 10:
+            elif -dist < farkx < dist:
                 msg1.velocity.y = 0
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-            if farky <= -10:
+            if farky <= -dist:
                 msg1.velocity.x = -v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-            elif farky >= 10:
+            elif farky >= dist:
                 msg1.velocity.x = v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-            elif -10 < farky < 10:
+            elif -dist < farky < dist:
                 msg1.velocity.x = 0
                 velocity_pub.publish (msg1)
                 rate.sleep ()
@@ -366,10 +367,14 @@ def movingcenter():
             msg1.velocity.x = 0
             msg1.yaw = 0  # rad
             msg1.yaw_rate = 0
-            for i in range (100):
+            velocity_pub.publish (msg1)
+            rate.sleep ()
+            count=count+1
+            print(count)
+            if count==140:
                 velocity_pub.publish (msg1)
                 rate.sleep ()
-            break
+                break
 
 
 def waypointmove():
