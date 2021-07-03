@@ -373,8 +373,8 @@ def waypointmove():
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
-    glob_pos_pub (41.0903885, 28.617772 , 0) #blue lat long
-    alcal (1.7)
+    glob_pos_pub (41.0903754, 28.6177644 , 0) #blue lat long
+    alcal (1.6)
     print ("3 metreye alçaldı")
     modes.setLoiterMode ()
     # PUMP
