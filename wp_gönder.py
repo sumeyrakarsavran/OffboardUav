@@ -306,9 +306,9 @@ def movingcenter():
     while 1:
         #v = (0.1 + (0.000833 * konum)) #Vmax =0.6
         v = (0.05 + (0.0009167 * konum)) #Vmax=0.6
-        dist=22
+        dist=30
         count=0
-        if konum >= 20:
+        if konum >= 35:
             msg1.velocity.z = 0
             msg1.header.stamp = rospy.get_rostime ()
             msg1.header.frame_id = "local_ned"
@@ -361,7 +361,7 @@ def movingcenter():
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-        elif konum < 20:
+        elif konum < 35:
             msg1.velocity.z = 0
             msg1.velocity.y = 0
             msg1.velocity.x = 0
