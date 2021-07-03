@@ -315,23 +315,23 @@ def movingcenter():
             msg1.coordinate_frame = 8
             msg1.type_mask = int ('011111000111', 2)
 
-            """if farkx <= -dist:
+            if farkx <= -dist:
                 msg1.yaw = 0.0  # rad
                 msg1.yaw_rate = 0.09  # (rad/sn)
                 velocity_pub.publish (msg1)
                 rate.sleep ()
             elif farkx >= dist:
-                #msg1.yaw = 0  # rad
-                #msg1.yaw_rate = -0.09   # (rad/sn)
+                msg1.yaw = 0  # rad
+                msg1.yaw_rate = -0.09   # (rad/sn)
                 velocity_pub.publish (msg1)
                 rate.sleep ()
             elif -dist < farkx < dist:
                 msg1.yaw = 0  # rad
                 msg1.yaw_rate = 0
                 velocity_pub.publish (msg1)
-                rate.sleep ()"""
+                rate.sleep ()
 
-            if farkx <= -dist :
+            """if farkx <= -dist :
                 msg1.velocity.y = -v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
@@ -344,7 +344,7 @@ def movingcenter():
             elif -dist < farkx < dist:
                 msg1.velocity.y = 0
                 velocity_pub.publish (msg1)
-                rate.sleep ()
+                rate.sleep ()"""
 
             if farky <= -dist:
                 msg1.velocity.x = -v
