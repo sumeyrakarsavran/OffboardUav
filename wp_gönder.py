@@ -302,7 +302,7 @@ def yuksel():
 def movingcenter():
     global konum, msg1, velocity_pub, farkx, farky, red_longitude2, red_latitude2, longitude, latitude
     modes = fcuModes ()
-    rate = rospy.Rate (20)
+    rate = rospy.Rate (5)
     while 1:
         #v = (0.1 + (0.000833 * konum)) #Vmax =0.6
         v = (0.05 + (0.0009167 * konum)) #Vmax=0.6
@@ -330,32 +330,32 @@ def movingcenter():
                 velocity_pub.publish (msg1)
                 rate.sleep ()"""
 
-            if farkx <= -22 :
+            if farkx <= -10 :
                 msg1.velocity.y = -v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-            elif farkx >= 22:
+            elif farkx >= 10:
                 msg1.velocity.y = v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-            elif -22 < farkx < 22:
+            elif -10 < farkx < 10:
                 msg1.velocity.y = 0
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-            if farky <= -22:
+            if farky <= -10:
                 msg1.velocity.x = -v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-            elif farky >= 22:
+            elif farky >= 10:
                 msg1.velocity.x = v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
 
-            elif -22 < farky < 22:
+            elif -10 < farky < 10:
                 msg1.velocity.x = 0
                 velocity_pub.publish (msg1)
                 rate.sleep ()

@@ -61,16 +61,16 @@ def image_publish():
         mask = mask1 + mask2
         #cv2.rectangle (frame, (600, 480), (360, 240), (0, 255, 0), 3)
         contours = cv2.findContours (mask.copy (), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
-        frame = cv2.line(frame, (450,330), (470,330), (0,255,0), 4)
+        """frame = cv2.line(frame, (450,330), (470,330), (0,255,0), 4)
         frame = cv2.line(frame, (450,330), (450,350), (0,255,0), 4)
         frame = cv2.line(frame, (510,330), (510,350), (0,255,0), 4)
         frame = cv2.line(frame, (510,330), (490,330), (0,255,0), 4)
         frame = cv2.line(frame, (510,390), (510,370), (0,255,0), 4)
         frame = cv2.line(frame, (510,390), (490,390), (0,255,0), 4)
         frame = cv2.line(frame, (450,390), (450,370), (0,255,0), 4)
-        frame = cv2.line(frame, (450,390), (470,390), (0,255,0), 4) 
+        frame = cv2.line(frame, (450,390), (470,390), (0,255,0), 4)
         frame = cv2.line(frame, (480,350), (480,370), (0,255,0), 4) #center crosshair
-        frame = cv2.line(frame, (470,360), (490,360), (0,255,0), 4) #center crosshair
+        frame = cv2.line(frame, (470,360), (490,360), (0,255,0), 4) #center crosshair"""
         if len (contours) > 0:
             # find contour which has max area
             c = max (contours, key=cv2.contourArea)
@@ -81,22 +81,22 @@ def image_publish():
             """frame = cv2.putText(frame,'1', (500, 340), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             frame = cv2.putText(frame,'2', (440, 340), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             frame = cv2.putText(frame,'3', (440, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-            frame = cv2.putText(frame,'4', (500, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)"""
+            frame = cv2.putText(frame,'4', (500, 400), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             frame = cv2.putText(frame, 'targetx = {} '.format(centerx), (750, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-            frame = cv2.putText(frame, 'targety = {} '.format(centery), (750, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+            frame = cv2.putText(frame, 'targety = {} '.format(centery), (750, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)"""
             konum.bolge = int (10)
             if radius >= 0:
 
-                frame = cv2.line(frame, ((int(x)), (int(y) + 10)), ((int(x)), (int(y) - 10)), (0, 0, 255), 5)
-                frame = cv2.line(frame, ((int(x) - 10), (int(y))), ((int(x) + 10), (int(y))), (0, 0, 255), 5)
+                """frame = cv2.line(frame, ((int(x)), (int(y) + 10)), ((int(x)), (int(y) - 10)), (0, 0, 255), 5)
+                frame = cv2.line(frame, ((int(x) - 10), (int(y))), ((int(x) + 10), (int(y))), (0, 0, 255), 5)"""
 		konum.farkx = int (centerx - merkezx)
                 konum.farky = int (centery - merkezy)
        	    	r = math.sqrt((konum.farkx**2)+(konum.farky**2))
                 konum.bolge = int (r)
-            	frame = cv2.putText(frame, 'dx = {} '.format(konum.farkx), (750, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+            	"""frame = cv2.putText(frame, 'dx = {} '.format(konum.farkx), (750, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
             	frame = cv2.putText(frame, 'dy = {} '.format(konum.farky), (750, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-            	frame = cv2.putText(frame, 'distance = {} '.format(r), (750, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-            	out.write (frame)
+            	frame = cv2.putText(frame, 'distance = {} '.format(r), (750, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)"""
+            	#out.write (frame)
 		print("dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
                 konum_pub.publish (konum)
                 rate.sleep ()
@@ -115,8 +115,6 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     rate.sleep ()
-
-
                 elif (centerx < 460 and centery < 360 or centery < 340 and centerx < 480):
                     konum.bolge = int (2)
                     konum.farkx = int (merkezx - centerx)
@@ -124,7 +122,6 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     rate.sleep ()
-
                 elif (centerx < 460 and 360 < centery or 380 < centery and centerx < 480):
                     konum.farkx = int (merkezx - centerx)
                     konum.farky = int (centery - merkezy)
@@ -132,7 +129,6 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     rate.sleep ()
-
                 elif (480 < centerx and 380 < centery or 360 < centery and 490 < centerx):
                     konum.farkx = int (centerx - merkezx)
                     konum.farky = int (centery - merkezy)
@@ -140,7 +136,6 @@ def image_publish():
                     print (konum.bolge, konum.farkx, konum.farky)
                     konum_pub.publish (konum)
                     rate.sleep ()
-
                 elif (460 <= centerx <= 500 and 320 <= centery <= 380):
                     konum.farkx = int (centerx - merkezx)
                     konum.farky = int (centery - merkezy)
