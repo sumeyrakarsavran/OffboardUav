@@ -1,2 +1,0 @@
-sudo busybox devmem 0x70003248 32 0x46
-sudo busybox devmem 0x6000d100 32 0x00
