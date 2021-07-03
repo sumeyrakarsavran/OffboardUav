@@ -13,11 +13,6 @@ from decimal import *
 from cv_bridge import CvBridge, CvBridgeError
 from tulpar.msg import camera
 import Jetson.GPIO as GPIO
-#PUMP
-output_pin = 18
-GPIO.cleanup ()
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(output_pin, GPIO.OUT, initial=GPIO.HIGH)
 
 # Message publisher for local velocity
 velocity_pub = rospy.Publisher ('mavros/setpoint_raw/local', PositionTarget, queue_size=10)
@@ -264,7 +259,7 @@ def alcal():
     global altitude1
     print ("ALCALIYOR")
     rate = rospy.Rate (10.0)
-    ALT_SP = 6
+    ALT_SP = 1.8
     msg2.linear.z = -1.5
     while not rospy.is_shutdown ():
         print ("Suanki Yukseklik", altitude1)
@@ -377,6 +372,7 @@ def movingcenter():
 
 
 def waypointmove():
+    output_pin = 18
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
@@ -384,6 +380,9 @@ def waypointmove():
     alcal ()
     print ("3 metreye alçaldı")
     modes.setLoiterMode ()
+    # PUMP
+    GPIO.setmode (GPIO.BCM)
+    GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.output (output_pin, GPIO.HIGH) #SUYU AL
     rospy.sleep (15)
     GPIO.output (output_pin, GPIO.LOW) #SUYU ALMAYI DURDUR
