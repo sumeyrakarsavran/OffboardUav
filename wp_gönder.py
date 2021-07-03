@@ -259,7 +259,7 @@ def alcal():
     global altitude1
     print ("ALCALIYOR")
     rate = rospy.Rate (10.0)
-    ALT_SP = 1.8
+    ALT_SP = 1.4
     msg2.linear.z = -1.5
     while not rospy.is_shutdown ():
         print ("Suanki Yukseklik", altitude1)
@@ -376,7 +376,7 @@ def waypointmove():
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
-    glob_pos_pub (41.0903803, 28.6177734, 0) #blue lat long
+    glob_pos_pub (41.0903685, 28.6177732, 0) #blue lat long
     alcal ()
     print ("3 metreye alçaldı")
     modes.setLoiterMode ()
