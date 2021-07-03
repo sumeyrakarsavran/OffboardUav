@@ -304,7 +304,9 @@ def movingcenter():
     modes = fcuModes ()
     rate = rospy.Rate (5)
     while 1:
-        v = (0.15 + (0.0009167 * konum))
+        #v = (0.1 + (0.000833 * konum)) #Vmax =0.6
+        v = (0.05 + (0.0009167 * konum)) #Vmax=0.6
+
         if konum >= 20:
             msg1.velocity.z = 0
             msg1.header.stamp = rospy.get_rostime ()
@@ -386,7 +388,7 @@ def waypointmove():
     # modes.setOffboardMode ()
     # yuksel ()"""
     # glob_pos_pub( red_latitude,red_longitude,0) # red lat long
-    movingcenter ()  # kırmızıyı ortala alçal yüksel  """
+    movingcenter ()  # kırmızıyı ortala alçal yüksel
     alcal ()
     print ("3 metreye alçaldı")
     modes.setLoiterMode ()
