@@ -122,7 +122,7 @@ def cam_konum_callback(data):
     farky = int (data.farky)
     rate = rospy.Rate (20)
     rate.sleep ()
-    print (farkx, farky, konum)
+    print (konum, farkx, farky )
 
 
 # Flight modes class
