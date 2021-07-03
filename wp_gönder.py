@@ -255,17 +255,17 @@ class Controller:
         self.sp.position.y = local_y
 
 
-def alcal():
+def alcal(alt):
     global altitude1
     print ("ALCALIYOR")
     rate = rospy.Rate (10.0)
-    ALT_SP = 1.4
+    ALT_SP = alt
     msg2.linear.z = -1.5
     while not rospy.is_shutdown ():
         print ("Suanki Yukseklik", altitude1)
         z_pub.publish (msg2)
         rate.sleep ()
-        if (ALT_SP + 0.25) > altitude1:
+        if (ALT_SP + 0.15) > altitude1:
             print ("ALCALDIGI DEGER=", altitude1)
             break
     msg2.linear.z = 0.
@@ -363,9 +363,6 @@ def movingcenter():
             msg1.velocity.x = 0
             msg1.yaw = 0  # rad
             msg1.yaw_rate = 0
-            #count=count+1
-            #print(count)
-            #if count==140:
             velocity_pub.publish (msg1)
             rate.sleep ()
             break
@@ -377,14 +374,14 @@ def waypointmove():
     global red_longitude, red_latitude
     modes = fcuModes ()
     glob_pos_pub (41.0903685, 28.6177732, 0) #blue lat long
-    alcal ()
+    alcal (1.7)
     print ("3 metreye alçaldı")
     modes.setLoiterMode ()
     # PUMP
     GPIO.setmode (GPIO.BCM)
     GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.output (output_pin, GPIO.HIGH) #SUYU AL
-    rospy.sleep (15)
+    rospy.sleep (10)
     GPIO.output (output_pin, GPIO.LOW) #SUYU ALMAYI DURDUR
     GPIO.cleanup ()
     print("SU ALINDI")
@@ -392,7 +389,7 @@ def waypointmove():
     yuksel ()
     glob_pos_pub( red_latitude,red_longitude,0) # red lat long
     movingcenter ()  # kırmızıyı ortala alçal yüksel
-    alcal ()
+    alcal (4)
     print ("3 metreye alçaldı")
     modes.setLoiterMode ()
     s = int (1)
