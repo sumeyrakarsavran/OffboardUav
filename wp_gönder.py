@@ -15,6 +15,7 @@ from tulpar.msg import camera
 import Jetson.GPIO as GPIO
 #PUMP
 output_pin = 18
+GPIO.cleanup ()
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(output_pin, GPIO.OUT, initial=GPIO.HIGH)
 
@@ -263,7 +264,7 @@ def alcal():
     global altitude1
     print ("ALCALIYOR")
     rate = rospy.Rate (10.0)
-    ALT_SP = 4
+    ALT_SP = 6
     msg2.linear.z = -1.5
     while not rospy.is_shutdown ():
         print ("Suanki Yukseklik", altitude1)
@@ -282,7 +283,7 @@ def yuksel():
     global altitude1
     print ("YUKSELIYOR")
     rate = rospy.Rate (10.0)
-    ALT_SP = 4
+    ALT_SP = 6
     msg2.linear.z = 3
     while not rospy.is_shutdown ():
         print ("Suanki Yukseklik", altitude1)
