@@ -315,7 +315,7 @@ def movingcenter():
             msg1.coordinate_frame = 8
             msg1.type_mask = int ('011111000111', 2)
 
-            if farkx <= -dist:
+            """if farkx <= -dist:
                 msg1.yaw = 0.0  # rad
                 msg1.yaw_rate = 0.09  # (rad/sn)
                 velocity_pub.publish (msg1)
@@ -329,9 +329,9 @@ def movingcenter():
                 msg1.yaw = 0  # rad
                 msg1.yaw_rate = 0
                 velocity_pub.publish (msg1)
-                rate.sleep ()
+                rate.sleep ()"""
 
-            """if farkx <= -dist :
+            if farkx <= -dist :
                 msg1.velocity.y = -v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
@@ -344,7 +344,7 @@ def movingcenter():
             elif -dist < farkx < dist:
                 msg1.velocity.y = 0
                 velocity_pub.publish (msg1)
-                rate.sleep ()"""
+                rate.sleep ()
 
             if farky <= -dist:
                 msg1.velocity.x = -v
@@ -379,7 +379,7 @@ def waypointmove():
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
-    """glob_pos_pub (41.0902848, 28.6176366, 0) #blue lat long
+    glob_pos_pub (41.0903803, 28.6177734, 0) #blue lat long
     alcal ()
     print ("3 metreye alçaldı")
     modes.setLoiterMode ()
@@ -388,23 +388,23 @@ def waypointmove():
     GPIO.output (output_pin, GPIO.LOW) #SUYU ALMAYI DURDUR
     GPIO.cleanup ()
     print("SU ALINDI")
-    # modes.setOffboardMode ()
-    # yuksel ()"""
-    # glob_pos_pub( red_latitude,red_longitude,0) # red lat long
+    modes.setOffboardMode ()
+    yuksel ()
+    glob_pos_pub( red_latitude,red_longitude,0) # red lat long
     movingcenter ()  # kırmızıyı ortala alçal yüksel
     alcal ()
     print ("3 metreye alçaldı")
     modes.setLoiterMode ()
-    """s = int (1)
+    s = int (1)
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
-    for i in range(5):
+    for i in range(10):
         servo_pub.publish (s)
-        rate.sleep()"""
+        rate.sleep()
     rospy.sleep (5)
     print ("SU BIRAKILIYOR")
-    # modes.setOffboardMode ()
-    # yuksel ()
-    # glob_pos_pub( 41.0902848,28.6176366,0) #FARKLI BİR YERE LAND İÇİN GİT
+    modes.setOffboardMode ()
+    yuksel ()
+    glob_pos_pub( 41.0903418 ,28.6176918,0) #FARKLI BİR YERE LAND İÇİN GİT
     modes.setLandMode ()
 
 
