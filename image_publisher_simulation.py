@@ -142,7 +142,7 @@ def image_publish():
                 #out.write (frame)
                 print("blue detected","dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
                 konum_pub.publish (konum)
-                rate.sleep ()1
+                rate.sleep ()
     cap.release ()
     cv2.destroyAllWindows ()
 
