@@ -313,12 +313,12 @@ def movingcenter():
 
             if farkx <= -dist:
                 msg1.yaw = 0.0  # rad
-                msg1.yaw_rate = 0.09  # (rad/sn)
+                msg1.yaw_rate = -0.09  # (rad/sn)
                 velocity_pub.publish (msg1)
                 rate.sleep ()
             elif farkx >= dist:
                 msg1.yaw = 0  # rad
-                msg1.yaw_rate = -0.09   # (rad/sn)
+                msg1.yaw_rate = 0.09   # (rad/sn)
                 velocity_pub.publish (msg1)
                 rate.sleep ()
             elif -dist < farkx < dist:
@@ -326,6 +326,21 @@ def movingcenter():
                 msg1.yaw_rate = 0
                 velocity_pub.publish (msg1)
                 rate.sleep ()
+
+                if farky <= -dist:
+                    msg1.velocity.x = -v
+                    velocity_pub.publish (msg1)
+                    rate.sleep ()
+
+                elif farky >= dist:
+                    msg1.velocity.x = v
+                    velocity_pub.publish (msg1)
+                    rate.sleep ()
+
+                elif -dist < farky < dist:
+                    msg1.velocity.x = 0
+                    velocity_pub.publish (msg1)
+                    rate.sleep ()
 
             """if farkx <= -dist :
                 msg1.velocity.y = -v
@@ -342,20 +357,7 @@ def movingcenter():
                 velocity_pub.publish (msg1)
                 rate.sleep ()"""
 
-            if farky <= -dist:
-                msg1.velocity.x = -v
-                velocity_pub.publish (msg1)
-                rate.sleep ()
 
-            elif farky >= dist:
-                msg1.velocity.x = v
-                velocity_pub.publish (msg1)
-                rate.sleep ()
-
-            elif -dist < farky < dist:
-                msg1.velocity.x = 0
-                velocity_pub.publish (msg1)
-                rate.sleep ()
 
         elif konum < 25:
             msg1.velocity.z = 0
