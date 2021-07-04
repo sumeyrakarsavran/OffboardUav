@@ -106,7 +106,7 @@ def image_publish():
                 frame = cv2.putText(frame, 'dy = {} '.format(konum.farky), (830, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
                 frame = cv2.putText(frame, 'dist = {} '.format(r), (830, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
                 #out.write (frame)
-                print("dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
+                print("red detected",dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
                 konum_pub.publish (konum)
                 rate.sleep ()
                 if pre_radius < radius:
@@ -140,7 +140,7 @@ def image_publish():
                 frame = cv2.putText(frame, 'dy = {} '.format(konum.farky), (830, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
                 frame = cv2.putText(frame, 'dist = {} '.format(r), (830, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
                 #out.write (frame)
-                print("dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
+                print("blue detected",dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
                 konum_pub.publish (konum)
                 rate.sleep ()
     cap.release ()
