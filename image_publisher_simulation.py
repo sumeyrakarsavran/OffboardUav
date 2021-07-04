@@ -117,7 +117,7 @@ def image_publish():
 
         elif len(contours2) > 0:
             # find contour which has max area
-            c = max (contours1, key=cv2.contourArea)
+            c = max (contours2, key=cv2.contourArea)
             # find its coordinates and radius
             ((x, y), radius) = cv2.minEnclosingCircle (c)
             centerx = int (x)
