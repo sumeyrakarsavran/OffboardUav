@@ -80,6 +80,7 @@ def image_publish():
         frame = cv2.line(frame, (450,390), (470,390), (0,255,0), 4)"""
         frame = cv2.line(frame, (512,374), (512,394), (0,255,0), 4) #center crosshair
         frame = cv2.line(frame, (502,384), (522,384), (0,255,0), 4) #center crosshair
+        out.write (frame)
         if len (contours1) > 0:
             # find contour which has max area
             c = max (contours1, key=cv2.contourArea)
@@ -96,16 +97,15 @@ def image_publish():
             konum.bolge = int (10)
             if radius >= 0:
 
-                frame = cv2.line(frame, ((int(x)), (int(y) + 10)), ((int(x)), (int(y) - 10)), (0, 0, 255), 5)
-                frame = cv2.line(frame, ((int(x) - 10), (int(y))), ((int(x) + 10), (int(y))), (0, 0, 255), 5)
+                """frame = cv2.line(frame, ((int(x)), (int(y) + 10)), ((int(x)), (int(y) - 10)), (0, 0, 255), 5)
+                frame = cv2.line(frame, ((int(x) - 10), (int(y))), ((int(x) + 10), (int(y))), (0, 0, 255), 5)"""
                 konum.farkx = int (centerx - merkezx)
                 konum.farky = int (centery - merkezy)
                 r = int (math.sqrt((konum.farkx**2)+(konum.farky**2)))
                 konum.bolge = int (r)
-                frame = cv2.putText(frame, 'dx = {} '.format(konum.farkx), (830, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                """frame = cv2.putText(frame, 'dx = {} '.format(konum.farkx), (830, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
                 frame = cv2.putText(frame, 'dy = {} '.format(konum.farky), (830, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-                frame = cv2.putText(frame, 'dist = {} '.format(r), (830, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-                #out.write (frame)
+                frame = cv2.putText(frame, 'dist = {} '.format(r), (830, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)"""
                 print("red detected","dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
                 konum_pub.publish (konum)
                 rate.sleep ()
@@ -130,15 +130,15 @@ def image_publish():
             frame = cv2.putText(frame, 'targety = {} '.format(centery), (750, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)"""
             konum.bolge = int (10)
             if radius >= 0:
-                frame = cv2.line(frame, ((int(x)), (int(y) + 10)), ((int(x)), (int(y) - 10)), (0, 0, 255), 5)
-                frame = cv2.line(frame, ((int(x) - 10), (int(y))), ((int(x) + 10), (int(y))), (0, 0, 255), 5)
+                """frame = cv2.line(frame, ((int(x)), (int(y) + 10)), ((int(x)), (int(y) - 10)), (0, 0, 255), 5)
+                frame = cv2.line(frame, ((int(x) - 10), (int(y))), ((int(x) + 10), (int(y))), (0, 0, 255), 5)"""
                 konum.farkx = int (centerx - merkezx)
                 konum.farky = int (centery - merkezy)
                 r = int (math.sqrt((konum.farkx**2)+(konum.farky**2)))
                 konum.bolge = int (r)
-                frame = cv2.putText(frame, 'dx = {} '.format(konum.farkx), (830, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                """frame = cv2.putText(frame, 'dx = {} '.format(konum.farkx), (830, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
                 frame = cv2.putText(frame, 'dy = {} '.format(konum.farky), (830, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-                frame = cv2.putText(frame, 'dist = {} '.format(r), (830, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                frame = cv2.putText(frame, 'dist = {} '.format(r), (830, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)"""
                 #out.write (frame)
                 print("blue detected","dx=",konum.farkx,"dy=",konum.farky,"r=",konum.bolge)
                 konum_pub.publish (konum)

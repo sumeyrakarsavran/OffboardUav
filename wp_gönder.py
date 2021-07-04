@@ -374,6 +374,8 @@ def waypointmove():
     global red_longitude, red_latitude
     modes = fcuModes ()
     glob_pos_pub (41.090384, 28.617784 , 0) #blue lat long
+    glob_pos_pub (41.090520, 28.617332 , 0) #2. direk lat long
+    glob_pos_pub (41.090384, 28.617784 , 0) #blue lat long
     movingcenter ()  # maviyi ortala alçal yüksel
     alcal (1.6)
     print ("*******ALCALDI*******")
