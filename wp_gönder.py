@@ -73,13 +73,13 @@ def glob_pos_pub(wp_lat, wp_long, wp_alt):
     while not rospy.is_shutdown ():
         rate.sleep ()
         sp_glob_pub.publish (cnt.sp_glob)
-        latitude = float ("{0:.7f}".format (latitude))
-        longitude = float ("{0:.7f}".format (longitude))
+        latitude = float ("{0:.6f}".format (latitude))
+        longitude = float ("{0:.6f}".format (longitude))
         # print (latitude, wp_lat, longitude, wp_long, cnt.sp_glob.altitude, amsl)
         # print("poselanıyor")
         # print(longitude,latitude,altitude,cnt.sp_glob.altitude)
-        if (latitude - 0.0000005) < wp_lat < (latitude + 0.0000005) and (longitude - 0.0000005) < wp_long < (
-                longitude + 0.0000005) and (amsl - 0.5) < cnt.sp_glob.altitude < (amsl + 0.5):
+        if (latitude - 0.000001) < wp_lat < (latitude + 0.000001) and (longitude - 0.000002) < wp_long < (
+                longitude + 0.000002) and (amsl - 0.5) < cnt.sp_glob.altitude < (amsl + 0.5):
             print ("Konuma gidildi.")
             break
 
@@ -99,8 +99,8 @@ pre_radius = 0
 def image_callback(radius):
     global red_latitude, red_longitude, latitude, longitude, pre_radius
     pre_radius = radius
-    red_latitude = latitude
-    red_longitude = longitude
+    red_latitude = float ("{0:.6f}".format (latitude))
+    red_longitude = float ("{0:.6f}".format (longitude))
     print ("*************GOT DATA*************", radius, red_latitude, red_longitude)
     rate = rospy.Rate (20)
     rate.sleep ()
@@ -373,24 +373,26 @@ def waypointmove():
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
-    glob_pos_pub (41.0903754, 28.6177644 , 0) #blue lat long
+    glob_pos_pub (41.090384, 28.617784 , 0) #blue lat long
+    movingcenter ()  # maviyi ortala alçal yüksel
     alcal (1.6)
-    print ("3 metreye alçaldı")
+    print ("*******ALCALDI*******")
     modes.setLoiterMode ()
     # PUMP
     GPIO.setmode (GPIO.BCM)
     GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.output (output_pin, GPIO.HIGH) #SUYU AL
-    rospy.sleep (10)
+    rospy.sleep (17)
     GPIO.output (output_pin, GPIO.LOW) #SUYU ALMAYI DURDUR
     GPIO.cleanup ()
     print("SU ALINDI")
     modes.setOffboardMode ()
     yuksel ()
+    print ("*******YÜKSELDİ*******")
     glob_pos_pub( red_latitude,red_longitude,0) # red lat long
     movingcenter ()  # kırmızıyı ortala alçal yüksel
     alcal (4)
-    print ("3 metreye alçaldı")
+    print ("4 metreye alçaldı")
     modes.setLoiterMode ()
     s = int (1)
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
@@ -401,7 +403,7 @@ def waypointmove():
     print ("SU BIRAKILIYOR")
     modes.setOffboardMode ()
     yuksel ()
-    glob_pos_pub( 41.0903418 ,28.6176918,0) #FARKLI BİR YERE LAND İÇİN GİT
+    glob_pos_pub( 41.0903366 ,28.617699,0) #FARKLI BİR YERE LAND İÇİN GİT
     modes.setLandMode ()
 
 
