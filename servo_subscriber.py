@@ -27,10 +27,17 @@ def main():
             rate.sleep ()
 
         elif servo_durum==1:
-            p2.start (12)
-            time.sleep (0.5)
-            p2.stop ()
-            GPIO.cleanup ()
+            p2.start(12)
+            time.sleep(0.75)
+            p2.start(2)
+            time.sleep(0.75)
+            p2.start(12)
+            time.sleep(0.75)
+            p2.start(2)
+            time.sleep(0.75)
+            p2.stop()
+            GPIO.cleanup()
+
             break
 if __name__ == '__main__':
     rospy.init_node ('servo_durum1', anonymous=True)
