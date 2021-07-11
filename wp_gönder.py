@@ -379,14 +379,17 @@ def waypointmove():
     glob_pos_pub (41.089728, 28.617439 , 0) #2. direk lat long
     glob_pos_pub (41.090372, 28.617775 , 0) #blue lat long
     movingcenter ()  # maviyi ortala alçal yüksel
+    alcal (4)
+    print (" 4 metreye *******ALCALDI*******")
+    movingcenter ()  # maviyi ortala alçal yüksel
     alcal (1.6)
-    print ("*******ALCALDI*******")
+    print (" 1.6 metreye *******ALCALDI*******")
     modes.setLoiterMode ()
     # PUMP
     GPIO.setmode (GPIO.BCM)
     GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
     GPIO.output (output_pin, GPIO.HIGH) #SUYU AL
-    rospy.sleep (17)
+    rospy.sleep (20)
     GPIO.output (output_pin, GPIO.LOW) #SUYU ALMAYI DURDUR
     GPIO.cleanup ()
     print("SU ALINDI")
