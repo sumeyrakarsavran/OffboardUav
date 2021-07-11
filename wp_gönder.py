@@ -304,14 +304,14 @@ def movingcenter():
         v = (0.05 + (0.0009167 * konum)) #Vmax=0.6
         dist=19
         count=0
-        if konum >= 25:
+        if konum > 20:
             msg1.velocity.z = 0
             msg1.header.stamp = rospy.get_rostime ()
             msg1.header.frame_id = "local_ned"
             msg1.coordinate_frame = 8
             msg1.type_mask = int ('011111000111', 2)
 
-            if farkx <= -dist:
+            """if farkx <= -dist:
                 msg1.yaw = 0.0  # rad
                 msg1.yaw_rate = -0.09  # (rad/sn)
                 velocity_pub.publish (msg1)
@@ -325,24 +325,24 @@ def movingcenter():
                 msg1.yaw = 0  # rad
                 msg1.yaw_rate = 0
                 velocity_pub.publish (msg1)
-                rate.sleep ()
+                rate.sleep ()"""
 
-                if farky <= -dist:
+            if farky <= -dist:
                     msg1.velocity.x = -v
                     velocity_pub.publish (msg1)
                     rate.sleep ()
 
-                elif farky >= dist:
+            elif farky >= dist:
                     msg1.velocity.x = v
                     velocity_pub.publish (msg1)
                     rate.sleep ()
 
-                elif -dist < farky < dist:
+            elif -dist < farky < dist:
                     msg1.velocity.x = 0
                     velocity_pub.publish (msg1)
                     rate.sleep ()
 
-            """if farkx <= -dist :
+            if farkx <= -dist :
                 msg1.velocity.y = -v
                 velocity_pub.publish (msg1)
                 rate.sleep ()
@@ -355,11 +355,11 @@ def movingcenter():
             elif -dist < farkx < dist:
                 msg1.velocity.y = 0
                 velocity_pub.publish (msg1)
-                rate.sleep ()"""
+                rate.sleep ()
 
 
 
-        elif konum < 25:
+        elif konum <= 20:
             msg1.velocity.z = 0
             msg1.velocity.y = 0
             msg1.velocity.x = 0
@@ -375,9 +375,9 @@ def waypointmove():
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
-    """glob_pos_pub (41.090384, 28.617784 , 0) #blue lat long
-    glob_pos_pub (41.090520, 28.617332 , 0) #2. direk lat long
-    glob_pos_pub (41.090384, 28.617784 , 0) #blue lat long
+    glob_pos_pub (41.090477, 28.617833 , 0) #1. direk lat long
+    glob_pos_pub (41.089728, 28.617439 , 0) #2. direk lat long
+    glob_pos_pub (41.090372, 28.617775 , 0) #blue lat long
     movingcenter ()  # maviyi ortala alçal yüksel
     alcal (1.6)
     print ("*******ALCALDI*******")
@@ -393,12 +393,12 @@ def waypointmove():
     modes.setOffboardMode ()
     yuksel ()
     print ("*******YÜKSELDİ*******")
-    glob_pos_pub( red_latitude,red_longitude,0) # red lat long"""
+    glob_pos_pub( red_latitude,red_longitude,0) # red lat long
     movingcenter ()  # kırmızıyı ortala alçal yüksel
     alcal (4)
     print ("4 metreye alçaldı")
     modes.setLoiterMode ()
-    """s = int (1)
+    s = int (1)
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
     for i in range(10):
         servo_pub.publish (s)
@@ -407,8 +407,7 @@ def waypointmove():
     print ("SU BIRAKILIYOR")
     modes.setOffboardMode ()
     yuksel ()
-    glob_pos_pub( 41.0903366 ,28.617699,0) #FARKLI BİR YERE LAND İÇİN GİT"""
-    rospy.sleep (5)
+    glob_pos_pub( 41.090080 ,28.617537,0) #FARKLI BİR YERE LAND İÇİN GİT
     modes.setLandMode ()
 
 

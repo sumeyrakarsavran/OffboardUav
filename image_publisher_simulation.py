@@ -80,7 +80,7 @@ def image_publish():
         frame = cv2.line(frame, (450,390), (470,390), (0,255,0), 4)"""
         frame = cv2.line(frame, (512,374), (512,394), (0,255,0), 4) #center crosshair
         frame = cv2.line(frame, (502,384), (522,384), (0,255,0), 4) #center crosshair
-        out.write (frame)
+        #out.write (frame)
         if len (contours1) > 0:
             # find contour which has max area
             c = max (contours1, key=cv2.contourArea)
