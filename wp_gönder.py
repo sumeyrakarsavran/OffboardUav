@@ -359,9 +359,9 @@ def waypointmove():
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
-    glob_pos_pub (41.090477, 28.617833 , 0) #1. direk lat long
-    glob_pos_pub (41.089728, 28.617439 , 0) #2. direk lat long
-    glob_pos_pub (41.090372, 28.617775 , 0) #blue lat long
+    glob_pos_pub (41.090429, 28.617818 , 0) #1. direk lat long
+    glob_pos_pub (41.090046, 28.617596 , 0) #2. direk lat long
+    glob_pos_pub (41.090365, 28.617790 , 0) #blue lat long
     movingcenter ()  # maviyi ortala alçal yüksel
     alcal (4)
     print (" 4 metreye *******ALCALDI*******")
@@ -394,7 +394,7 @@ def waypointmove():
     print ("SU BIRAKILIYOR")
     modes.setOffboardMode ()
     yuksel ()
-    glob_pos_pub( 41.090080 ,28.617537,0) #FARKLI BİR YERE LAND İÇİN GİT
+    glob_pos_pub( 41.09021 ,28.617564,0) #FARKLI BİR YERE LAND İÇİN GİT
     modes.setLandMode ()
 
 
