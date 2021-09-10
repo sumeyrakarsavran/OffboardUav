@@ -78,8 +78,8 @@ def glob_pos_pub(wp_lat, wp_long, wp_alt):
         # print (latitude, wp_lat, longitude, wp_long, cnt.sp_glob.altitude, amsl)
         # print("poselanıyor")
         # print(longitude,latitude,altitude,cnt.sp_glob.altitude)
-        if (latitude - 0.000001) < wp_lat < (latitude + 0.000001) and (longitude - 0.000002) < wp_long < (
-                longitude + 0.000002) and (amsl - 0.5) < cnt.sp_glob.altitude < (amsl + 0.5):
+        if (latitude - 0.000003) < wp_lat < (latitude + 0.000003) and (longitude - 0.000004) < wp_long < (
+                longitude + 0.000004) and (amsl - 0.3) < cnt.sp_glob.altitude < (amsl + 0.3):
             print ("Konuma gidildi.")
             break
 
@@ -286,17 +286,14 @@ def yuksel():
             print ("YUKSELDIGI DEGER=", altitude1)
             break
 
-        z_pub.publish (msg2)
-        rate.sleep ()
-
     msg2.linear.z = 0.
     for i in range (100):
         z_pub.publish (msg2)
     rate.sleep ()
 
 
-def movingcenter():
-    global konum, msg1, velocity_pub, farkx, farky, red_longitude2, red_latitude2, longitude, latitude
+def movingcenter(movalt):
+    global konum, msg1, velocity_pub, farkx, farky, red_longitude2, red_latitude2, longitude, latitude,altitude1
     modes = fcuModes ()
     rate = rospy.Rate (5)
     while 1:
@@ -305,6 +302,7 @@ def movingcenter():
         dist=19
         count=0
         if konum > 20:
+            msg2.linear.z = -0.1
             msg1.velocity.z = 0
             msg1.header.stamp = rospy.get_rostime ()
             msg1.header.frame_id = "local_ned"
@@ -342,6 +340,14 @@ def movingcenter():
                 rate.sleep ()
 
 
+            if (movalt + 0.15) > altitude1:
+                print ("ALCALDIGI DEGER=", altitude1)
+                msg2.linear.z = 0
+            for i in range (100):
+                z_pub.publish (msg2)
+            rate.sleep ()
+
+
 
         elif konum <= 20:
             msg1.velocity.z = 0
@@ -362,12 +368,9 @@ def waypointmove():
     glob_pos_pub (41.090429, 28.617818 , 0) #1. direk lat long
     glob_pos_pub (41.090046, 28.617596 , 0) #2. direk lat long
     glob_pos_pub (41.090365, 28.617790 , 0) #blue lat long
-    movingcenter ()  # maviyi ortala alçal yüksel
-    alcal (4)
-    print (" 4 metreye *******ALCALDI*******")
-    movingcenter ()  # maviyi ortala alçal yüksel
-    alcal (1.6)
-    print (" 1.6 metreye *******ALCALDI*******")
+    movingcenter (1.8)  # maviyi alçalarak ortala yüksel
+    alcal (1.8)
+    print (" 1.8 metreye *******ALCALDI*******")
     modes.setLoiterMode ()
     # PUMP
     GPIO.setmode (GPIO.BCM)
@@ -381,7 +384,7 @@ def waypointmove():
     yuksel ()
     print ("*******YÜKSELDİ*******")
     glob_pos_pub( red_latitude,red_longitude,0) # red lat long
-    movingcenter ()  # kırmızıyı ortala alçal yüksel
+    movingcenter (4)  # kırmızıyı ortala alçal yüksel
     alcal (4)
     print ("4 metreye alçaldı")
     modes.setLoiterMode ()
