@@ -7,11 +7,11 @@ import numpy as np
 from std_msgs.msg import Int64, Float64
 from tulpar.msg import camera
 
-liste = []
+"""liste = []
 for i in range(1,1000):
     i = str(i)
     liste.append(i+'.avi')
-a = random.choice(liste)
+a = random.choice(liste)"""
 
 def image_publish():
     konum = camera ()
@@ -26,7 +26,7 @@ def image_publish():
     merkezy = 384
     flip = 2
     fourcc = cv2.VideoWriter_fourcc (*'XVID')
-    out = cv2.VideoWriter (a, fourcc, 15.0, (1024, 768))
+#    out = cv2.VideoWriter (a, fourcc, 15.0, (1024, 768))
     camSet = 'nvarguscamerasrc !  video/x-raw(memory:NVMM), width=3264, height=2464, ' \
              'format=NV12, framerate=21/1 ! nvvidconv flip-method=' + str (flip) + \
              ' ! video/x-raw, width=' + str (dispW) + ', height=' + str (dispH) + \
