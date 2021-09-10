@@ -303,6 +303,9 @@ def movingcenter(movalt):
         count=0
         if konum > 20:
             msg2.linear.z = -0.1
+            for i in range (100):
+                z_pub.publish (msg2)
+            rate.sleep ()
             msg1.velocity.z = 0
             msg1.header.stamp = rospy.get_rostime ()
             msg1.header.frame_id = "local_ned"
