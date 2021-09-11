@@ -366,8 +366,8 @@ def waypointmove():
     alcal (4)
     print (" 4 metreye *******ALCALDI*******")
     movingcenter ()  # maviyi ortala alçal yüksel
-    alcal (1.8)
-    print (" 1.6 metreye *******ALCALDI*******")
+    alcal (1.7)
+    print (" 1.7 metreye *******ALCALDI*******")
     modes.setLoiterMode ()
     # PUMP
     GPIO.setmode (GPIO.BCM)
@@ -432,11 +432,12 @@ def main():
         rate.sleep ()
     print ("home amsl altitude", amsl)
     modes.setTakeoff ()
-    rospy.sleep (10)
+    rospy.sleep (12)
     # We need to send few setpoint messages, then activate OFFBOARD mode, to take effect
-    print ("MAIN: SET OFFBOARD")
+
     # activate OFFBOARD mode
     modes.setOffboardMode ()
+    print ("Offboarda geçildi")
     print ("takeoff amsl altitude", amsl)
     waypointmove ()
 
