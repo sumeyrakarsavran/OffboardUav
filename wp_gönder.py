@@ -432,7 +432,7 @@ def main():
         rate.sleep ()
     print ("home amsl altitude", amsl)
     modes.setTakeoff ()
-    rospy.sleep (12)
+    rospy.sleep (8)
     # We need to send few setpoint messages, then activate OFFBOARD mode, to take effect
 
     # activate OFFBOARD mode
