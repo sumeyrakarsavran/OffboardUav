@@ -78,8 +78,8 @@ def glob_pos_pub(wp_lat, wp_long, wp_alt):
         # print (latitude, wp_lat, longitude, wp_long, cnt.sp_glob.altitude, amsl)
         # print("poselanıyor")
         # print(longitude,latitude,altitude,cnt.sp_glob.altitude)
-        if (latitude - 0.000002) < wp_lat < (latitude + 0.000002) and (longitude - 0.000003) < wp_long < (
-                longitude + 0.000003) and (amsl - 0.3) < cnt.sp_glob.altitude < (amsl + 0.3):
+        if (latitude - 0.000001) < wp_lat < (latitude + 0.000001) and (longitude - 0.000002) < wp_long < (
+                longitude + 0.000002) and (amsl - 0.5) < cnt.sp_glob.altitude < (amsl + 0.5):
             print ("Konuma gidildi.")
             break
 
@@ -300,8 +300,8 @@ def movingcenter():
     modes = fcuModes ()
     rate = rospy.Rate (5)
     while 1:
-        v = (0.1 + (0.000833 * konum)) #Vmax =0.6
-        #v = (0.05 + (0.0009167 * konum)) #Vmax=0.6
+        #v = (0.1 + (0.000833 * konum)) #Vmax =0.6
+        v = (0.05 + (0.0009167 * konum)) #Vmax=0.6
         dist=19
         count=0
         if konum > 20:
@@ -310,6 +310,22 @@ def movingcenter():
             msg1.header.frame_id = "local_ned"
             msg1.coordinate_frame = 8
             msg1.type_mask = int ('011111000111', 2)
+
+            """if farkx <= -dist:
+                msg1.yaw = 0.0  # rad
+                msg1.yaw_rate = -0.09  # (rad/sn)
+                velocity_pub.publish (msg1)
+                rate.sleep ()
+            elif farkx >= dist:
+                msg1.yaw = 0  # rad
+                msg1.yaw_rate = 0.09   # (rad/sn)
+                velocity_pub.publish (msg1)
+                rate.sleep ()
+            elif -dist < farkx < dist:
+                msg1.yaw = 0  # rad
+                msg1.yaw_rate = 0
+                velocity_pub.publish (msg1)
+                rate.sleep ()"""
 
             if farky <= -dist:
                     msg1.velocity.x = -v
@@ -432,12 +448,12 @@ def main():
         rate.sleep ()
     print ("home amsl altitude", amsl)
     modes.setTakeoff ()
-    rospy.sleep (8)
+    rospy.sleep (10)
     # We need to send few setpoint messages, then activate OFFBOARD mode, to take effect
-
+    print ("MAIN: SET OFFBOARD")
     # activate OFFBOARD mode
     modes.setOffboardMode ()
-    print ("Offboarda geçildi")
+    print ("offboarda geçildi")
     print ("takeoff amsl altitude", amsl)
     waypointmove ()
 
