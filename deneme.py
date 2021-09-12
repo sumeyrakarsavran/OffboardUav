@@ -375,9 +375,9 @@ def waypointmove():
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
-    glob_pos_pub (40.986906, 28.727427 , 0) #1. direk lat long
-    glob_pos_pub (40.986993, 28.727574 , 0) #2. direk lat long
-    glob_pos_pub (40.986918, 28.727672 , 0) #blue lat long
+    glob_pos_pub (40.232088, 28.872700 , 0) #1. direk lat long
+    glob_pos_pub (40.232085, 28.872876 , 0) #2. direk lat long
+    glob_pos_pub (40.231950, 28.872807 , 0) #blue lat long
 
     modes.setLandMode ()
 
