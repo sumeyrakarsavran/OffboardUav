@@ -78,8 +78,8 @@ def glob_pos_pub(wp_lat, wp_long, wp_alt):
         # print (latitude, wp_lat, longitude, wp_long, cnt.sp_glob.altitude, amsl)
         # print("poselanıyor")
         # print(longitude,latitude,altitude,cnt.sp_glob.altitude)
-        if (latitude - 0.000001) < wp_lat < (latitude + 0.000001) and (longitude - 0.000002) < wp_long < (
-                longitude + 0.000002) and (amsl - 0.5) < cnt.sp_glob.altitude < (amsl + 0.5):
+        if (latitude - 0.000003) < wp_lat < (latitude + 0.000003) and (longitude - 0.000002) < wp_long < (
+                longitude + 0.000002) and (amsl - 0.3) < cnt.sp_glob.altitude < (amsl + 0.3):
             print ("Konuma gidildi.")
             break
 
@@ -376,8 +376,18 @@ def waypointmove():
     global red_longitude, red_latitude
     modes = fcuModes ()
     glob_pos_pub (40.231878, 28.872609 , 0) #1. direk lat long
-    glob_pos_pub (40.231870, 28.872345 , 0) #2. direk lat long
+    alcal (2)
+    print (" 2 metreye *******ALCALDI*******")
+    modes.setLoiterMode ()
+    rospy.sleep (5)
+    print("SU ALINDI")
+    modes.setOffboardMode ()
+    yuksel ()
+    print ("*******YÜKSELDİ*******")
 
+
+
+    glob_pos_pub (40.231870, 28.872345 , 0) #2. direk lat long
     modes.setLandMode ()
 
 
