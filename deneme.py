@@ -376,8 +376,8 @@ def waypointmove():
     global red_longitude, red_latitude
     modes = fcuModes ()
     glob_pos_pub (40.231878, 28.872609 , 0) #1. direk lat long
-    alcal (2)
-    print (" 2 metreye *******ALCALDI*******")
+    alcal (2.4)
+    print (" 2.4 metreye *******ALCALDI*******")
     modes.setLoiterMode ()
     rospy.sleep (5)
     print("SU ALINDI")
