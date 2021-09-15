@@ -375,19 +375,15 @@ def waypointmove():
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
-    glob_pos_pub (40.231878, 28.872609 , 0) #1. direk lat long
+    glob_pos_pub (40.232384, 28.872577 , 0) #1. direk lat long
+    movingcenter ()  # maviyi ortala
+    alcal (4.5)
+    movingcenter ()  # maviyi ortala
     alcal (2.4)
     print (" 2.4 metreye *******ALCALDI*******")
     modes.setLoiterMode ()
     rospy.sleep (5)
     print("SU ALINDI")
-    modes.setOffboardMode ()
-    yuksel ()
-    print ("*******YÜKSELDİ*******")
-
-
-
-    glob_pos_pub (40.231870, 28.872345 , 0) #2. direk lat long
     modes.setLandMode ()
 
 
