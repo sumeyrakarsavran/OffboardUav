@@ -366,7 +366,6 @@ def waypointmove():
     glob_pos_pub (40.229714, 29.009133 , 0) #2. direk lat long 1
     glob_pos_pub (40.229720, 29.009433 , 0) #2. direk lat long 2
 
-    glob_pos_pub (40.230523, 29.009387 , 0) #1. direk lat long 1
     glob_pos_pub (40.230386, 29.009552 , 0) #MAVİ LAT LONG
 
     movingcenter ()  # maviyi ortala
