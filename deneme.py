@@ -373,6 +373,7 @@ def movingcenter():
 def waypointmove():
     output_pin = 18
     rate = rospy.Rate (20.0)
+"""
     global red_longitude, red_latitude
     modes = fcuModes ()
     glob_pos_pub (40.232384, 28.872577 , 0) #1. direk lat long
@@ -385,7 +386,23 @@ def waypointmove():
     rospy.sleep (5)
     print("SU ALINDI")
     modes.setLandMode ()
-
+"""
+    # PUMP
+    GPIO.setmode (GPIO.BCM)
+    GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
+    GPIO.output (output_pin, GPIO.HIGH) #SUYU AL
+    rospy.sleep (3)
+    GPIO.output (output_pin, GPIO.LOW) #SUYU ALMAYI DURDUR
+    GPIO.cleanup ()
+    print("SU ALINDI")
+    rospy.sleep (5)
+    s = int (1)
+    servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
+    for i in range(10):
+        servo_pub.publish (s)
+        rate.sleep()
+    rospy.sleep (5)
+    print ("SU BIRAKILIYOR")
 
 # Main function
 def main():
@@ -414,7 +431,7 @@ def main():
     # Setpoint publisher
     sp_glob_pub = rospy.Publisher ('mavros/setpoint_raw/global', GlobalPositionTarget, queue_size=1)
     sp_pub = rospy.Publisher ('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
-
+"""
     # Make sure the drone is armed
     while not cnt.state.armed:
         modes.setArm ()
@@ -428,7 +445,10 @@ def main():
     modes.setOffboardMode ()
     print ("offboarda geçildi")
     print ("takeoff amsl altitude", amsl)
+"""
     waypointmove ()
+
+
 
 
 if __name__ == '__main__':
