@@ -359,7 +359,7 @@ def waypointmove():
     rate = rospy.Rate (20.0)
     global red_longitude, red_latitude
     modes = fcuModes ()
-"""
+    """
     glob_pos_pub (40.230523, 29.009387 , 0) #1. direk lat long 1
     glob_pos_pub (40.230423, 29.009119 , 0) #1. direk lat long 2
 
@@ -378,7 +378,7 @@ def waypointmove():
     alcal (2.3)
     print (" 2.3 metreye *******ALCALDI*******")
     modes.setLoiterMode ()
-"""
+    """
     rospy.sleep (2)
 
     GPIO.setmode (GPIO.BCM)
@@ -389,7 +389,7 @@ def waypointmove():
     rospy.sleep (4)
     GPIO.output (output_pin, GPIO.LOW)
     GPIO.cleanup ()
-"""
+    """
     modes.setOffboardMode ()
     yuksel ()
     print ("*******YÜKSELDİ*******")
@@ -401,7 +401,7 @@ def waypointmove():
     alcal (4.7)
     print ("4.5 metreye alçaldı")
     modes.setLoiterMode ()
-"""
+    """
     s = int (1)
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
     for i in range(10):
@@ -410,7 +410,7 @@ def waypointmove():
     rospy.sleep (7)
     print ("SU BIRAKILIYOR")
 
-"""
+    """
     modes.setOffboardMode ()
     yuksel ()
 
@@ -421,7 +421,7 @@ def waypointmove():
 
     glob_pos_pub (40.230326, 29.009786 , 0) #LAND LAT LONG
     modes.setLandMode ()
-"""
+    """
 
 # Main function
 def main():
