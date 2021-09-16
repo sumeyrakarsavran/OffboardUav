@@ -401,7 +401,7 @@ def waypointmove():
     alcal (4.7)
     print ("4.5 metreye alçaldı")
     modes.setLoiterMode ()
-    """
+    
     s = int (1)
     servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
     for i in range(10):
@@ -409,7 +409,7 @@ def waypointmove():
         rate.sleep()
     rospy.sleep (7)
     print ("SU BIRAKILIYOR")
-
+    """
     """
     modes.setOffboardMode ()
     yuksel ()
