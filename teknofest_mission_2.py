@@ -375,8 +375,8 @@ def waypointmove():
     print (" 4 metreye *******ALCALDI*******")
     movingcenter ()  # maviyi ortala
     print ("*******ORTALANDI*******")
-    alcal (2.4)
-    print (" 2.4 metreye *******ALCALDI*******")
+    alcal (2.3)
+    print (" 2.3 metreye *******ALCALDI*******")
     modes.setLoiterMode ()
 
     # PUMP
@@ -396,7 +396,7 @@ def waypointmove():
     glob_pos_pub( red_latitude,red_longitude,0) # red lat long
 
     movingcenter ()  # kırmızıyı ortala alçal yüksel
-    alcal (4.5)
+    alcal (4.7)
     print ("4.5 metreye alçaldı")
     modes.setLoiterMode ()
     s = int (1)
