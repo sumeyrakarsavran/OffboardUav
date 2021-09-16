@@ -375,8 +375,8 @@ def waypointmove():
     print (" 4 metreye *******ALCALDI*******")
     movingcenter ()  # maviyi ortala
     print ("*******ORTALANDI*******")
-    alcal (2.3)
-    print (" 2.3 metreye *******ALCALDI*******")
+    alcal (2.2)
+    print (" 2.2 metreye *******ALCALDI*******")
     modes.setLoiterMode ()
 
     # PUMP
