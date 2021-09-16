@@ -450,7 +450,7 @@ def main():
     # Setpoint publisher
     sp_glob_pub = rospy.Publisher ('mavros/setpoint_raw/global', GlobalPositionTarget, queue_size=1)
     sp_pub = rospy.Publisher ('mavros/setpoint_raw/local', PositionTarget, queue_size=1)
-"""
+    """
     # Make sure the drone is armed
     while not cnt.state.armed:
         modes.setArm ()
@@ -462,7 +462,7 @@ def main():
     # activate OFFBOARD mode
     modes.setOffboardMode ()
     print ("OFFBOARD MODE AKTİF")
-"""
+    """
     waypointmove ()
 
 
