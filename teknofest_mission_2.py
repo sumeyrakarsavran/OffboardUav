@@ -79,7 +79,7 @@ def glob_pos_pub(wp_lat, wp_long, wp_alt):
         # print("poselanıyor")
         # print(longitude,latitude,altitude,cnt.sp_glob.altitude)
         if (latitude - 0.000002) < wp_lat < (latitude + 0.000002) and (longitude - 0.000002) < wp_long < (
-                longitude + 0.000002) and (amsl - 0.3) < cnt.sp_glob.altitude < (amsl + 0.3):
+                longitude + 0.000002) and (amsl - 0.4) < cnt.sp_glob.altitude < (amsl + 0.4):
             print ("Konuma gidildi.")
             break
 
