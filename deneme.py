@@ -379,14 +379,16 @@ def waypointmove():
     print (" 2.3 metreye *******ALCALDI*******")
     modes.setLoiterMode ()
 """
-    # PUMP
+    rospy.sleep (2)
+
     GPIO.setmode (GPIO.BCM)
     GPIO.setup (output_pin, GPIO.OUT, initial=GPIO.HIGH)
-    GPIO.output (output_pin, GPIO.HIGH) #SUYU AL
-    rospy.sleep (20)
-    GPIO.output (output_pin, GPIO.LOW) #SUYU ALMAYI DURDUR
+    curr_value = GPIO.HIGH
+    GPIO.output (output_pin, curr_value)
+    curr_value = GPIO.HIGH
+    rospy.sleep (4)
+    GPIO.output (output_pin, GPIO.LOW)
     GPIO.cleanup ()
-    print("SU ALINDI")
 """
     modes.setOffboardMode ()
     yuksel ()
