@@ -11,7 +11,6 @@ from mavros_msgs.msg import *
 from mavros_msgs.srv import *
 from std_msgs.msg import String, Float64, Int64
 from decimal import *
-from cv_bridge import CvBridge, CvBridgeError
 from tulpar.msg import camera
 import Jetson.GPIO as GPIO
 global spPub, spGlobPub
@@ -32,20 +31,6 @@ localY = 0
 amsl = 0
 
 outputPin = 18  #Water pump PIN
-
-#CV2 Bridge
-bridge = CvBridge ()
-cv_image = ""
-
-#Target Position
-redLatitude = 0
-redLongitude = 0
-redLatitude2 = 0
-redLongitude2 = 0
-preRadius = 0
-konum = 100
-farkx = 0
-farky = 0
 
 def altitudeCallback(data):
     global altitude1
@@ -91,29 +76,6 @@ def globalPositionPublish(wp_lat, wp_long, wp_alt):
             print ("************ ARRIVED ************")
             break
 
-
-
-def image_callback(radius):
-    global redLatitude, redLongitude, latitude, longitude, preRadius
-    preRadius = radius
-    redLatitude = float ("{0:.6f}".format (latitude))
-    redLongitude = float ("{0:.6f}".format (longitude))
-    print ("************* RENK ALGILANDI *************", radius, redLatitude, redLongitude)
-    rate = rospy.Rate (20)
-    rate.sleep ()
-
-
-
-
-
-def cam_konum_callback(data):
-    global konum, farkx, farky
-    konum = int (data.bolge)
-    farkx = int (data.farkx)
-    farky = int (data.farky)
-    rate = rospy.Rate (20)
-    rate.sleep ()
-    print ("KONUM=", konum,"FARKX=", farkx,"FARKY=", farky )
 
 
 # Flight modes class
@@ -299,64 +261,6 @@ def moveUp():
     rate.sleep ()
 
 
-def moveCenter():
-    global konum, msg1, velocityPub, farkx, farky, redLongitude2, redLatitude2, longitude, latitude
-    modes = fcuModes ()
-    rate = rospy.Rate (5)
-    while 1:
-
-        #uncomment to moveCenter during to winding (0.5 slow, 0.1 fast)
-        #v = (0.1 + (0.000833 * konum)) #Vmax =0.6
-        v = (0.05 + (0.0009167 * konum)) #Vmax=0.6
-        dist=19
-
-        if konum > 20:
-
-            msg1.velocity.z = 0
-            msg1.header.stamp = rospy.get_rostime ()
-            msg1.header.frame_id = "local_ned"
-            msg1.coordinate_frame = 8
-            msg1.type_mask = int ('011111000111', 2)
-
-            if farky <= -dist:
-                    msg1.velocity.x = -v
-                    velocityPub.publish (msg1)
-                    rate.sleep ()
-
-            elif farky >= dist:
-                    msg1.velocity.x = v
-                    velocityPub.publish (msg1)
-                    rate.sleep ()
-
-            elif -dist < farky < dist:
-                    msg1.velocity.x = 0
-                    velocityPub.publish (msg1)
-                    rate.sleep ()
-
-            if farkx <= -dist :
-                msg1.velocity.y = -v
-                velocityPub.publish (msg1)
-                rate.sleep ()
-
-            elif farkx >= dist:
-                msg1.velocity.y = v
-                velocityPub.publish (msg1)
-                rate.sleep ()
-
-            elif -dist < farkx < dist:
-                msg1.velocity.y = 0
-                velocityPub.publish (msg1)
-                rate.sleep ()
-
-        elif konum <= 20:
-            msg1.velocity.z = 0
-            msg1.velocity.y = 0
-            msg1.velocity.x = 0
-            msg1.yaw = 0  # rad
-            msg1.yaw_rate = 0
-            velocityPub.publish (msg1)
-            rate.sleep ()
-            break
 
 
 def moveWaypoint():
@@ -364,7 +268,7 @@ def moveWaypoint():
     rate = rospy.Rate (20.0)
     global redLongitude, redLatitude
     modes = fcuModes ()
-
+   
     globalPositionPublish (40.230523, 29.009387 , 0) #1. direk lat long 1
     globalPositionPublish (40.230423, 29.009119 , 0) #1. direk lat long 2
 
@@ -444,8 +348,6 @@ def main():
     rospy.Subscriber ('mavros/state', State, cnt.stateCb)
     rospy.Subscriber ("/mavros/global_position/raw/fix", NavSatFix, globalPositionCallback)
     rospy.Subscriber ('mavros/local_position/pose', PoseStamped, localPositionCallback)
-    rospy.Subscriber ('radius', Float64, image_callback)
-    rospy.Subscriber ('konum', camera, cam_konum_callback)
     rospy.Subscriber ('mavros/altitude', Altitude, amslcallback)
     rospy.Subscriber ('mavros/altitude', Altitude, altitudeCallback)
 
@@ -456,17 +358,17 @@ def main():
     # Make sure the drone is armed
     while not cnt.state.armed:
         modes.setArm ()
-        rate.sleep ()
+        rate.sleep (10)
 
-    modes.setTakeoff ()
-    rospy.sleep (10)
+    #modes.setTakeoff ()
+    """rospy.sleep (10)
     print ("TAKEOFF ALTITUDE=", amsl)
 
     # activate OFFBOARD mode
     modes.setOffboardMode ()
     print ("************ OFFBOARD MODE ************")
 
-    moveWaypoint ()
+    moveWaypoint ()"""
 
 if __name__ == '__main__':
     try:
