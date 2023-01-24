@@ -11,7 +11,6 @@ from mavros_msgs.msg import *
 from mavros_msgs.srv import *
 from std_msgs.msg import String, Float64, Int64
 from decimal import *
-from tulpar.msg import camera
 import Jetson.GPIO as GPIO
 global spPub, spGlobPub
 
@@ -209,125 +208,6 @@ class Controller:
     def updateSp(self):
         self.sp.position.x = localX
         self.sp.position.y = localY
-
-
-def moveDown(alt):
-
-    global altitude1
-    print ("************ ALCALIYOR ************")
-    rate = rospy.Rate (10.0)
-    altitudeSp = alt
-    msg2.linear.z = -1.5
-
-    while not rospy.is_shutdown ():
-
-        print ("SUANKI YUKSEKLIK=", altitude1)
-        zVelocityPub.publish (msg2)
-        rate.sleep ()
-
-        if (altitudeSp + 0.15) > altitude1:
-            print ("ALCALDIGI DEGER=", altitude1)
-            break
-
-    msg2.linear.z = 0
-
-    for i in range (100):
-        zVelocityPub.publish (msg2)
-    rate.sleep ()
-
-
-def moveUp():
-
-    global altitude1
-    print ("************ YUKSELIYOR ************")
-    rate = rospy.Rate (10.0)
-    altitudeSp = 8
-    msg2.linear.z = 3
-
-    while not rospy.is_shutdown ():
-
-        print ("SUANKI YUKSEKLIK=", altitude1)
-        if (altitudeSp - 0.15) < altitude1:
-            print ("YUKSELDIGI DEGER=", altitude1)
-            break
-
-        zVelocityPub.publish (msg2)
-        rate.sleep ()
-
-    msg2.linear.z = 0
-
-    for i in range (100):
-        zVelocityPub.publish (msg2)
-    rate.sleep ()
-
-
-
-
-def moveWaypoint():
-
-    rate = rospy.Rate (20.0)
-    global redLongitude, redLatitude
-    modes = fcuModes ()
-   
-    globalPositionPublish (40.230523, 29.009387 , 0) #1. direk lat long 1
-    globalPositionPublish (40.230423, 29.009119 , 0) #1. direk lat long 2
-
-    globalPositionPublish (40.229714, 29.009133 , 0) #2. direk lat long 1
-    globalPositionPublish (40.229720, 29.009433 , 0) #2. direk lat long 2
-
-    globalPositionPublish (40.230386, 29.009552 , 0) #MAVİ LAT LONG
-
-    moveCenter ()  # maviyi ortala
-    print ("************ ORTALANDI ************")
-
-    moveDown (4)
-    print ("************ 4 METREYE ALCALDI ************")
-    moveCenter ()  # maviyi ortala
-    print ("*******ORTALANDI*******")
-    moveDown (2.2)
-    print ("************ 2.2 METRETE ALCALDI ************")
-    modes.setLoiterMode ()
-
-    # PUMP
-    GPIO.setmode (GPIO.BCM)
-    GPIO.setup (outputPin, GPIO.OUT, initial=GPIO.HIGH)
-    GPIO.output (outputPin, GPIO.HIGH) #SUYU AL
-    rospy.sleep (20)
-    GPIO.output (outputPin, GPIO.LOW) #SUYU ALMAYI DURDUR
-    GPIO.cleanup ()
-    print("************ SU ALINDI ************")
-
-    modes.setOffboardMode ()
-    moveUp ()
-    print ("************ YÜKSELDİ ************")
-
-    globalPositionPublish( redLatitude,redLongitude,0) # red lat long
-
-    moveCenter ()  # kırmızıyı ortala
-    moveDown (4.7)
-    print ("************ 4.5 metreye alçaldı ************")
-    modes.setLoiterMode ()
-
-    s = int (1)
-    servo_pub = rospy.Publisher ('servo', Int64, queue_size=1)
-
-    for i in range(10):
-        servo_pub.publish (s)
-        rate.sleep()
-    rospy.sleep (7)
-    print ("************ SU BIRAKILIYOR ************")
-
-    modes.setOffboardMode ()
-    moveUp ()
-
-    globalPositionPublish (40.229714, 29.009133 , 0) #2. direk lat long 1
-    globalPositionPublish (40.229720, 29.009433 , 0) #2. direk lat long 2
-
-    globalPositionPublish (40.230234, 29.009465 , 0) #GÖREVİ BİTİR LAT LONG
-
-    globalPositionPublish (40.230326, 29.009786 , 0) #LAND LAT LONG
-    modes.setLandMode ()
-
 
 # Main function
 def main():
