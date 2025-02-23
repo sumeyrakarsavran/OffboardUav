@@ -1,4 +1,6 @@
-# OffboardUavdd
+# OffboardUav
+
+This project is developed for the TEKNOFEST UAV competition. It utilizes Python, OpenCV, ROS (Robot Operating System), and PX4 Autopilot to facilitate advanced autonomous flight capabilities. The system is designed to enhance the performance and reliability of UAV operations in various mission scenarios.
 
 ![Screenshot 2023-03-31 152244](https://github.com/user-attachments/assets/30a5fb5e-6706-44b4-8495-611328f2bab6)
 
